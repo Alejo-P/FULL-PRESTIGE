@@ -1,24 +1,5 @@
 import { check, validationResult } from 'express-validator';
 
-const formatISODate = (date) => {
-    const currentDate = new Date();
-    const fecha = new Date(date);
-
-    if (!isNaN(fecha.getTime())) {
-        if (date.includes("T")) {
-            return date;
-        }
-
-        if (date === currentDate.toISOString().slice(0, 10)) {
-            return `${date}T${currentDate.toISOString().slice(11)}`;
-        }
-
-        return `${date}T00:00:00.000Z`;
-    }
-
-    throw new Error("Fecha no válida");
-};
-
 export const validacionAsistencia = [
     check(['tiempo_ingreso', 'tiempo_salida', 'observaciones'])
         .exists()

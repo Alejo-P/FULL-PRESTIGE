@@ -389,6 +389,6 @@ export const getEmployees = async (req, res) => {
 
         return res.status(200).json({ message: 'Empleados encontrados', empleados });
     } catch (error) {
-        return res.status(500).json({ message: 'Error al obtener empleados', error: error.message});
+        return res.status(500).json({ message: 'Error al obtener empleados', error: error.message });
     }
 };
