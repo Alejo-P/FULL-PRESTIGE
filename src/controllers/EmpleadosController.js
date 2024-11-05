@@ -178,3 +178,109 @@ export const getProfile = async (req, res) => {
         return res.status(500).json({ message: 'Error al obtener información del empleado', error: error.message });
     }
 };
+
+// Metodo para obtener la info de un empleado por el administrador
+export const getEmployee = async (req, res) => {
+    const { cedula } = req.params;
+
+    try {
+        const empleado = await EmpleadosModel.findOne({ cedula });
+        if (!empleado) {
+            return res.status(404).json({ message: 'Empleado no encontrado' });
+        }
+
+        const {
+            _id,
+            cedula: ced,
+            edad,
+            nombre,
+            cargo,
+            direccion,
+            correo
+        } = empleado;
+
+        return res.status(200).json({ message: 'Información del empleado', empleado: { _id, cedula: ced, edad, nombre, cargo, direccion, correo } });
+    } catch (error) {
+        return res.status(500).json({ message: 'Error al obtener información del empleado', error: error.message });
+    }
+};
+
+// Metodo para actualizar la info del perfil de un empleado
+export const updateProfile = async (req, res) => {
+    const { _id } = req.empleado;
+    const {
+        edad,
+        nombre,
+        direccion,
+        cargo,
+        correo
+    } = req.body;
+
+    try {
+        if(Object.values(req.body).includes('')) {
+            return res.status(400).json({ message: 'Todos los campos son requeridos' });
+        }
+
+        const empleado = await EmpleadosModel.findById(_id);
+        if (!empleado) {
+            return res.status(404).json({ message: 'Empleado no encontrado' });
+        }
+
+        empleado.edad = edad;
+        empleado.nombre = nombre;
+        empleado.direccion = direccion;
+        empleado.cargo = cargo;
+        empleado.correo = correo;
+        await empleado.save();
+
+        return res.status(200).json({ message: 'Perfil actualizado exitosamente', empleado });
+    } catch (error) {
+        return res.status(500).json({ message: 'Error al actualizar perfil', error: error.message });
+    }
+};
+
+// Metodo para desactivar al empleado con sesion activa
+export const deactivateProfile = async (req, res) => {
+    const { _id } = req.empleado;
+
+    try {
+        const empleado = await EmpleadosModel.findById(_id);
+        if (!empleado) {
+            return res.status(404).json({ message: 'Empleado no encontrado' });
+        }
+
+        if (!empleado.estado) {
+            return res.status(404).json({ message: 'El empleado ya se encuentra inactivo' });
+        }
+
+        empleado.estado = false;
+        await empleado.save();
+
+        return res.status(200).json({ message: 'Empleado desactivado exitosamente' });
+    } catch (error) {
+        return res.status(500).json({ message: 'Error al desactivar empleado', error: error.message });
+    }
+};
+
+// Metodo para desactivar a un empleado por el administrador
+export const deactivateEmployee = async (req, res) => {
+    const { cedula } = req.params;
+
+    try {
+        const empleado = await EmpleadosModel.findOne({ cedula });
+        if (!empleado) {
+            return res.status(404).json({ message: 'Empleado no encontrado' });
+        }
+
+        if (!empleado.estado) {
+            return res.status(404).json({ message: 'El empleado ya se encuentra inactivo' });
+        }
+
+        empleado.estado = false;
+        await empleado.save();
+
+        return res.status(200).json({ message: 'Empleado desactivado exitosamente' });
+    } catch (error) {
+        return res.status(500).json({ message: 'Error al desactivar empleado', error: error.message });
+    }
+}
