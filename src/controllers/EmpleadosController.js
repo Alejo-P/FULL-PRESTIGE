@@ -226,6 +226,11 @@ export const updateProfile = async (req, res) => {
             return res.status(404).json({ message: 'Empleado no encontrado' });
         }
 
+        const mailFound = await EmpleadosModel.findOne({ correo });
+        if (mailFound && mailFound.correo !== empleado.correo) {
+            return res.status(404).json({ message: 'El correo ya se encuentra registrado' });
+        }
+
         empleado.edad = edad;
         empleado.nombre = nombre;
         empleado.direccion = direccion;
@@ -258,6 +263,11 @@ export const updateEmployee = async (req, res) => {
         const empleado = await EmpleadosModel.findOne({ cedula });
         if (!empleado) {
             return res.status(404).json({ message: 'Empleado no encontrado' });
+        }
+
+        const mailFound = await EmpleadosModel.findOne({ correo });
+        if (mailFound && mailFound.correo !== empleado.correo) {
+            return res.status(404).json({ message: 'El correo ya se encuentra registrado' });
         }
 
         if (empleado.cedula === req.empleado.cedula) {
