@@ -326,3 +326,55 @@ export const deactivateEmployee = async (req, res) => {
         return res.status(500).json({ message: 'Error al desactivar empleado', error: error.message });
     }
 }
+
+// Metodo para actualizar la contraseña de un empleado
+export const updatePassword = async (req, res) => {
+    const { _id } = req.empleado;
+    const { contrasena, nuevaContrasena, confirmarContrasena } = req.body;
+
+    try {
+        if (Object.values(req.body).includes('')) {
+            return res.status(400).json({ message: 'Todos los campos son requeridos' });
+        }
+
+        const empleado = await EmpleadosModel.findById(_id);
+        if (!empleado) {
+            return res.status(404).json({ message: 'Empleado no encontrado' });
+        }
+
+        const validPassword = bcrypt.compareSync(contrasena, empleado.contrasena);
+        if (!validPassword) {
+            return res.status(404).json({ message: 'Contraseña actual incorrecta' });
+        }
+
+        if (nuevaContrasena !== confirmarContrasena) {
+            return res.status(400).json({ message: 'Las contraseñas no coinciden' });
+        }
+
+        if (nuevaContrasena === contrasena) {
+            return res.status(400).json({ message: 'La nueva contraseña no puede ser igual a la actual' });
+        }
+
+        const salt = bcrypt.genSaltSync(10);
+        empleado.contrasena = bcrypt.hashSync(nuevaContrasena, salt);
+        await empleado.save();
+
+        return res.status(200).json({ message: 'Contraseña actualizada exitosamente' });
+    } catch (error){
+        return res.status(500).json({ message: 'Error al cambiar contraseña', error: error.message });
+    }
+};
+
+// Metodo para obtener todos los empleados
+export const getEmployees = async (req, res) => {
+    try {
+        const empleados = await EmpleadosModel.find();
+        if (!empleados) {
+            return res.status(404).json({ message: 'No hay empleados registrados' });
+        }
+
+        return res.status(200).json({ message: 'Empleados encontrados', empleados });
+    } catch (error) {
+        return res.status(500).json({ message: 'Error al obtener empleados', error: error.message});
+    }
+};
