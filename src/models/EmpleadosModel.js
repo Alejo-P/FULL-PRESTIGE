@@ -6,7 +6,7 @@ const EmpledosSchema = new Schema({
         required: true
     },
     edad: {
-        type: String,
+        type: Number,
         required: true
     },
     nombre: {

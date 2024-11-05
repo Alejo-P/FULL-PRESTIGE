@@ -1,4 +1,4 @@
-import EmpleadosModel from '../models/EmpleadosModel.js';
+import empleadosModel from '../models/EmpleadosModel.js';
 import generarJWT from '../helpers/JWT.js';
 import bcrypt from 'bcrypt';
 
@@ -13,7 +13,7 @@ export const login = async (req, res) => {
             return res.status(400).json({ message: 'Todos los campos son requeridos' });
         }
 
-        const empleado = await EmpleadosModel.findOne({ correo });
+        const empleado = await empleadosModel.findOne({ correo });
         if (!empleado) {
             return res.status(404).json({ message: 'El correo ingresado es incorrecto' });
         }
@@ -54,17 +54,17 @@ export const register = async (req, res) => {
             return res.status(400).json({ message: 'Todos los campos son requeridos' });
         }
 
-        const cedulaFound = await EmpleadosModel.findOne({ cedula });
+        const cedulaFound = await empleadosModel.findOne({ cedula });
         if (cedulaFound) {
             return res.status(404).json({ message: 'La cédula ya se encuentra registrada' });
         }
 
-        const emailFound = await EmpleadosModel.findOne({ correo });
+        const emailFound = await empleadosModel.findOne({ correo });
         if (emailFound) {
             return res.status(404).json({ message: 'El correo ya se encuentra registrado' });
         }
 
-        const empleado = new EmpleadosModel(req.body);
+        const empleado = new empleadosModel(req.body);
         const salt = bcrypt.genSaltSync(10);
         empleado.contrasena = bcrypt.hashSync(contrasena, salt);
 
@@ -85,7 +85,7 @@ export const recoverPassword = async (req, res) => {
             return res.status(400).json({ message: 'Todos los campos son requeridos' });
         }
 
-        const empleado = await EmpleadosModel.findOne({ correo });
+        const empleado = await empleadosModel.findOne({ correo });
         if (!empleado) {
             return res.status(404).json({ message: 'Correo no encontrado' });
         }
@@ -115,7 +115,7 @@ export const verifyToken = async (req, res) => {
 
     try {
         if (!token) return res.status(400).json({ message: 'Token no encontrado' });
-        const empleado = await EmpleadosModel.findOne({ token });
+        const empleado = await empleadosModel.findOne({ token });
         if (!empleado) {
             return res.status(404).json({ message: 'Token no encontrado' });
         }
@@ -136,7 +136,7 @@ export const changePassword = async (req, res) => {
             return res.status(400).json({ message: 'Todos los campos son requeridos' });
         }
 
-        const empleado = await EmpleadosModel.findOne({ token });
+        const empleado = await empleadosModel.findOne({ token });
         if (!empleado) {
             return res.status(404).json({ message: 'Token no encontrado' });
         }
@@ -184,7 +184,7 @@ export const getEmployee = async (req, res) => {
     const { cedula } = req.params;
 
     try {
-        const empleado = await EmpleadosModel.findOne({ cedula });
+        const empleado = await empleadosModel.findOne({ cedula });
         if (!empleado) {
             return res.status(404).json({ message: 'Empleado no encontrado' });
         }
@@ -221,14 +221,16 @@ export const updateProfile = async (req, res) => {
             return res.status(400).json({ message: 'Todos los campos son requeridos' });
         }
 
-        const empleado = await EmpleadosModel.findById(_id);
+        const empleado = await empleadosModel.findById(_id);
         if (!empleado) {
             return res.status(404).json({ message: 'Empleado no encontrado' });
         }
 
-        const mailFound = await EmpleadosModel.findOne({ correo });
-        if (mailFound && mailFound.correo !== empleado.correo) {
-            return res.status(404).json({ message: 'El correo ya se encuentra registrado' });
+        if (correo !== empleado.correo) {
+            const mailFound = await empleadosModel.findOne({ correo });
+            if (mailFound) {
+                return res.status(400).json({ message: 'El correo ya se encuentra registrado' });
+            }
         }
 
         empleado.edad = edad;
@@ -260,14 +262,16 @@ export const updateEmployee = async (req, res) => {
             return res.status(400).json({ message: 'Todos los campos son requeridos' });
         }
 
-        const empleado = await EmpleadosModel.findOne({ cedula });
+        const empleado = await empleadosModel.findOne({ cedula });
         if (!empleado) {
             return res.status(404).json({ message: 'Empleado no encontrado' });
         }
-
-        const mailFound = await EmpleadosModel.findOne({ correo });
-        if (mailFound && mailFound.correo !== empleado.correo) {
-            return res.status(404).json({ message: 'El correo ya se encuentra registrado' });
+        
+        if (correo !== empleado.correo) {
+            const mailFound = await empleadosModel.findOne({ correo });
+            if (mailFound) {
+                return res.status(400).json({ message: 'El correo ya se encuentra registrado' });
+            }
         }
 
         if (empleado.cedula === req.empleado.cedula) {
@@ -292,7 +296,7 @@ export const deactivateProfile = async (req, res) => {
     const { _id } = req.empleado;
 
     try {
-        const empleado = await EmpleadosModel.findById(_id);
+        const empleado = await empleadosModel.findById(_id);
         if (!empleado) {
             return res.status(404).json({ message: 'Empleado no encontrado' });
         }
@@ -315,7 +319,7 @@ export const deactivateEmployee = async (req, res) => {
     const { cedula } = req.params;
 
     try {
-        const empleado = await EmpleadosModel.findOne({ cedula });
+        const empleado = await empleadosModel.findOne({ cedula });
         if (!empleado) {
             return res.status(404).json({ message: 'Empleado no encontrado' });
         }
@@ -347,7 +351,7 @@ export const updatePassword = async (req, res) => {
             return res.status(400).json({ message: 'Todos los campos son requeridos' });
         }
 
-        const empleado = await EmpleadosModel.findById(_id);
+        const empleado = await empleadosModel.findById(_id);
         if (!empleado) {
             return res.status(404).json({ message: 'Empleado no encontrado' });
         }
@@ -378,7 +382,7 @@ export const updatePassword = async (req, res) => {
 // Metodo para obtener todos los empleados
 export const getEmployees = async (req, res) => {
     try {
-        const empleados = await EmpleadosModel.find();
+        const empleados = await empleadosModel.find();
         if (!empleados) {
             return res.status(404).json({ message: 'No hay empleados registrados' });
         }
