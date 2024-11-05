@@ -239,6 +239,44 @@ export const updateProfile = async (req, res) => {
     }
 };
 
+// Metodo para actualizar la info de un empleado por el administrador
+export const updateEmployee = async (req, res) => {
+    const { cedula } = req.params;
+    const {
+        edad,
+        nombre,
+        direccion,
+        cargo,
+        correo
+    } = req.body;
+
+    try {
+        if(Object.values(req.body).includes('')) {
+            return res.status(400).json({ message: 'Todos los campos son requeridos' });
+        }
+
+        const empleado = await EmpleadosModel.findOne({ cedula });
+        if (!empleado) {
+            return res.status(404).json({ message: 'Empleado no encontrado' });
+        }
+
+        if (empleado.cedula === req.empleado.cedula) {
+            return res.status(404).json({ message: 'No puedes actualizar tu propio perfil' });
+        }
+
+        empleado.edad = edad;
+        empleado.nombre = nombre;
+        empleado.direccion = direccion;
+        empleado.cargo = cargo;
+        empleado.correo = correo;
+        await empleado.save();
+
+        return res.status(200).json({ message: 'Empleado actualizado exitosamente', empleado });
+    } catch (error) {
+        return res.status(500).json({ message: 'Error al actualizar empleado', error: error.message });
+    }
+};
+
 // Metodo para desactivar al empleado con sesion activa
 export const deactivateProfile = async (req, res) => {
     const { _id } = req.empleado;
@@ -270,6 +308,10 @@ export const deactivateEmployee = async (req, res) => {
         const empleado = await EmpleadosModel.findOne({ cedula });
         if (!empleado) {
             return res.status(404).json({ message: 'Empleado no encontrado' });
+        }
+
+        if (empleado.cedula === req.empleado.cedula) {
+            return res.status(404).json({ message: 'No puedes desactivar tu propio perfil' });
         }
 
         if (!empleado.estado) {
