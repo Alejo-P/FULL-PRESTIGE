@@ -14,12 +14,12 @@ const swaggerOptions = {
     definition: {
         openapi: '3.0.0',
         info: {
-            title: 'API de Empleados',
+            title: 'Full Prestige - API',
             version: '1.0.0',
-            description: 'API para la gestión de empleados de una empresa',
+            description: 'API para la gestión de un taller automotriz',
             contact: {
-                name: 'Equipo 4',
-                email: 'emali1.com',
+                name: 'Marcelo Pinzón',
+                email: 'marcelo.pinzon@epn.edu.ec',
             },
         },
         servers: [
