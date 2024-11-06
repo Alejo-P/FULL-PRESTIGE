@@ -1,3 +1,4 @@
+// Importaciones iniciales
 import app from "./server.js";
 import { connect } from "./database.js";
 

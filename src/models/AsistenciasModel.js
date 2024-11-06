@@ -1,13 +1,16 @@
 import { Schema, model } from "mongoose";
 
 const AsistenciasSchema = new Schema({
-    
-    tiempo_ingreso: {
+    fecha: {
         type: Date,
+        require: true
+    },
+    hora_ingreso: {
+        type: String,
         required: true
     },
-    tiempo_salida: {
-        type: Date,
+    hora_salida: {
+        type: String,
         required: true
     },
     observaciones: {

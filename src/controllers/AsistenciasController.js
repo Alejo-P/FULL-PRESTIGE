@@ -6,8 +6,9 @@ export const registerAssistance = async (req, res) => {
     const { cedula } = req.params;
     try {
         const {
-            tiempo_ingreso,
-            tiempo_salida,
+            fecha,
+            hora_ingreso,
+            hora_salida,
             observaciones
         } = req.body;
 
@@ -28,7 +29,7 @@ export const registerAssistance = async (req, res) => {
             return res.status(404).json({ message: "Empleado no encontrado" });
         }
 
-        const newAsistencia = new asistencasModel({ empleado:empleado._id, tiempo_ingreso, tiempo_salida, observaciones });
+        const newAsistencia = new asistencasModel({ empleado:empleado._id, fecha, hora_ingreso, hora_salida, observaciones });
         await newAsistencia.save();
 
         res.status(201).json({ message: "Asistencia registrada correctamente" });

@@ -11,14 +11,14 @@ const auth = async (req, res, next) => {
         const empleado = await EmpleadosModel.findOne({ _id: decoded.id, 'tokens.token': token });
 
         if (!empleado) {
-            throw new Error();
+            throw new Error("Empleado no encontrado");
         }
 
         req.token = token;
         req.empleado = empleado;
         next();
     } catch (error) {
-        res.status(401).send({ error: 'Por favor autentíquese' });
+        res.status(401).json({ message: 'Por favor autentíquese', error: error.message });
     }
 };
 

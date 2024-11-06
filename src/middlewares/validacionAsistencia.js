@@ -1,15 +1,15 @@
 import { check, validationResult } from 'express-validator';
 
 export const validacionAsistencia = [
-    check(['tiempo_ingreso', 'tiempo_salida', 'observaciones'])
+    check(['fecha', 'hora_ingreso', 'hora_salida', 'observaciones'])
         .exists()
             .withMessage('Todos los campos son requeridos')
         .notEmpty()
             .withMessage('No puede enviar campos vacíos'),
 
-    check('tiempo_ingreso')
+    check('fecha')
         .isISO8601()
-            .withMessage('El campo "tiempo_ingreso" debe ser una fecha válida')
+            .withMessage('El campo "fecha" debe ser una fecha válida')
         .custom((value) => {
             const hoy = new Date();
             hoy.setUTCHours(0, 0, 0, 0);
@@ -17,25 +17,21 @@ export const validacionAsistencia = [
             const manana = new Date(hoy);
             manana.setUTCDate(hoy.getUTCDate() + 1);
 
-            const ingreso = new Date(value);
+            const fecha = new Date(value);
 
-            if (ingreso < hoy || ingreso >= manana) {
+            if (fecha < hoy || fecha >= manana) {
                 throw new Error('La fecha de ingreso debe ser la fecha actual y no puede ser diferente.');
             }
             return true;
         }),
+    
+    check('hora_ingreso')
+        .isString()
+            .withMessage('El campo "hora_ingreso" debe ser una cadena de texto'),
 
-    check('tiempo_salida')
-        .isISO8601()
-            .withMessage('El campo "tiempo_salida" debe ser una fecha válida')
-        .custom((value, { req }) => {
-            const salida = new Date(value);
-            const ingreso = new Date(req.body.tiempo_ingreso);
-            if (salida <= ingreso) {
-                throw new Error('La fecha y hora de salida debe ser posterior a la fecha y hora de ingreso');
-            }
-            return true;
-        }),
+    check('hora_salida')
+        .isString()
+            .withMessage('El campo "hora_salida" debe ser una cadena de texto'),
 
     check('observaciones')
         .optional()
