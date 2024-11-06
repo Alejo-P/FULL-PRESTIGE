@@ -301,7 +301,7 @@ router.route('/employee/:cedula')
  * /profile/update-password:
  *   put:
  *     summary: Cambia la contraseña del empleado logueado
- *     tags: [Autenticación]
+ *     tags: [Perfil]
  * 
  *     requestBody:
  *       required: true
@@ -337,7 +337,7 @@ router.put('/profile/update-password', auth, updatePassword);
  * /profile:
  *   get:
  *     summary: Obtiene los detalles del perfil logueado
- *     tags: [Autenticación]
+ *     tags: [Perfil]
  * 
  *     responses:
  *       200:
@@ -347,7 +347,7 @@ router.put('/profile/update-password', auth, updatePassword);
  *
  *   put:
  *     summary: Actualiza los detalles del empleado logueado
- *     tags: [Autenticación]
+ *     tags: [Perfil]
  * 
  *     requestBody:
  *       required: true
@@ -384,7 +384,7 @@ router.put('/profile/update-password', auth, updatePassword);
  *
  *   delete:
  *     summary: Elimina el perfil del empleado logueado
- *     tags: [Autenticación]
+ *     tags: [Perfil]
  * 
  *     responses:
  *       200:
