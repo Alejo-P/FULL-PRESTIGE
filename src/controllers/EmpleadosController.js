@@ -117,7 +117,7 @@ export const verifyToken = async (req, res) => {
         if (!token) return res.status(400).json({ message: 'Token no encontrado' });
         const empleado = await empleadosModel.findOne({ token });
         if (!empleado) {
-            return res.status(404).json({ message: 'Token no encontrado' });
+            return res.status(400).json({ message: 'Token no encontrado' });
         }
 
         return res.status(200).json({ message: 'Token confirmado' });

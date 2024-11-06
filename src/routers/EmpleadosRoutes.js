@@ -97,8 +97,97 @@ router.post('/login', login);
  *         description: Error en el servidor
  */
 router.post('/register', validacionRegistro_empleado, register);
+
+/**
+ * @swagger
+ * /recover-password:
+ *   post:
+ *     summary: Envia un correo con un enlace para restablecer la contraseña
+ *     tags: [Autenticación]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               correo:
+ *                  type: string
+ *                  description: Correo del empleado
+ * 
+ *     responses:
+ *       200:
+ *         description: Correo enviado exitosamente
+ *       400:
+ *         description: Error en la validación de datos
+ *       404:
+ *         description: Correo no registrado o empleado desactivado
+ *       500:
+ *         description: Error en el servidor
+ */
 router.post('/recover-password', recoverPassword);
+
+/**
+ * @swagger
+ * /verify-token/{token}:
+ *   post:
+ *     summary: Envia un correo con un enlace para restablecer la contraseña
+ *     tags: [Autenticación]
+ *     parameters:
+ *       - in: path
+ *         name: token
+ *         required: true
+ *         description: Token de verificación asignado al empleado
+ *         schema:
+ *           type: string
+ * 
+ *     responses:
+ *       200:
+ *         description: Token verificado exitosamente
+ *       400:
+ *         description: Token inválido o no registrado
+ *       500:
+ *         description: Error en el servidor
+ */
 router.get('/verify-token/:token', verifyToken);
+
+/**
+ * @swagger
+ * /change-password/{token}:
+ *   post:
+ *     summary: Cambia la contraseña del empleado
+ *     tags: [Autenticación]
+ *     parameters:
+ *       - in: path
+ *         name: token
+ *         required: true
+ *         description: Token de verificación asignado al empleado
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               contrasena:
+ *                 type: string
+ *                 description: Nueva contraseña del empleado
+ *               confirmarContrasena:
+ *                 type: string
+ *                 description: Confirmación de la nueva contraseña
+ * 
+ *     responses:
+ *       200:
+ *         description: Contraseña actualizada exitosamente
+ *       400:
+ *         description: Error en la validación de datos
+ *       404:
+ *         description: Token inválido o no registrado
+ *       500:
+ *         description: Error en el servidor
+ */
 router.put('/change-password/:token', changePassword);
 
 // Rutas para administrara los empleados
@@ -171,7 +260,7 @@ router.get('/employees', auth, getEmployees);
  *
  *   delete:
  *     summary: Elimina el perfil del empleado especificado
- *     tags: [Control de asistencias]
+ *     tags: [Control de empleados]
  *     parameters:
  *       - in: path
  *         name: cedula
