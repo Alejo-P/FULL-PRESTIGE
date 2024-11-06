@@ -332,7 +332,68 @@ router.route('/employee/:cedula')
  */
 router.put('/profile/update-password', auth, updatePassword);
 
-
+/**
+ * @swagger
+ * /profile:
+ *   get:
+ *     summary: Obtiene los detalles del perfil logueado
+ *     tags: [Autenticación]
+ * 
+ *     responses:
+ *       200:
+ *         description: Detalles del empleado
+ *       500:
+ *         description: Error en el servidor
+ *
+ *   put:
+ *     summary: Actualiza los detalles del empleado logueado
+ *     tags: [Autenticación]
+ * 
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               edad:
+ *                 type: number
+ *                 description: Edad del empleado
+ *               nombre:
+ *                  type: string
+ *                  description: Nombre y apellido del empleado
+ *               cargo:
+ *                  type: string
+ *                  description: Cargo del empleado, puede ser Gerente o Tecnico
+ *               correo:
+ *                  type: string
+ *                  description: Correo del empleado
+ *               direccion:
+ *                  type: string
+ *                  description: Dirección de residencia del empleado 
+ * 
+ *     responses:
+ *       200:
+ *         description: Empleado actualizada exitosamente
+ *       400:
+ *         description: Error en la validación de datos
+ *       404:
+ *         description: Empleado no encontrado
+ *       500:
+ *         description: Error en el servidor
+ *
+ *   delete:
+ *     summary: Elimina el perfil del empleado logueado
+ *     tags: [Autenticación]
+ * 
+ *     responses:
+ *       200:
+ *         description: Perfil eliminado exitosamente
+ *       404:
+ *         description: No se puede eliminar el perfil del usuario logueado, empleado no encontrado, empleado desactivado previamente
+ *       500:
+ *         description: Error en el servidor
+ */
 router.route('/profile')
     .get(auth, getProfile)
     .put(auth, validacionActualizacion_empleado, updateProfile)
