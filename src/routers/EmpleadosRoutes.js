@@ -130,7 +130,7 @@ router.post('/recover-password', recoverPassword);
 /**
  * @swagger
  * /verify-token/{token}:
- *   post:
+ *   get:
  *     summary: Envia un correo con un enlace para restablecer la contraseña
  *     tags: [Autenticación]
  *     parameters:
@@ -154,7 +154,7 @@ router.get('/verify-token/:token', verifyToken);
 /**
  * @swagger
  * /change-password/{token}:
- *   post:
+ *   put:
  *     summary: Cambia la contraseña del empleado
  *     tags: [Autenticación]
  *     parameters:
