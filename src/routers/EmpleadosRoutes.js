@@ -190,7 +190,21 @@ router.get('/verify-token/:token', verifyToken);
  */
 router.put('/change-password/:token', changePassword);
 
-// Rutas para administrara los empleados
+/**
+ * @swagger
+ * /employees:
+ *   gett:
+ *     summary: Obtiene la lista de empleados registrados en el sistema
+ *     tags: [Control de empleados]
+ * 
+ *     responses:
+ *       200:
+ *         description: Lista de empleados
+ *       404:
+ *         description: No hay empleados registrados
+ *       500:
+ *         description: Error en el servidor
+ */
 router.get('/employees', auth, getEmployees);
 
 /**
@@ -282,7 +296,40 @@ router.route('/employee/:cedula')
     .delete(auth, deactivateEmployee)
     .put(auth, validacionActualizacion_empleado, updateEmployee);
 
-// Rutas para administrar el perfil del empleado logueado
+/**
+ * @swagger
+ * /profile/update-password:
+ *   put:
+ *     summary: Cambia la contraseña del empleado logueado
+ *     tags: [Autenticación]
+ * 
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               contrasena:
+ *                 type: string
+ *                 description: Contraseña actual del empleado
+ *               nuevaContrasena:
+ *                 type: string
+ *                 description: Nueva contraseña
+ *               confirmarContrasena:
+ *                 type: string
+ *                 description: Confirmación de la nueva contraseña
+ * 
+ *     responses:
+ *       200:
+ *         description: Contraseña actualizada exitosamente
+ *       400:
+ *         description: Error en la validación de datos
+ *       404:
+ *         description: Empleado no encontrado
+ *       500:
+ *         description: Error en el servidor
+ */
 router.put('/profile/update-password', auth, updatePassword);
 
 
