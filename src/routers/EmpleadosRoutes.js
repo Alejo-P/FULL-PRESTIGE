@@ -155,7 +155,7 @@ router.get('/verify-token/:token', verifyToken);
  * @swagger
  * /change-password/{token}:
  *   put:
- *     summary: Cambia la contraseña del empleado
+ *     summary: Cambia la contraseña de un empleado
  *     tags: [Autenticación]
  *     parameters:
  *       - in: path
