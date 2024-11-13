@@ -169,11 +169,12 @@ export const getProfile = async (req, res) => {
         nombre,
         cargo,
         direccion,
-        correo
+        correo,
+        telefono
      } = req.empleado;
 
     try {
-        return res.status(200).json({ message: 'Información del empleado', empleado: { _id, cedula, edad, nombre, cargo, direccion, correo } });
+        return res.status(200).json({ message: 'Información del empleado', empleado: { _id, cedula, edad, nombre, cargo, direccion, correo, telefono } });
     } catch (error) {
         return res.status(500).json({ message: 'Error al obtener información del empleado', error: error.message });
     }
@@ -196,10 +197,11 @@ export const getEmployee = async (req, res) => {
             nombre,
             cargo,
             direccion,
-            correo
+            correo,
+            telefono
         } = empleado;
 
-        return res.status(200).json({ message: 'Información del empleado', empleado: { _id, cedula: ced, edad, nombre, cargo, direccion, correo } });
+        return res.status(200).json({ message: 'Información del empleado', empleado: { _id, cedula: ced, edad, nombre, cargo, direccion, correo, telefono } });
     } catch (error) {
         return res.status(500).json({ message: 'Error al obtener información del empleado', error: error.message });
     }
@@ -213,7 +215,8 @@ export const updateProfile = async (req, res) => {
         nombre,
         direccion,
         cargo,
-        correo
+        correo,
+        telefono
     } = req.body;
 
     try {
@@ -254,7 +257,8 @@ export const updateEmployee = async (req, res) => {
         nombre,
         direccion,
         cargo,
-        correo
+        correo,
+        telefono
     } = req.body;
 
     try {
@@ -283,6 +287,7 @@ export const updateEmployee = async (req, res) => {
         empleado.direccion = direccion;
         empleado.cargo = cargo;
         empleado.correo = correo;
+        empleado.telefono = telefono;
         await empleado.save();
 
         return res.status(200).json({ message: 'Empleado actualizado exitosamente', empleado });

@@ -84,7 +84,10 @@ router.post('/login', login);
  *                  description: Correo del empleado
  *               direccion:
  *                  type: string
- *                  description: Dirección de residencia del empleado 
+ *                  description: Dirección de residencia del empleado
+ *               telefono:
+ *                  type: string
+ *                  description: Número de teléfono del empleado
  * 
  *     responses:
  *       201:
