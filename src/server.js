@@ -9,6 +9,9 @@ import swaggerJSDoc from 'swagger-jsdoc';
 import EmpleadosRoutes from './routers/EmpleadosRoutes.js';
 import AsistenciasRoutes from './routers/AsistenciasRoutes.js';
 import PagosRoutes from './routers/PagosRoutes.js';
+import ClientesRoutes from './routers/ClientesRoutes.js';
+import VehiculosRoutes from './routers/VehiculosRoutes.js';
+import MantenimientosRoutes from './routers/MantenimientosRoutes.js';
 
 const swaggerOptions = {
     definition: {
@@ -48,9 +51,12 @@ app.get('/', (req, res) => {
 app.use('/api/v1', EmpleadosRoutes);
 app.use('/api/v1', AsistenciasRoutes);
 app.use('/api/v1', PagosRoutes);
+app.use('/api/v1', ClientesRoutes);
+app.use('/api/v1', VehiculosRoutes);
+app.use('/api/v1', MantenimientosRoutes);
 
 // Ruta para la documentación
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJSDoc(swaggerOptions)));
+app.use('/api/v1/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJSDoc(swaggerOptions)));
 
 // Manejo de una ruta que no sea encontrada
 app.use((req,res)=>res.status(404).send("Endpoint no encontrado - 404"))

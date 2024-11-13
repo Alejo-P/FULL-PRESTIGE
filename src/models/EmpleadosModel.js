@@ -37,6 +37,10 @@ const EmpledosSchema = new Schema({
     direccion: {
         type: String,
         required: true
+    },
+    telefono: {
+        type: String,
+        required: true
     }
 }, {
     timestamps: true
