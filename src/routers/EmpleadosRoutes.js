@@ -246,8 +246,30 @@ router.put('/change-password/:token', changePassword);
  * 
  *       404:
  *         description: No hay empleados registrados
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Mensaje de error
+ *                   example: No hay empleados registrados
  *       500:
  *         description: Error en el servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Mensaje de error
+ *                   example: Error al obtener empleados
+ *                 error:
+ *                   type: string
+ *                   description: Descripción del error
+ *                   example: Error del servidor
  */
 router.get('/employees', auth, getEmployees);
 
