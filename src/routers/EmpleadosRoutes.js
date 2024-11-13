@@ -238,7 +238,7 @@ router.put('/change-password/:token', changePassword);
  *                       telefono:
  *                         type: string
  *                         description: Número de teléfono del empleado
- *                        example: 0987456321
+ *                         example: 0987456321
  *                       estado:
  *                         type: boolean
  *                         description: Estado del empleado (activo o inactivo)
