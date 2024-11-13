@@ -67,9 +67,6 @@ router.post('/login', login);
  *               cedula:
  *                 type: string
  *                 description: Cedula del empleado
- *               edad:
- *                 type: number
- *                 description: Edad del empleado
  *               nombre:
  *                  type: string
  *                  description: Nombre y apellido del empleado

@@ -30,7 +30,6 @@ export const login = async (req, res) => {
         const {
             _id,
             cedula,
-            edad,
             nombre,
             cargo,
             direccion,
@@ -39,7 +38,7 @@ export const login = async (req, res) => {
 
         const token = generarJWT(_id, cargo);
 
-        return res.status(200).json({ message: 'Inicio de sesión exitoso', empleado: { _id, cedula, edad, nombre, cargo, email, direccion, token }});
+        return res.status(200).json({ message: 'Inicio de sesión exitoso', empleado: { _id, cedula, nombre, cargo, email, direccion, token }});
     } catch (error) {
         return res.status(500).json({ message: 'Error al iniciar sesión', error: error.message });
     }
@@ -47,7 +46,7 @@ export const login = async (req, res) => {
 
 // Controlador para el registro de los empleados
 export const register = async (req, res) => {
-    const { cedula, edad, nombre, contrasena, cargo, correo, direccion } = req.body;
+    const { cedula, contrasena, correo } = req.body;
 
     try {
         if(Object.values(req.body).includes('')) {
@@ -165,7 +164,6 @@ export const getProfile = async (req, res) => {
     const { 
         _id,
         cedula,
-        edad,
         nombre,
         cargo,
         direccion,
@@ -174,7 +172,7 @@ export const getProfile = async (req, res) => {
      } = req.empleado;
 
     try {
-        return res.status(200).json({ message: 'Información del empleado', empleado: { _id, cedula, edad, nombre, cargo, direccion, correo, telefono } });
+        return res.status(200).json({ message: 'Información del empleado', empleado: { _id, cedula, nombre, cargo, direccion, correo, telefono } });
     } catch (error) {
         return res.status(500).json({ message: 'Error al obtener información del empleado', error: error.message });
     }
@@ -193,7 +191,6 @@ export const getEmployee = async (req, res) => {
         const {
             _id,
             cedula: ced,
-            edad,
             nombre,
             cargo,
             direccion,
@@ -201,7 +198,7 @@ export const getEmployee = async (req, res) => {
             telefono
         } = empleado;
 
-        return res.status(200).json({ message: 'Información del empleado', empleado: { _id, cedula: ced, edad, nombre, cargo, direccion, correo, telefono } });
+        return res.status(200).json({ message: 'Información del empleado', empleado: { _id, cedula: ced, nombre, cargo, direccion, correo, telefono } });
     } catch (error) {
         return res.status(500).json({ message: 'Error al obtener información del empleado', error: error.message });
     }
@@ -211,7 +208,6 @@ export const getEmployee = async (req, res) => {
 export const updateProfile = async (req, res) => {
     const { _id } = req.empleado;
     const {
-        edad,
         nombre,
         direccion,
         cargo,
@@ -236,11 +232,11 @@ export const updateProfile = async (req, res) => {
             }
         }
 
-        empleado.edad = edad;
         empleado.nombre = nombre;
         empleado.direccion = direccion;
         empleado.cargo = cargo;
         empleado.correo = correo;
+        empleado.telefono = telefono;
         await empleado.save();
 
         return res.status(200).json({ message: 'Perfil actualizado exitosamente', empleado });
@@ -253,7 +249,6 @@ export const updateProfile = async (req, res) => {
 export const updateEmployee = async (req, res) => {
     const { cedula } = req.params;
     const {
-        edad,
         nombre,
         direccion,
         cargo,
@@ -282,7 +277,6 @@ export const updateEmployee = async (req, res) => {
             return res.status(404).json({ message: 'No puedes actualizar tu propio perfil' });
         }
 
-        empleado.edad = edad;
         empleado.nombre = nombre;
         empleado.direccion = direccion;
         empleado.cargo = cargo;
