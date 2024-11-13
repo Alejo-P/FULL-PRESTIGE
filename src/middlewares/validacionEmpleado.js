@@ -1,7 +1,7 @@
 import { check, validationResult } from 'express-validator';
 
 export const validacionRegistro_empleado = [
-    check(['nombre', 'correo', 'direccion', 'cargo', 'cedula', 'edad', 'contrasena', 'telefono'])
+    check(['nombre', 'correo', 'direccion', 'cargo', 'cedula', 'contrasena', 'telefono'])
         .exists()
             .withMessage('Todos los campos son requeridos')
         .notEmpty()
@@ -25,10 +25,6 @@ export const validacionRegistro_empleado = [
         .customSanitizer(value => typeof value === 'string' ? value.trim() : value)
         .isEmail()
             .withMessage('Ingrese un correo válido'),
-
-    check('edad')
-        .isInt({ min: 18, max: 99 })
-            .withMessage('La edad debe ser un número entre 18 y 99'),
     
     check('cargo')
         .customSanitizer(value => typeof value === 'string' ? value.trim() : value)
@@ -47,12 +43,12 @@ export const validacionRegistro_empleado = [
         .isNumeric()
             .withMessage('El campo "telefono" debe ser un número'),
     
-    check("password")
+    check("contrasena")
         .customSanitizer(value => typeof value === 'string' ? value.trim() : value)
         .isLength({ min: 5 })
-            .withMessage('El campo "password" debe tener al menos 5 caracteres')
+            .withMessage('El campo "contraseña" debe tener al menos 5 caracteres')
         .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*).*$/)
-            .withMessage('El campo "password" debe contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial'),
+            .withMessage('El campo "contraseña" debe contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial'),
     
     (req, res, next) => {
         const errors = validationResult(req);
