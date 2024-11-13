@@ -193,13 +193,57 @@ router.put('/change-password/:token', changePassword);
 /**
  * @swagger
  * /employees:
- *   gett:
+ *   get:
  *     summary: Obtiene la lista de empleados registrados en el sistema
  *     tags: [Control de empleados]
  * 
  *     responses:
  *       200:
  *         description: Lista de empleados
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 mensaje:
+ *                   type: string
+ *                   description: Mensaje de éxito
+ *                   example: Empleados encontrados
+ *                 empleados:
+ *                   type: array
+ *                   description: Lista de empleados registrados
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       cedula:
+ *                         type: string
+ *                         description: Cédula del empleado
+ *                         example: 1725412365
+ *                       nombre:
+ *                         type: string
+ *                         description: Nombre y apellido del empleado
+ *                         example: Juan Perez
+ *                       cargo:
+ *                         type: string
+ *                         description: Cargo del empleado
+ *                         example: Gerente
+ *                       correo:
+ *                         type: string
+ *                         description: Correo del empleado
+ *                         example: juanp@gmail.com
+ *                       direccion:
+ *                         type: string
+ *                         description: Dirección de residencia del empleado
+ *                         example: Av. Amazonas y Naciones Unidas
+ *                       telefono:
+ *                         type: string
+ *                         description: Número de teléfono del empleado
+ *                        example: 0987456321
+ *                       estado:
+ *                         type: boolean
+ *                         description: Estado del empleado (activo o inactivo)
+ *                         example: true
+ * 
  *       404:
  *         description: No hay empleados registrados
  *       500:
