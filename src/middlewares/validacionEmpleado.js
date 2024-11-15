@@ -60,7 +60,7 @@ export const validacionRegistro_empleado = [
 ];
 
 export const validacionActualizacion_empleado = [
-    check(['nombre', 'correo', 'direccion', 'cargo', 'estado'])
+    check(['nombre', 'correo', 'direccion', 'cargo', 'telefono', 'estado'])
         .exists()
             .withMessage('Todos los campos son requeridos')
         .notEmpty()
@@ -87,6 +87,13 @@ export const validacionActualizacion_empleado = [
         .customSanitizer(value => typeof value === 'string' ? value.trim() : value)
         .isLength({ min: 5, max: 20 })
             .withMessage('El campo "dirección" debe tener entre 5 y 20 caracteres'),
+
+    check('telefono')
+        .customSanitizer(value => typeof value === 'string' ? value.trim() : value)
+        .isLength({ min: 10, max: 10 })
+            .withMessage('El campo "telefono" debe tener 10 caracteres')
+        .isNumeric()
+            .withMessage('El campo "telefono" debe ser un número'),
     
     check("estado")
         .isBoolean()
