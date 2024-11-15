@@ -253,7 +253,8 @@ export const updateEmployee = async (req, res) => {
         direccion,
         cargo,
         correo,
-        telefono
+        telefono,
+        estado
     } = req.body;
 
     try {
@@ -282,6 +283,7 @@ export const updateEmployee = async (req, res) => {
         empleado.cargo = cargo;
         empleado.correo = correo;
         empleado.telefono = telefono;
+        empleado.estado = estado;
         await empleado.save();
 
         return res.status(200).json({ message: 'Empleado actualizado exitosamente', empleado });

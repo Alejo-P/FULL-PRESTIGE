@@ -60,7 +60,7 @@ export const validacionRegistro_empleado = [
 ];
 
 export const validacionActualizacion_empleado = [
-    check(['nombre', 'correo', 'direccion', 'cargo', 'edad'])
+    check(['nombre', 'correo', 'direccion', 'cargo', 'estado'])
         .exists()
             .withMessage('Todos los campos son requeridos')
         .notEmpty()
@@ -77,10 +77,6 @@ export const validacionActualizacion_empleado = [
         .customSanitizer(value => typeof value === 'string' ? value.trim() : value)
         .isEmail()
             .withMessage('Ingrese un correo válido'),
-
-    check('edad')
-        .isInt({ min: 18, max: 99 })
-            .withMessage('La edad debe ser un número entre 18 y 99'),
     
     check('cargo')
         .customSanitizer(value => typeof value === 'string' ? value.trim() : value)
@@ -91,6 +87,10 @@ export const validacionActualizacion_empleado = [
         .customSanitizer(value => typeof value === 'string' ? value.trim() : value)
         .isLength({ min: 5, max: 20 })
             .withMessage('El campo "dirección" debe tener entre 5 y 20 caracteres'),
+    
+    check("estado")
+        .isBoolean()
+        .withMessage('El campo "estado" debe ser un valor booleano'),
     
     (req, res, next) => {
         const errors = validationResult(req);
