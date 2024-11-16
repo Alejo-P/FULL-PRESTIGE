@@ -195,10 +195,11 @@ export const getEmployee = async (req, res) => {
             cargo,
             direccion,
             correo,
-            telefono
+            telefono,
+            estado
         } = empleado;
 
-        return res.status(200).json({ message: 'Información del empleado', empleado: { _id, cedula: ced, nombre, cargo, direccion, correo, telefono } });
+        return res.status(200).json({ message: 'Información del empleado', empleado: [{ _id, cedula: ced, nombre, cargo, direccion, correo, telefono, estado }] });
     } catch (error) {
         return res.status(500).json({ message: 'Error al obtener información del empleado', error: error.message });
     }

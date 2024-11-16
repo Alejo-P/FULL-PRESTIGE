@@ -274,7 +274,532 @@
             }
           },
           "404": {
-            "description": "Correo no encontrado"
+            "description": "Correo no encontrado o empleado deshabilitado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error en el servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/verify-token/{token}": {
+        "get": {
+            "summary": "Verifica la validez de un token",
+            "tags": ["Autenticación"],
+            "parameters": [
+            {
+                "name": "token",
+                "in": "path",
+                "required": true,
+                "description": "Token de autenticación",
+                "schema": {
+                "type": "string"
+                }
+            }
+            ],
+            "responses": {
+            "200": {
+                "description": "Token válido",
+                "content": {
+                "application/json": {
+                    "schema": {
+                    "type": "object",
+                    "properties": {
+                        "message": {
+                        "type": "string",
+                        "description": "Mensaje de éxito"
+                        }
+                    }
+                    }
+                }
+                }
+            },
+            "400": {
+                "description": "Token inválido",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "description": "Mensaje de error"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "500": {
+                "description": "Error en el servidor",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "description": "Mensaje de error"
+                                },
+                                "error": {
+                                    "type": "string",
+                                    "description": "Detalle del error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            }
+        }
+    },
+    "/change-password/{token}": {
+        "put": {
+            "summary": "Cambia la contraseña de un empleado",
+            "tags": ["Autenticación"],
+            "parameters": [
+            {
+                "name": "token",
+                "in": "path",
+                "required": true,
+                "description": "Token de autenticación",
+                "schema": {
+                "type": "string"
+                }
+            }
+            ],
+            "requestBody": {
+            "required": true,
+            "content": {
+                "application/json": {
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "contrasena": {
+                            "type": "string",
+                            "description": "Nueva contraseña del empleado",
+                            "example": "ju@n1p."
+                        },
+                        "confirmarContrasena": {
+                            "type": "string",
+                            "description": "Confirmación de la nueva contraseña",
+                            "example": "ju@n1p."
+                        }
+                    },
+                    "required": ["contrasena"]
+                }
+                }
+            }
+            },
+            "responses": {
+            "200": {
+                "description": "Contraseña cambiada correctamente",
+                "content": {
+                "application/json": {
+                    "schema": {
+                    "type": "object",
+                    "properties": {
+                        "message": {
+                        "type": "string",
+                        "description": "Mensaje de éxito"
+                        }
+                    }
+                    }
+                }
+                }
+            },
+            "400": {
+                "description": "Error en la validación de datos",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "description": "Mensaje de error"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "404": {
+                "description": "Token inválido",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "description": "Mensaje de error"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "500": {
+                "description": "Error en el servidor",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "description": "Mensaje de error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            }
+        }
+    },
+    
+
+    "/employees": {
+        "get": {
+            "summary": "Obtiene la lista de empleados",
+            "tags": ["Gestion de empleados"],
+            "responses": {
+            "200": {
+                "description": "Lista de empleados obtenida correctamente",
+                "content": {
+                "application/json": {
+                    "schema": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                        "cedula": {
+                            "type": "string",
+                            "description": "Cédula del empleado"
+                        },
+                        "nombre": {
+                            "type": "string",
+                            "description": "Nombre del empleado"
+                        },
+                        "correo": {
+                            "type": "string",
+                            "description": "Correo del empleado"
+                        },
+                        "cargo": {
+                            "type": "string",
+                            "description": "Rol del empleado"
+                        },
+                        "telefono": {
+                            "type": "string",
+                            "description": "Teléfono del empleado"
+                        },
+                        "direccion": {
+                            "type": "string",
+                            "description": "Dirección del empleado"
+                        },
+                        "estado": {
+                            "type": "boolean",
+                            "description": "Estado del empleado"
+                        }
+                        }
+                    }
+                    }
+                }
+                }
+            },
+            "400": {
+                "description": "Error en el servidor",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "description": "Mensaje de error"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "500": {
+                "description": "Error en el servidor",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "description": "Mensaje de error"
+                                },
+                                "error": {
+                                    "type": "string",
+                                    "description": "Detalle del error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            }
+        }
+    },
+    "/employee/{cedula}": {
+      "get": {
+        "summary": "Obtiene los detalles del perfil de un empleado especificado",
+        "tags": ["Control de empleados"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cedula",
+            "required": true,
+            "description": "Cédula del empleado",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detalles del empleado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "cedula": {
+                      "type": "string",
+                      "description": "Cédula del empleado"
+                    },
+                    "nombre": {
+                      "type": "string",
+                      "description": "Nombre del empleado"
+                    },
+                    "correo": {
+                      "type": "string",
+                      "description": "Correo del empleado"
+                    },
+                    "cargo": {
+                      "type": "string",
+                      "description": "Rol del empleado"
+                    },
+                    "telefono": {
+                      "type": "string",
+                      "description": "Teléfono del empleado"
+                    },
+                    "direccion": {
+                      "type": "string",
+                      "description": "Dirección del empleado"
+                    },
+                    "estado": {
+                      "type": "boolean",
+                      "description": "Estado del empleado"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Empleado no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error en el servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error"
+                    },
+                    "error": {
+                      "type": "string",
+                      "description": "Detalle del error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Actualiza los detalles del empleado especificado",
+        "tags": ["Control de empleados"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cedula",
+            "required": true,
+            "description": "Cédula del empleado",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nombre": {
+                    "type": "string",
+                    "description": "Nombre y apellido del empleado"
+                  },
+                  "cargo": {
+                    "type": "string",
+                    "description": "Cargo del empleado, puede ser Gerente o Tecnico"
+                  },
+                  "correo": {
+                    "type": "string",
+                    "description": "Correo del empleado"
+                  },
+                  "direccion": {
+                    "type": "string",
+                    "description": "Dirección de residencia del empleado"
+                  },
+                    "telefono": {
+                        "type": "string",
+                        "description": "Número de teléfono del empleado"
+                    },
+                    "estado": {
+                        "type": "boolean",
+                        "description": "Estado del empleado"
+                    }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Empleado actualizado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de éxito"
+                    },
+                    "empleado": {
+                        "type": "object",
+                        "properties": {
+                            "cedula": {
+                            "type": "string",
+                            "description": "Cédula del empleado"
+                            },
+                            "nombre": {
+                            "type": "string",
+                            "description": "Nombre del empleado"
+                            },
+                            "correo": {
+                            "type": "string",
+                            "description": "Correo del empleado"
+                            },
+                            "cargo": {
+                            "type": "string",
+                            "description": "Rol del empleado"
+                            },
+                            "telefono": {
+                            "type": "string",
+                            "description": "Teléfono del empleado"
+                            },
+                            "direccion": {
+                            "type": "string",
+                            "description": "Dirección del empleado"
+                            },
+                            "estado": {
+                            "type": "boolean",
+                            "description": "Estado del empleado"
+                            }
+                        }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error en la validación de datos"
+          },
+          "404": {
+            "description": "No se puede actualizar el perfil del usuario logueado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Elimina el perfil del empleado especificado",
+        "tags": ["Control de empleados"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cedula",
+            "required": true,
+            "description": "Cédula del empleado",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Perfil eliminado exitosamente"
+          },
+          "404": {
+            "description": "No se puede eliminar el perfil del usuario logueado, empleado no encontrado, empleado desactivado previamente"
           },
           "500": {
             "description": "Error en el servidor"

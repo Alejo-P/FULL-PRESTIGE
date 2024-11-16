@@ -312,9 +312,6 @@ router.get('/employees', auth, getEmployees);
  *           schema:
  *             type: object
  *             properties:
- *               edad:
- *                 type: number
- *                 description: Edad del empleado
  *               nombre:
  *                  type: string
  *                  description: Nombre y apellido del empleado
