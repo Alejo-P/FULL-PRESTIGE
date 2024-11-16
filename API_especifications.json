@@ -491,7 +491,7 @@
     "/employees": {
         "get": {
             "summary": "Obtiene la lista de empleados",
-            "tags": ["Gestion de empleados"],
+            "tags": ["Control de empleados"],
             "responses": {
             "200": {
                 "description": "Lista de empleados obtenida correctamente",
@@ -770,13 +770,56 @@
             }
           },
           "400": {
-            "description": "Error en la validación de datos"
+            "description": "Error en la validación de datos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error"
+                    }
+                  }
+                }
+              }
+            }
           },
           "404": {
-            "description": "No se puede actualizar el perfil del usuario logueado"
+            "description": "No se puede actualizar el perfil del usuario logueado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error"
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Error en el servidor"
+            "description": "Error en el servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error"
+                    },
+                    "error": {
+                      "type": "string",
+                      "description": "Detalle del error"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -796,13 +839,870 @@
         ],
         "responses": {
           "200": {
-            "description": "Perfil eliminado exitosamente"
+            "description": "Perfil eliminado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de éxito"
+                    }
+                  }
+                }
+              }
+            }
           },
           "404": {
-            "description": "No se puede eliminar el perfil del usuario logueado, empleado no encontrado, empleado desactivado previamente"
+            "description": "No se puede eliminar el perfil del usuario logueado, empleado no encontrado, empleado desactivado previamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error"
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Error en el servidor"
+            "description": "Error en el servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error"
+                    },
+                    "error": {
+                      "type": "string",
+                      "description": "Detalle del error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    
+
+    "/profile/update-password":{ 
+      "put": {
+          "summary": "Actualiza la contraseña del empleado logueado",
+          "tags": ["Perfil"],
+          "requestBody": {
+          "required": true,
+          "content": {
+              "application/json": {
+              "schema": {
+                  "type": "object",
+                  "properties": {
+                      "contrasena": {
+                          "type": "string",
+                          "description": "Contraseña actual del empleado",
+                          "example": "ju@n1p."
+                      },
+                      "nuevaContrasena": {
+                          "type": "string",
+                          "description": "Nueva contraseña del empleado",
+                          "example": "ju@n2p."
+                      },
+                      "confirmarContrasena": {
+                          "type": "string",
+                          "description": "Confirmación de la nueva contraseña",
+                          "example": "ju@n2p."
+                      }
+                  },
+                  "required": ["contrasena", "nuevaContrasena"]
+              }
+              }
+          }
+          },
+          "responses": {
+          "200": {
+              "description": "Contraseña actualizada correctamente",
+              "content": {
+              "application/json": {
+                  "schema": {
+                  "type": "object",
+                  "properties": {
+                      "message": {
+                      "type": "string",
+                      "description": "Mensaje de éxito"
+                      }
+                  }
+                  }
+              }
+              }
+          },
+          "400": {
+              "description": "Error en la validación de datos",
+              "content": {
+                  "application/json": {
+                      "schema": {
+                          "type": "object",
+                          "properties": {
+                              "message": {
+                                  "type": "string",
+                                  "description": "Mensaje de error"
+                              }
+                          }
+                      }
+                  }
+              }
+          },
+          "404": {
+              "description": "Contraseña actual incorrecta",
+              "content": {
+                  "application/json": {
+                      "schema": {
+                          "type": "object",
+                          "properties": {
+                              "message": {
+                                  "type": "string",
+                                  "description": "Mensaje de error"
+                              }
+                          }
+                      }
+                  }
+              }
+          },
+          "500": {
+              "description": "Error en el servidor",
+              "content": {
+                  "application/json": {
+                      "schema": {
+                          "type": "object",
+                          "properties": {
+                              "message": {
+                                  "type": "string",
+                                  "description": "Mensaje de error"
+                              },
+                              "error": {
+                                  "type": "string",
+                                  "description": "Detalle del error"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      }
+      }
+    },
+    "/profile":{
+      "get": {
+          "summary": "Obtiene los detalles del perfil del empleado logueado",
+          "tags": ["Perfil"],
+          "responses": {
+          "200": {
+              "description": "Detalles del perfil",
+              "content": {
+              "application/json": {
+                  "schema": {
+                  "type": "object",
+                  "properties": {
+                      "cedula": {
+                      "type": "string",
+                      "description": "Cédula del empleado"
+                      },
+                      "nombre": {
+                      "type": "string",
+                      "description": "Nombre del empleado"
+                      },
+                      "correo": {
+                      "type": "string",
+                      "description": "Correo del empleado"
+                      },
+                      "cargo": {
+                      "type": "string",
+                      "description": "Rol del empleado"
+                      },
+                      "telefono": {
+                      "type": "string",
+                      "description": "Teléfono del empleado"
+                      },
+                      "direccion": {
+                      "type": "string",
+                      "description": "Dirección del empleado"
+                      },
+                      "estado": {
+                      "type": "boolean",
+                      "description": "Estado del empleado"
+                      }
+                  }
+                  }
+              }
+              }
+          },
+          "404": {
+              "description": "Empleado no encontrado",
+              "content": {
+              "application/json": {
+                  "schema": {
+                  "type": "object",
+                  "properties": {
+                      "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "Empleado no encontrado"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+              "description": "Error en el servidor",
+              "content": {
+              "application/json": {
+                  "schema": {
+                  "type": "object",
+                  "properties": {
+                      "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "Error en el servidor"
+                      },
+                      "error": {
+                      "type": "string",
+                      "description": "Detalle del error",
+                      "example": "Error al obtener los detalles del perfil"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+      },
+      "put":{
+        "summary": "Actualiza los detalles del perfil del empleado logueado",
+        "tags": ["Perfil"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nombre": {
+                    "type": "string",
+                    "description": "Nombre y apellido del empleado"
+                  },
+                  "cargo": {
+                    "type": "string",
+                    "description": "Cargo del empleado, puede ser Gerente o Tecnico"
+                  },
+                  "correo": {
+                    "type": "string",
+                    "description": "Correo del empleado"
+                  },
+                  "direccion": {
+                    "type": "string",
+                    "description": "Dirección de residencia del empleado"
+                  },
+                    "telefono": {
+                        "type": "string",
+                        "description": "Número de teléfono del empleado"
+                    }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Perfil actualizado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de éxito"
+                    },
+                    "empleado": {
+                        "type": "object",
+                        "properties": {
+                            "cedula": {
+                            "type": "string",
+                            "description": "Cédula del empleado"
+                            },
+                            "nombre": {
+                            "type": "string",
+                            "description": "Nombre del empleado"
+                            },
+                            "correo": {
+                            "type": "string",
+                            "description": "Correo del empleado"
+                            },
+                            "cargo": {
+                            "type": "string",
+                            "description": "Rol del empleado"
+                            },
+                            "telefono": {
+                            "type": "string",
+                            "description": "Teléfono del empleado"
+                            },
+                            "direccion": {
+                            "type": "string",
+                            "description": "Dirección del empleado"
+                            },
+                            "estado": {
+                            "type": "boolean",
+                            "description": "Estado del empleado"
+                            }
+                        }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error en la validación de datos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No se puede actualizar el perfil del usuario logueado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error en el servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error"
+                    },
+                    "error": {
+                      "type": "string",
+                      "description": "Detalle del error"
+                    }
+                 }
+               }
+             }
+           }
+          }
+        }
+      },
+      "delete":{
+        "summary": "Elimina el perfil del empleado logueado",
+        "tags": ["Perfil"],
+        "responses": {
+          "200": {
+            "description": "Perfil eliminado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de éxito"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No se puede eliminar el perfil del usuario logueado, empleado no encontrado, empleado desactivado previamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error en el servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error"
+                    },
+                    "error": {
+                      "type": "string",
+                      "description": "Detalle del error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/employee/{cedula}/assistance":{
+      "post":{
+        "summary": "Registra la asistencia de un empleado",
+        "tags": ["Control de asistencia"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cedula",
+            "required": true,
+            "description": "Cédula del empleado",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody":{
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "fecha": {
+                    "type": "string",
+                    "description": "Fecha de la asistencia",
+                    "example": "2021-10-15"
+                  },
+                  "hora_ingreso": {
+                    "type": "string",
+                    "description": "Hora de la asistencia",
+                    "example": "08:00"
+                  },
+                  "hora_salida": {
+                    "type": "string",
+                    "description": "Hora de la salida",
+                    "example": "17:00"
+                  },
+                  "descripcion": {
+                    "type": "string",
+                    "description": "Observaciones de la asistencia"
+                  }
+                },
+                "required": ["fecha", "hora_ingreso", "hora_salida", "descripcion"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Asistencia registrada correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de éxito",
+                      "example": "Asistencia registrada correctamente"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error en la validación de datos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "Todos los campos son requeridos"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Empleado no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "Empleado no encontrado"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error en el servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "Error al registrar la asistencia"
+                    },
+                    "error": {
+                      "type": "string",
+                      "description": "Detalle del error",
+                      "example": "Error al registrar la asistencia del empleado"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get":{
+        "summary": "Obtiene la lista de asistencias de un empleado",
+        "tags": ["Control de asistencia"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cedula",
+            "required": true,
+            "description": "Cédula del empleado",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de asistencias obtenida correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "fecha": {
+                        "type": "string",
+                        "description": "Fecha de la asistencia"
+                      },
+                      "hora_ingreso": {
+                        "type": "string",
+                        "description": "Hora de la asistencia"
+                      },
+                      "hora_salida": {
+                        "type": "string",
+                        "description": "Hora de la salida"
+                      },
+                      "descripcion": {
+                        "type": "string",
+                        "description": "Observaciones de la asistencia"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Empleado no encontrado o sin asistencias registradas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "Empleado no encontrado o sin asistencias registradas"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error en el servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "Error al obtener las asistencias"
+                    },
+                    "error": {
+                      "type": "string",
+                      "description": "Detalle del error",
+                      "example": "Error al obtener las asistencias del empleado"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put":{
+        "summary": "Actualiza la asistencia de un empleado",
+        "tags": ["Control de asistencia"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cedula",
+            "required": true,
+            "description": "Cédula del empleado",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody":{
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "fecha": {
+                    "type": "string",
+                    "description": "Fecha de la asistencia",
+                    "example": "2021-10-15"
+                  },
+                  "hora_ingreso": {
+                    "type": "string",
+                    "description": "Hora de la asistencia",
+                    "example": "08:00"
+                  },
+                  "hora_salida": {
+                    "type": "string",
+                    "description": "Hora de la salida",
+                    "example": "17:00"
+                  },
+                  "descripcion": {
+                    "type": "string",
+                    "description": "Observaciones de la asistencia"
+                  }
+                },
+                "required": ["fecha", "hora_ingreso", "hora_salida", "descripcion"]
+              }
+            }
+          }
+        },
+          "responses": {
+            "200": {
+              "description": "Asistencia actualizada correctamente",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "description": "Mensaje de éxito",
+                        "example": "Asistencia actualizada correctamente"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Error en la validación de datos",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "description": "Mensaje de error",
+                        "example": "Todos los campos son requeridos"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Asistencia no encontrada",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "description": "Mensaje de error",
+                        "example": "Asistencia no encontrada"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Error en el servidor",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "description": "Mensaje de error",
+                        "example": "Error al actualizar la asistencia"
+                      },
+                      "error": {
+                        "type": "string",
+                        "description": "Detalle del error",
+                        "example": "Error al actualizar la asistencia del empleado"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+      },
+      "delete":{
+        "summary": "Elimina la asistencia de un empleado",
+        "tags": ["Control de asistencia"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cedula",
+            "required": true,
+            "description": "Cédula del empleado",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody":{
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "fecha": {
+                    "type": "string",
+                    "description": "Fecha de la asistencia",
+                    "example": "2021-10-15"
+                  }
+                },
+                "required": ["fecha"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Asistencia eliminada correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de éxito",
+                      "example": "Asistencia eliminada correctamente"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Asistencia no encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "Asistencia no encontrada"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error en el servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "Error al eliminar la asistencia"
+                    },
+                    "error": {
+                      "type": "string",
+                      "description": "Detalle del error",
+                      "example": "Error al eliminar la asistencia del empleado"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }

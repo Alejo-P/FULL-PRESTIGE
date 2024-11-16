@@ -34,7 +34,7 @@ export const registerAssistance = async (req, res) => {
 
         res.status(201).json({ message: "Asistencia registrada correctamente" });
     } catch (error) {
-        res.status(500).json({ message: error });
+        res.status(500).json({ message: "Error al registrar la asistencia", error });
     }
 };
 
@@ -95,7 +95,12 @@ export const updateAssistance = async (req, res) => {
 // Metodo para eliminar una asistencia
 export const removeAssistance = async (req, res) => {
     const { cedula } = req.params;
+    const { fecha } = req.body;
     try {
+        if (Object.values(req.body).includes("")) {
+            return res.status(400).json({ message: "Todos los campos son necesarios" });
+        }
+
         if (req.empleado.cargo !== 'Administrador') {
             return res.status(403).json({ message: "No tiene permisos para realizar esta acción" });
         }
@@ -109,7 +114,12 @@ export const removeAssistance = async (req, res) => {
             return res.status(404).json({ message: "Empleado no encontrado" });
         }
 
-        const asistencia = await asistencasModel.findOne({ empleado: empleado._id });
+        const asistencias = await asistencasModel.find({ empleado: empleado._id, fecha });
+        if (!asistencias) {
+            return res.status(404).json({ message: "Asistencia no encontrada" });
+        }
+
+        const asistencia = asistencias.find(asistencia => asistencia.fecha === fecha);
         if (!asistencia) {
             return res.status(404).json({ message: "Asistencia no encontrada" });
         }

@@ -419,9 +419,6 @@ router.put('/profile/update-password', auth, updatePassword);
  *           schema:
  *             type: object
  *             properties:
- *               edad:
- *                 type: number
- *                 description: Edad del empleado
  *               nombre:
  *                  type: string
  *                  description: Nombre y apellido del empleado
@@ -434,6 +431,9 @@ router.put('/profile/update-password', auth, updatePassword);
  *               direccion:
  *                  type: string
  *                  description: Dirección de residencia del empleado 
+ *               telefono:
+ *                  type: string
+ *                  description: Número de teléfono del empleado
  * 
  *     responses:
  *       200:

@@ -126,15 +126,27 @@ const router = Router();
  *         description: Cédula del empleado
  *         schema:
  *           type: string
+ * 
+ *    requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               fecha:
+ *                 type: string
+ *                 description: Fecha de la asistencia
+ * 
  *     responses:
  *       200:
- *         description: Pago eliminado exitosamente
+ *         description: Asistencia eliminada exitosamente
  *       400:
  *         description: Error en la validación de datos
  *       403:
  *         description: No tiene permisos para realizar esta acción
  *       404:
- *         description: Pago no encontrado
+ *         description: Asistencia no encontrada
  *       500:
  *         description: Error en el servidor
  */
