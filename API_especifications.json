@@ -486,8 +486,6 @@
             }
         }
     },
-    
-
     "/employees": {
         "get": {
             "summary": "Obtiene la lista de empleados",
@@ -893,8 +891,6 @@
         }
       }
     },
-    
-
     "/profile/update-password":{ 
       "put": {
           "summary": "Actualiza la contraseña del empleado logueado",
@@ -1283,8 +1279,6 @@
         }
       }
     },
-
-
     "/employee/{cedula}/assistance":{
       "post":{
         "summary": "Registra la asistencia de un empleado",
@@ -1618,8 +1612,6 @@
           }
       }
     },
-
-
     "/employee/{cedula}/payments":{
       "post":{
         "summary": "Registra el pago de un empleado",
@@ -1967,6 +1959,1186 @@
               }
             }
           }
+      }
+    },
+    "/client":{
+      "post":{
+        "summary": "Registra un nuevo cliente",
+        "tags": ["Control de clientes"],
+        "requestBody":{
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "cedula":{
+                    "type": "string",
+                    "description": "Cédula del cliente",
+                    "example": "1234567890"
+                  },
+                  "nombre":{
+                    "type": "string",
+                    "description": "Nombre del cliente",
+                    "example": "Juan Perez"
+                  },
+                  "correo":{
+                    "type": "string",
+                    "description": "Correo del cliente",
+                    "example": "juamp12@gmai.com"
+                  },
+                  "telefono":{
+                    "type": "string",
+                    "description": "Teléfono del cliente",
+                    "example": "0987654321"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Cliente registrado correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de éxito",
+                      "example": "Cliente registrado correctamente"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error en la validación de datos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "Todos los campos son requeridos"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error en el servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "Error al registrar el cliente"
+                    },
+                    "error": {
+                      "type": "string",
+                      "description": "Detalle del error",
+                      "example": "Error al registrar el cliente"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clients":{
+      "get":{
+        "summary": "Obtiene la lista de clientes",
+        "tags": ["Control de clientes"],
+        "responses": {
+          "200": {
+            "description": "Lista de clientes obtenida correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "cedula": {
+                        "type": "string",
+                        "description": "Cédula del cliente"
+                      },
+                      "nombre": {
+                        "type": "string",
+                        "description": "Nombre del cliente"
+                      },
+                      "correo": {
+                        "type": "string",
+                        "description": "Correo del cliente"
+                      },
+                      "telefono": {
+                        "type": "string",
+                        "description": "Teléfono del cliente"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No hay clientes registrados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "No hay clientes registrados"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error en el servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "Error al obtener los clientes"
+                    },
+                    "error": {
+                      "type": "string",
+                      "description": "Detalle del error",
+                      "example": "Error al obtener los clientes"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/client/{cedula}":{
+      "get":{
+        "summary": "Obtiene los detalles de un cliente",
+        "tags": ["Control de clientes"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cedula",
+            "required": true,
+            "description": "Cédula del cliente",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detalles del cliente obtenidos correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "cedula": {
+                      "type": "string",
+                      "description": "Cédula del cliente"
+                    },
+                    "nombre": {
+                      "type": "string",
+                      "description": "Nombre del cliente"
+                    },
+                    "correo": {
+                      "type": "string",
+                      "description": "Correo del cliente"
+                    },
+                    "telefono": {
+                      "type": "string",
+                      "description": "Teléfono del cliente"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cliente no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "Cliente no encontrado"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error en el servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "Error al obtener los detalles del cliente"
+                    },
+                    "error": {
+                      "type": "string",
+                      "description": "Detalle del error",
+                      "example": "Error al obtener los detalles del cliente"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put":{
+        "summary": "Actualiza los detalles de un cliente",
+        "tags": ["Control de clientes"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cedula",
+            "required": true,
+            "description": "Cédula del cliente",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody":{
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nombre":{
+                    "type": "string",
+                    "description": "Nombre del cliente",
+                    "example": "Juan Perez"
+                  },
+                  "correo":{
+                    "type": "string",
+                    "description": "Correo del cliente",
+                    "example": "juanp12@gmail.com"
+                  },
+                  "telefono":{
+                    "type": "string",
+                    "description": "Teléfono del cliente",
+                    "example": "0987654321"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Cliente actualizado correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de éxito",
+                      "example": "Cliente actualizado correctamente"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error en la validación de datos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "Todos los campos son requeridos"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cliente no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "Cliente no encontrado"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error en el servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "Error al actualizar el cliente"
+                    },
+                    "error": {
+                      "type": "string",
+                      "description": "Detalle del error",
+                      "example": "Error al actualizar el cliente"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete":{
+        "summary": "Elimina un cliente",
+        "tags": ["Control de clientes"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cedula",
+            "required": true,
+            "description": "Cédula del cliente",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cliente eliminado correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de éxito",
+                      "example": "Cliente eliminado correctamente"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cliente no encontrado o ya eliminado previamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "Cliente no encontrado o ya eliminado previamente"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error en el servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "Error al eliminar el cliente"
+                    },
+                    "error": {
+                      "type": "string",
+                      "description": "Detalle del error",
+                      "example": "Error al eliminar el cliente"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vehicle":{
+      "post":{
+        "summary": "Registra un nuevo vehículo",
+        "tags": ["Control de vehículos"],
+        "requestBody":{
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "placa":{
+                    "type": "string",
+                    "description": "Placa del vehículo",
+                    "example": "ABC123"
+                  },
+                  "marca":{
+                    "type": "string",
+                    "description": "Marca del vehículo",
+                    "example": "Chevrolet"
+                  },
+                  "modelo":{
+                    "type": "string",
+                    "description": "Modelo del vehículo",
+                    "example": "Aveo"
+                  },
+                  "fecha_ingreso":{
+                    "type": "string",
+                    "description": "Fecha de ingreso del vehículo",
+                    "example": "2021-10-15"
+                  },
+                  "fecha_salida":{
+                    "type": "string",
+                    "description": "Fecha de salida del vehículo",
+                    "example": "2021-10-15"
+                  },
+                  "cedula_cliente":{
+                    "type": "string",
+                    "description": "Cédula del cliente dueño del vehículo",
+                    "example": "1234567890"
+                  },
+                  "cedula_encargado":{
+                    "type": "string",
+                    "description": "Cédula del empleado encargado del vehículo",
+                    "example": "0987654321"
+                  },
+                  "detalles":{
+                    "type": "string",
+                    "description": "Detalles del vehículo"
+                  }
+                }
+              }
+            }
+          }
+        },
+          "responses": {
+            "201": {
+              "description": "Vehículo registrado correctamente",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "description": "Mensaje de éxito",
+                        "example": "Vehículo registrado correctamente"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Error en la validación de datos",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "description": "Mensaje de error",
+                        "example": "Todos los campos son requeridos"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Error en el servidor",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "description": "Mensaje de error",
+                        "example": "Error al registrar el vehículo"
+                      },
+                      "error": {
+                        "type": "string",
+                        "description": "Detalle del error",
+                        "example": "Error al registrar el vehículo"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+    },
+    "/vehicles":{
+      "get":{
+        "summary": "Obtiene la lista de vehículos",
+        "tags": ["Control de vehículos"],
+        "responses": {
+          "200": {
+            "description": "Lista de vehículos obtenida correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "placa": {
+                        "type": "string",
+                        "description": "Placa del vehículo"
+                      },
+                      "marca": {
+                        "type": "string",
+                        "description": "Marca del vehículo"
+                      },
+                      "modelo": {
+                        "type": "string",
+                        "description": "Modelo del vehículo"
+                      },
+                      "fecha_ingreso": {
+                        "type": "string",
+                        "description": "Fecha de ingreso del vehículo"
+                      },
+                      "fecha_salida": {
+                        "type": "string",
+                        "description": "Fecha de salida del vehículo"
+                      },
+                      "cedula_cliente": {
+                        "type": "string",
+                        "description": "Cédula del cliente dueño del vehículo"
+                      },
+                      "cedula_encargado": {
+                        "type": "string",
+                        "description": "Cédula del empleado encargado del vehículo"
+                      },
+                      "detalles": {
+                        "type": "string",
+                        "description": "Detalles del vehículo"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No hay vehículos registrados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "No hay vehículos registrados"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error en el servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "Error al obtener los vehículos"
+                    },
+                    "error": {
+                      "type": "string",
+                      "description": "Detalle del error",
+                      "example": "Error al obtener los vehículos"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vehicles/client/{cedula}":{
+      "get":{
+        "summary": "Obtiene la lista de vehículos de un cliente",
+        "tags": ["Control de vehículos"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cedula",
+            "required": true,
+            "description": "Cédula del cliente",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de vehículos obtenida correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "placa": {
+                        "type": "string",
+                        "description": "Placa del vehículo"
+                      },
+                      "marca": {
+                        "type": "string",
+                        "description": "Marca del vehículo"
+                      },
+                      "modelo": {
+                        "type": "string",
+                        "description": "Modelo del vehículo"
+                      },
+                      "fecha_ingreso": {
+                        "type": "string",
+                        "description": "Fecha de ingreso del vehículo"
+                      },
+                      "fecha_salida": {
+                        "type": "string",
+                        "description": "Fecha de salida del vehículo"
+                      },
+                      "cedula_cliente": {
+                        "type": "string",
+                        "description": "Cédula del cliente dueño del vehículo"
+                      },
+                      "cedula_encargado": {
+                        "type": "string",
+                        "description": "Cédula del empleado encargado del vehículo"
+                      },
+                      "detalles": {
+                        "type": "string",
+                        "description": "Detalles del vehículo"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cliente no encontrado o sin vehículos registrados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "Cliente no encontrado o sin vehículos registrados"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error en el servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "Error al obtener los vehículos"
+                    },
+                    "error": {
+                      "type": "string",
+                      "description": "Detalle del error",
+                      "example": "Error al obtener los vehículos del cliente"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vehicles/employee/{cedula}":{
+      "get":{
+        "summary": "Obtiene la lista de vehículos de un empleado",
+        "tags": ["Control de vehículos"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cedula",
+            "required": true,
+            "description": "Cédula del empleado",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de vehículos obtenida correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "placa": {
+                        "type": "string",
+                        "description": "Placa del vehículo"
+                      },
+                      "marca": {
+                        "type": "string",
+                        "description": "Marca del vehículo"
+                      },
+                      "modelo": {
+                        "type": "string",
+                        "description": "Modelo del vehículo"
+                      },
+                      "fecha_ingreso": {
+                        "type": "string",
+                        "description": "Fecha de ingreso del vehículo"
+                      },
+                      "fecha_salida": {
+                        "type": "string",
+                        "description": "Fecha de salida del vehículo"
+                      },
+                      "cedula_cliente": {
+                        "type": "string",
+                        "description": "Cédula del cliente dueño del vehículo"
+                      },
+                      "cedula_encargado": {
+                        "type": "string",
+                        "description": "Cédula del empleado encargado del vehículo"
+                      },
+                      "detalles": {
+                        "type": "string",
+                        "description": "Detalles del vehículo"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Empleado no encontrado o sin vehículos registrados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "Empleado no encontrado o sin vehículos registrados"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error en el servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "Error al obtener los vehículos"
+                    },
+                    "error": {
+                      "type": "string",
+                      "description": "Detalle del error",
+                      "example": "Error al obtener los vehículos del empleado"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vehicle/{placa}":{
+      "get":{
+        "summary": "Obtiene los detalles de un vehículo",
+        "tags": ["Control de vehículos"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "placa",
+            "required": true,
+            "description": "Placa del vehículo",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detalles del vehículo obtenidos correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "placa": {
+                      "type": "string",
+                      "description": "Placa del vehículo"
+                    },
+                    "marca": {
+                      "type": "string",
+                      "description": "Marca del vehículo"
+                    },
+                    "modelo": {
+                      "type": "string",
+                      "description": "Modelo del vehículo"
+                    },
+                    "fecha_ingreso": {
+                      "type": "string",
+                      "description": "Fecha de ingreso del vehículo"
+                    },
+                    "fecha_salida": {
+                      "type": "string",
+                      "description": "Fecha de salida del vehículo"
+                    },
+                    "cedula_cliente": {
+                      "type": "string",
+                      "description": "Cédula del cliente dueño del vehículo"
+                    },
+                    "cedula_encargado": {
+                      "type": "string",
+                      "description": "Cédula del empleado encargado del vehículo"
+                    },
+                    "detalles": {
+                      "type": "string",
+                      "description": "Detalles del vehículo"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Vehículo no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "Vehículo no encontrado"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error en el servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "Error al obtener los detalles del vehículo"
+                    },
+                    "error": {
+                      "type": "string",
+                      "description": "Detalle del error",
+                      "example": "Error al obtener los detalles del vehículo"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put":{
+        "summary": "Actualiza los detalles de un vehículo",
+        "tags": ["Control de vehículos"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "placa",
+            "required": true,
+            "description": "Placa del vehículo",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody":{
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "marca":{
+                    "type": "string",
+                    "description": "Marca del vehículo",
+                    "example": "Chevrolet"
+                  },
+                  "modelo":{
+                    "type": "string",
+                    "description": "Modelo del vehículo",
+                    "example": "Aveo"
+                  },
+                  "fecha_ingreso":{
+                    "type": "string",
+                    "description": "Fecha de ingreso del vehículo",
+                    "example": "2021-10-15"
+                  },
+                  "fecha_salida":{
+                    "type": "string",
+                    "description": "Fecha de salida del vehículo",
+                    "example": "2021-10-15"
+                  },
+                  "cedula_cliente":{
+                    "type": "string",
+                    "description": "Cédula del cliente dueño del vehículo",
+                    "example": "1234567890"
+                  },
+                  "cedula_encargado":{
+                    "type": "string",
+                    "description": "Cédula del empleado encargado del vehículo",
+                    "example": "0987654321"
+                  },
+                  "detalles":{
+                    "type": "string",
+                    "description": "Detalles del vehículo"
+                  }
+                }
+              }
+            }
+          }
+        },
+          "responses": {
+            "200": {
+              "description": "Vehículo actualizado correctamente",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "description": "Mensaje de éxito",
+                        "example": "Vehículo actualizado correctamente"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Error en la validación de datos",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "description": "Mensaje de error",
+                        "example": "Todos los campos son requeridos"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Vehículo no encontrado",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "description": "Mensaje de error",
+                        "example": "Vehículo no encontrado"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Error en el servidor",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "description": "Mensaje de error",
+                        "example": "Error al actualizar el vehículo"
+                      },
+                      "error": {
+                        "type": "string",
+                        "description": "Detalle del error",
+                        "example": "Error al actualizar el vehículo"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+      },
+      "delete":{
+        "summary": "Elimina un vehículo",
+        "tags": ["Control de vehículos"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "placa",
+            "required": true,
+            "description": "Placa del vehículo",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vehículo eliminado correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de éxito",
+                      "example": "Vehículo eliminado correctamente"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Vehículo no encontrado o ya eliminado previamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "Vehículo no encontrado o ya eliminado previamente"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error en el servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "Error al eliminar el vehículo"
+                    },
+                    "error": {
+                      "type": "string",
+                      "description": "Detalle del error",
+                      "example": "Error al eliminar el vehículo"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   }

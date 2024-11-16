@@ -460,6 +460,6 @@ router.put('/profile/update-password', auth, updatePassword);
 router.route('/profile')
     .get(auth, getProfile)
     .put(auth, validacionActualizacion_empleado, updateProfile)
-    .delete(auth, deactivateProfile);
+    .delete(auth, deactivateProfile)
 
 export default router;

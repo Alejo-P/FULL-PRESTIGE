@@ -16,6 +16,6 @@ router.get('/clients', auth, getClients);
 router.route('/client/:cedula')
     .get(auth, getClient)
     .put(auth, updateClient)
-    .delete(auth, removeClient);
+    .delete(auth, removeClient)
 
 export default router;

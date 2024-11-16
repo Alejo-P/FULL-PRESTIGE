@@ -19,6 +19,6 @@ router.get('/vehicles/employee/:cedula', auth, getVehiclesByEmployee);
 router.route('/vehicle/:placa')
     .get(auth, getVehicle)
     .put(auth, updateVehicle)
-    .delete(auth, deleteVehicle);
+    .delete(auth, deleteVehicle)
 
 export default router;
