@@ -15,7 +15,7 @@ router.post('/maintenance/register', auth, registerMaintenance);
 router.get('/maintenances', auth, getMaintenances);
 router.get('/maintenance/:id', auth, getMaintenanceById);
 
-router.route('/maintenance/:placa')
+router.route('/maintenance/vehice/:placa')
     .get(auth, getMaintenancesByVehicle)
     .put(auth, updateMaintenance)
     .delete(auth, deleteMaintenance);

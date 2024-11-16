@@ -3140,6 +3140,10 @@
           }
         }
       }
-    }
+    },
+    "/maintenance/register":{},
+    "/maintenances":{},
+    "/maintenance/{id}":{},
+    "/maintenance/vehicle/{placa}":{}
   }
 }
