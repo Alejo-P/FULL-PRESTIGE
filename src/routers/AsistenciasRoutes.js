@@ -2,8 +2,7 @@ import { Router } from "express";
 import {
     registerAssistance,
     getAssistance,
-    updateAssistance,
-    removeAssistance
+    updateAssistance
 } from "../controllers/AsistenciasController.js";
 import auth from "../middlewares/auth.js";
 import { validacionAsistencia } from "../middlewares/validacionAsistencia.js";
@@ -116,44 +115,10 @@ const router = Router();
  *       500:
  *         description: Error en el servidor
  *
- *   delete:
- *     summary: Elimina los detalles de asistencia del empleado especificado
- *     tags: [Control de asistencias]
- *     parameters:
- *       - in: path
- *         name: cedula
- *         required: true
- *         description: Cédula del empleado
- *         schema:
- *           type: string
- * 
- *    requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               fecha:
- *                 type: string
- *                 description: Fecha de la asistencia
- * 
- *     responses:
- *       200:
- *         description: Asistencia eliminada exitosamente
- *       400:
- *         description: Error en la validación de datos
- *       403:
- *         description: No tiene permisos para realizar esta acción
- *       404:
- *         description: Asistencia no encontrada
- *       500:
- *         description: Error en el servidor
  */
 router.route("/employee/:cedula/assistance")
     .get(auth, getAssistance)
     .post(auth, validacionAsistencia, registerAssistance)
     .put(auth, validacionAsistencia, updateAssistance)
-    .delete(auth, removeAssistance);
 
 export default router;

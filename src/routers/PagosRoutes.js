@@ -2,8 +2,7 @@ import { Router } from "express";
 import { 
     registerPayments,
     getPayments,
-    updatePayment,
-    removePayment
+    updatePayment
 } from "../controllers/PagosController.js";
 import auth from "../middlewares/auth.js";
 import { validacionPagos } from "../middlewares/validacionPagos.js";
@@ -121,33 +120,10 @@ const router = Router();
  *         description: Empleado no encontrado
  *       500:
  *         description: Error en el servidor
- *
- *   delete:
- *     summary: Elimina un pago del empleado especificado
- *     tags: [Control de pagos]
- *     parameters:
- *       - in: path
- *         name: cedula
- *         required: true
- *         description: Cédula del empleado
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Pago eliminado exitosamente
- *       400:
- *         description: Error en la validación de datos
- *       401:
- *         description: No tiene permisos para realizar esta
- *       404:
- *         description: Pago no encontrado
- *       500:
- *         description: Error en el servidor
  */
 router.route('/employee/:cedula/payments')
     .post(auth, validacionPagos, registerPayments)
     .get(auth, getPayments)
     .put(auth, validacionPagos, updatePayment)
-    .delete(auth, removePayment);
 
 export default router;

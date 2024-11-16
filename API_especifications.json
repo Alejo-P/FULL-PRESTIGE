@@ -1283,6 +1283,8 @@
         }
       }
     },
+
+
     "/employee/{cedula}/assistance":{
       "post":{
         "summary": "Registra la asistencia de un empleado",
@@ -1614,10 +1616,14 @@
               }
             }
           }
-      },
-      "delete":{
-        "summary": "Elimina la asistencia de un empleado",
-        "tags": ["Control de asistencia"],
+      }
+    },
+
+
+    "/employee/{cedula}/payments":{
+      "post":{
+        "summary": "Registra el pago de un empleado",
+        "tags": ["Control de pagos"],
         "parameters": [
           {
             "in": "path",
@@ -1636,29 +1642,157 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "fecha": {
+                  "adelanto":{
+                    "type": "number",
+                    "description": "Adelanto del pago",
+                    "example": 100
+                  },
+                  "permisos":{
                     "type": "string",
-                    "description": "Fecha de la asistencia",
-                    "example": "2021-10-15"
+                    "description": "Permisos del empleado",
+                    "example": "Vacaciones"
+                  },
+                  "multas":{
+                    "type": "string",
+                    "description": "Multas del empleado",
+                    "example": "Retraso"
+                  },
+                  "atrasos":{
+                    "type": "string",
+                    "description": "Atrasos del empleado",
+                    "example": "1"
+                  },
+                  "subtotal":{
+                    "type": "number",
+                    "description": "Subtotal del pago",
+                    "example": 100
                   }
                 },
-                "required": ["fecha"]
+                "required": ["adelanto", "permisos", "multas", "atrasos", "subtotal"]
               }
             }
           }
         },
+          "responses": {
+            "200": {
+              "description": "Pago registrado correctamente",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "description": "Mensaje de éxito",
+                        "example": "Pago registrado correctamente"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Error en la validación de datos",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "description": "Mensaje de error",
+                        "example": "Todos los campos son requeridos"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Empleado no encontrado",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "description": "Mensaje de error",
+                        "example": "Empleado no encontrado"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Error en el servidor",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "description": "Mensaje de error",
+                        "example": "Error al registrar el pago"
+                      },
+                      "error": {
+                        "type": "string",
+                        "description": "Detalle del error",
+                        "example": "Error al registrar el pago del empleado"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+      },
+      "get":{
+        "summary": "Obtiene la lista de pagos de un empleado",
+        "tags": ["Control de pagos"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cedula",
+            "required": true,
+            "description": "Cédula del empleado",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Asistencia eliminada correctamente",
+            "description": "Lista de pagos obtenida correctamente",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "description": "Mensaje de éxito",
-                      "example": "Asistencia eliminada correctamente"
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "adelanto": {
+                        "type": "number",
+                        "description": "Adelanto del pago"
+                      },
+                      "permisos": {
+                        "type": "string",
+                        "description": "Permisos del empleado"
+                      },
+                      "multas": {
+                        "type": "string",
+                        "description": "Multas del empleado"
+                      },
+                      "atrasos": {
+                        "type": "string",
+                        "description": "Atrasos del empleado"
+                      },
+                      "subtotal": {
+                        "type": "number",
+                        "description": "Subtotal del pago"
+                      }
                     }
                   }
                 }
@@ -1666,7 +1800,7 @@
             }
           },
           "404": {
-            "description": "Asistencia no encontrada",
+            "description": "Empleado no encontrado o sin pagos registrados",
             "content": {
               "application/json": {
                 "schema": {
@@ -1675,7 +1809,7 @@
                     "message": {
                       "type": "string",
                       "description": "Mensaje de error",
-                      "example": "Asistencia no encontrada"
+                      "example": "Empleado no encontrado o sin pagos registrados"
                     }
                   }
                 }
@@ -1692,12 +1826,12 @@
                     "message": {
                       "type": "string",
                       "description": "Mensaje de error",
-                      "example": "Error al eliminar la asistencia"
+                      "example": "Error al obtener los pagos"
                     },
                     "error": {
                       "type": "string",
                       "description": "Detalle del error",
-                      "example": "Error al eliminar la asistencia del empleado"
+                      "example": "Error al obtener los pagos del empleado"
                     }
                   }
                 }
@@ -1705,6 +1839,134 @@
             }
           }
         }
+      },
+      "put":{
+        "summary": "Actualiza el pago de un empleado",
+        "tags": ["Control de pagos"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cedula",
+            "required": true,
+            "description": "Cédula del empleado",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody":{
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "adelanto":{
+                    "type": "number",
+                    "description": "Adelanto del pago",
+                    "example": 100
+                  },
+                  "permisos":{
+                    "type": "string",
+                    "description": "Permisos del empleado",
+                    "example": "Vacaciones"
+                  },
+                  "multas":{
+                    "type": "string",
+                    "description": "Multas del empleado",
+                    "example": "Retraso"
+                  },
+                  "atrasos":{
+                    "type": "string",
+                    "description": "Atrasos del empleado",
+                    "example": "1"
+                  },
+                  "subtotal":{
+                    "type": "number",
+                    "description": "Subtotal del pago",
+                    "example": 100
+                  }
+                },
+                "required": ["adelanto", "permisos", "multas", "atrasos", "subtotal"]
+              }
+            }
+          }
+        },
+          "responses": {
+            "200": {
+              "description": "Pago actualizado correctamente",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "description": "Mensaje de éxito",
+                        "example": "Pago actualizado correctamente"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Error en la validación de datos",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "description": "Mensaje de error",
+                        "example": "Todos los campos son requeridos"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404":{
+              "description": "Pago no encontrado",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "description": "Mensaje de error",
+                        "example": "Pago no encontrado"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "500":{
+              "description": "Error en el servidor",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "description": "Mensaje de error",
+                        "example": "Error al actualizar el pago"
+                      },
+                      "error": {
+                        "type": "string",
+                        "description": "Detalle del error",
+                        "example": "Error al actualizar el pago del empleado"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
       }
     }
   }
