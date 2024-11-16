@@ -16,7 +16,7 @@ const EmpledosSchema = new Schema({
     cargo: {
         type: String,
         required: true,
-        enum: ['Administrador', 'Gerente', 'Tecnico']
+        enum: ['Administrador', 'Gerente', 'Técnico']
     },
     correo: {
         type: String,

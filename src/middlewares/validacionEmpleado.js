@@ -28,8 +28,8 @@ export const validacionRegistro_empleado = [
     
     check('cargo')
         .customSanitizer(value => typeof value === 'string' ? value.trim() : value)
-        .isIn(['Administrador', 'Gerente', 'Tecnico'])
-            .withMessage('El campo "cargo" debe ser uno de los siguientes: Administrador, Gerente, Tecnico'),
+        .isIn(['Administrador', 'Gerente', 'Técnico'])
+            .withMessage('El campo "cargo" debe ser uno de los siguientes: Administrador, Gerente, Técnico'),
     
     check("direccion")
         .customSanitizer(value => typeof value === 'string' ? value.trim() : value)
@@ -80,8 +80,8 @@ export const validacionActualizacion_empleado = [
     
     check('cargo')
         .customSanitizer(value => typeof value === 'string' ? value.trim() : value)
-        .isIn(['Administrador', 'Gerente', 'Tecnico'])
-            .withMessage('El campo "cargo" debe ser uno de los siguientes: Administrador, Gerente, Tecnico'),
+        .isIn(['Administrador', 'Gerente', 'Técnico'])
+            .withMessage('El campo "cargo" debe ser uno de los siguientes: Administrador, Gerente, Técnico'),
     
     check("direccion")
         .customSanitizer(value => typeof value === 'string' ? value.trim() : value)

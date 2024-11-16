@@ -1,0 +1,286 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Full Prestige - API",
+    "version": "1.0.0",
+    "description": "API para la gestión de un taller automotriz",
+    "contact": {
+      "name": "Marcelo Pinzón",
+      "email": "marcelo.pinzon@epn.edu.ec"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api/v1"
+    }
+  ],
+  "paths": {
+    "/login": {
+      "post": {
+        "summary": "Inicia sesión en el sistema",
+        "tags": ["Autenticación"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "correo": {
+                    "type": "string",
+                    "description": "Correo del empleado"
+                  },
+                  "contrasena": {
+                    "type": "string",
+                    "description": "Contraseña del empleado"
+                  }
+                },
+                "required": ["correo", "contrasena"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Sesión iniciada correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "description": "Token de autenticación"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error en la validación de datos"
+          },
+          "404": {
+            "description": "Credenciales incorrectas"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        }
+      }
+    },
+    "/register": {
+      "post": {
+        "summary": "Registra un nuevo empleado",
+        "tags": ["Autenticación"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                    "cedula": {
+                        "type": "string",
+                        "description": "Cédula del empleado",
+                        "example": "1723456789"
+                    },
+                    "nombre": {
+                        "type": "string",
+                        "description": "Nombre del empleado",
+                        "example": "Juan Pérez"
+                    },
+                    "correo": {
+                        "type": "string",
+                        "description": "Correo del empleado",
+                        "example": "juanp@gmail.com"
+                    },
+                    "contrasena": {
+                        "type": "string",
+                        "description": "Contraseña del empleado",
+                        "example": "ju@n1p."
+                    },
+                    "cargo": {
+                        "type": "string",
+                        "description": "Rol del empleado (Gerente, Tecnico)",
+                        "example": "Tecnico"
+                    },
+                    "telefono": {
+                        "type": "string",
+                        "description": "Teléfono del empleado",
+                        "example": "0987654321"
+                    },
+                    "direccion": {
+                        "type": "string",
+                        "description": "Dirección del empleado",
+                        "example": "Av. Amazonas N24-89"
+                    }
+                },
+                    "required": ["nombre", "correo", "contrasena", "cedula", "cargo", "telefono", "direccion"]
+                }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Empleado registrado correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de éxito"
+                    },
+                    "empleado": {
+                        "type": "object",
+                        "properties": {
+                            "cedula": {
+                            "type": "string",
+                            "description": "Cédula del empleado"
+                            },
+                            "nombre": {
+                            "type": "string",
+                            "description": "Nombre del empleado"
+                            },
+                            "correo": {
+                            "type": "string",
+                            "description": "Correo del empleado"
+                            },
+                            "cargo": {
+                            "type": "string",
+                            "description": "Rol del empleado"
+                            },
+                            "telefono": {
+                            "type": "string",
+                            "description": "Teléfono del empleado"
+                            },
+                            "direccion": {
+                            "type": "string",
+                            "description": "Dirección del empleado"
+                            }
+                        }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error en la validación de datos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error en la creación del empleado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error en el servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/recover-password": {
+      "post": {
+        "summary": "Recupera la contraseña de un empleado",
+        "tags": ["Autenticación"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "correo": {
+                    "type": "string",
+                    "description": "Correo del empleado",
+                    "example": "juanp@gmail.com"
+                  }
+                },
+                "required": ["correo"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Correo enviado correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de éxito"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error en la validación de datos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Correo no encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        }
+      }
+    }
+  }
+}
