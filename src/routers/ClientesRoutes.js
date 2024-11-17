@@ -10,8 +10,8 @@ import auth from "../middlewares/auth.js";
 
 const router = Router();
 
-router.post('/client', auth, registerClient);
-router.get('/clients', auth, getClients);
+router.post('/client', auth, registerClient)
+router.get('/clients', auth, getClients)
 
 router.route('/client/:cedula')
     .get(auth, getClient)

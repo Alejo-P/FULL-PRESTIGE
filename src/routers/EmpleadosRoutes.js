@@ -49,7 +49,7 @@ const router = Router();
  *       500:
  *         description: Error en el servidor
  */
-router.post('/login', login);
+router.post('/login', login)
 
 /**
  * @swagger
@@ -96,7 +96,7 @@ router.post('/login', login);
  *       500:
  *         description: Error en el servidor
  */
-router.post('/register', validacionRegistro_empleado, register);
+router.post('/register', validacionRegistro_empleado, register)
 
 /**
  * @swagger
@@ -125,7 +125,7 @@ router.post('/register', validacionRegistro_empleado, register);
  *       500:
  *         description: Error en el servidor
  */
-router.post('/recover-password', recoverPassword);
+router.post('/recover-password', recoverPassword)
 
 /**
  * @swagger
@@ -149,7 +149,7 @@ router.post('/recover-password', recoverPassword);
  *       500:
  *         description: Error en el servidor
  */
-router.get('/verify-token/:token', verifyToken);
+router.get('/verify-token/:token', verifyToken)
 
 /**
  * @swagger
@@ -188,7 +188,7 @@ router.get('/verify-token/:token', verifyToken);
  *       500:
  *         description: Error en el servidor
  */
-router.put('/change-password/:token', changePassword);
+router.put('/change-password/:token', changePassword)
 
 /**
  * @swagger
@@ -271,7 +271,7 @@ router.put('/change-password/:token', changePassword);
  *                   description: Descripción del error
  *                   example: Error del servidor
  */
-router.get('/employees', auth, getEmployees);
+router.get('/employees', auth, getEmployees)
 
 /**
  * @swagger
@@ -357,7 +357,7 @@ router.get('/employees', auth, getEmployees);
 router.route('/employee/:cedula')
     .get(auth, getEmployee)
     .delete(auth, deactivateEmployee)
-    .put(auth, validacionActualizacion_empleado, updateEmployee);
+    .put(auth, validacionActualizacion_empleado, updateEmployee)
 
 /**
  * @swagger

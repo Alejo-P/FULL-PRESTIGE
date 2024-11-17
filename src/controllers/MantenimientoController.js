@@ -58,7 +58,7 @@ export const getMaintenancesByVehicle = async (req, res) => {
     }
 };
 
-// Metodo para obtener un mantenimiento por id
+// Metodo para obtener un mantenimiento
 export const getMaintenance = async (req, res) => {
     const { id } = req.params;
     try {
