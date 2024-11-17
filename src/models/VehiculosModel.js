@@ -6,6 +6,10 @@ const VehiculosSchema = new Schema({
         required: true,
         unique: true,
     },
+    n_orden: {
+        type: String,
+        required: true,
+    },
     marca: {
         type: String,
         required: true,

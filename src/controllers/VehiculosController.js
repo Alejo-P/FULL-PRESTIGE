@@ -153,7 +153,7 @@ export const updateVehicle = async (req, res) => {
         }
 
         const vehicle = await vehiculosModel.findOne({ placa });
-        if (!vehicle) {
+        if (!vehicle || !vehicle.estado) {
             return res.status(404).json({ message: "Vehículo no encontrado" });
         }
 
@@ -182,7 +182,8 @@ export const deleteVehicle = async (req, res) => {
             return res.status(404).json({ message: "Vehículo no encontrado" });
         }
 
-        await vehiculosModel.findByIdAndDelete(vehicle._id);
+        vehicle.estado = false;
+        await vehicle.save();
 
         res.status(200).json({ message: "Vehículo eliminado correctamente" });
     } catch (error) {

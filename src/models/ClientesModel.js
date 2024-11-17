@@ -18,6 +18,10 @@ const ClientesSchema = new Schema({
         type: String,
         required: true,
     },
+    direccion: {
+        type: String,
+        required: true,
+    },
 }, {
     timestamps: true,
 });

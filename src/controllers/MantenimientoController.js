@@ -131,23 +131,3 @@ export const updateMaintenance = async (req, res) => {
         res.status(500).json({ message: "Error al actualizar el mantenimiento", error: error.message });
     }
 };
-
-// Metodo para eliminar un mantenimiento
-export const deleteMaintenance = async (req, res) => {
-    const { id } = req.params;
-    try {
-        if (req.empleado.cargo !== 'Administrador') {
-            return res.status(403).json({ message: "No tiene permisos para realizar esta acción" });
-        }
-
-        const mantenimiento = await mantenimientoModel.findById(id);
-        if (!mantenimiento) {
-            return res.status(404).json({ message: "Mantenimiento no encontrado" });
-        }
-
-        await mantenimientoModel.findByIdAndDelete(id);
-        res.status(200).json({ message: "Mantenimiento eliminado correctamente" });
-    } catch (error) {
-        res.status(500).json({ message: "Error al eliminar el mantenimiento", error: error.message });
-    }
-};

@@ -90,28 +90,3 @@ export const updatePayment = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
-
-// Metodo para eliminar un pago
-export const removePayment = async (req, res) => {
-    const { cedula } = req.params;
-    try {
-        if (req.empleado.cargo !== "Administrador") {
-            return res.status(401).json({ error: "No tiene permisos para realizar esta acción" });
-        }
-
-        const empleado = await empleadosModel.findOne({ cedula });
-        if (!empleado) {
-            return res.status(404).json({ error: "No se encontró al empleado" });
-        }
-
-        const pago = await pagosModel.findOne({ empleado: empleado._id });
-        if (!pago) {
-            return res.status(404).json({ error: "No se encontró el pago" });
-        }
-
-        await pagosModel.findByIdAndDelete(pago._id);
-        res.status(200).json({ message: "Pago eliminado correctamente" });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-};

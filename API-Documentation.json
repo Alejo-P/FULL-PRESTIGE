@@ -2103,7 +2103,7 @@
         },
         "/client": {
             "post": {
-                "summary": "Registra un nuevo cliente",
+                "summary": "Registra un nuevo cliente y su vehiculo",
                 "tags": [
                     "Control de clientes"
                 ],
@@ -2133,6 +2133,51 @@
                                         "type": "string",
                                         "description": "Teléfono del cliente",
                                         "example": "0987654321"
+                                    },
+                                    "direccion": {
+                                        "type": "string",
+                                        "description": "Dirección del cliente",
+                                        "example": "Calle 123"
+                                    },
+                                    "orden":{
+                                        "type": "string",
+                                        "description": "Orden de servicio",
+                                        "example": "1"
+                                    },
+                                    "placa":{
+                                        "type": "string",
+                                        "description": "Placa del vehículo",
+                                        "example": "ABC123"
+                                    },
+                                    "marca":{
+                                        "type": "string",
+                                        "description": "Marca del vehículo",
+                                        "example": "Chevrolet"
+                                    },
+                                    "modelo":{
+                                        "type": "string",
+                                        "description": "Modelo del vehículo",
+                                        "example": "Aveo"
+                                    },
+                                    "fecha_ingreso":{
+                                        "type": "string",
+                                        "description": "Fecha de ingreso del vehículo",
+                                        "example": "2021-10-15"
+                                    },
+                                    "fecha_salida":{
+                                        "type": "string",
+                                        "description": "Fecha de salida del vehículo",
+                                        "example": "2021-10-15"
+                                    },
+                                    "tecnico":{
+                                        "type": "string",
+                                        "description": "Nombre del técnico asignado",
+                                        "example": "Juan Perez"
+                                    },
+                                    "descripcion":{
+                                        "type": "string",
+                                        "description": "Descripción del servicio",
+                                        "example": "Cambio de aceite"
                                     }
                                 }
                             }
@@ -2546,7 +2591,7 @@
         },
         "/vehicle": {
             "post": {
-                "summary": "Registra un nuevo vehículo",
+                "summary": "Registra un nuevo vehículo a un cliente previamente registrado",
                 "tags": [
                     "Control de vehículos"
                 ],
@@ -3926,81 +3971,6 @@
                                             "type": "string",
                                             "description": "Detalle del error",
                                             "example": "Error al actualizar el mantenimiento"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "summary": "Elimina un mantenimiento",
-                "tags": [
-                    "Control de mantenimientos"
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "description": "ID del mantenimiento",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Mantenimiento eliminado correctamente",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "description": "Mensaje de éxito",
-                                            "example": "Mantenimiento eliminado correctamente"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Mantenimiento no encontrado o ya eliminado previamente",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "description": "Mensaje de error",
-                                            "example": "Mantenimiento no encontrado o ya eliminado previamente"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Error en el servidor",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "description": "Mensaje de error",
-                                            "example": "Error al eliminar el mantenimiento"
-                                        },
-                                        "error": {
-                                            "type": "string",
-                                            "description": "Detalle del error",
-                                            "example": "Error al eliminar el mantenimiento"
                                         }
                                     }
                                 }
