@@ -392,7 +392,7 @@ export const getEmployees = async (req, res) => {
         // Filtrar el empleado que hace la peticion
         const listaEmpleados = empleados.filter(empleado => empleado.cedula !== req.empleado.cedula);
 
-        return res.status(200).json({ message: 'Empleados encontrados', empleados });
+        return res.status(200).json({ message: 'Empleados encontrados', empleados: listaEmpleados });
     } catch (error) {
         return res.status(500).json({ message: 'Error al obtener empleados', error: error.message });
     }
