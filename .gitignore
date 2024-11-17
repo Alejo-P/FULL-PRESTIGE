@@ -1,2 +1,8 @@
 node_modules/
 .env
+
+#Archivos adicionales
+*.pyc
+*.DS_Store
+*.log
+*.py
