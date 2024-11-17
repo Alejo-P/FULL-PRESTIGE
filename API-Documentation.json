@@ -2714,13 +2714,49 @@
                                                 "type": "string",
                                                 "description": "Fecha de salida del vehículo"
                                             },
-                                            "cedula_cliente": {
-                                                "type": "string",
-                                                "description": "Cédula del cliente dueño del vehículo"
+                                            "propietario": {
+                                                "type": "object",
+                                                "description": "Cliente dueño del vehículo",
+                                                "properties": {
+                                                    "cedula": {
+                                                        "type": "string",
+                                                        "description": "Cédula del cliente"
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "description": "Nombre del cliente"
+                                                    },
+                                                    "correo": {
+                                                        "type": "string",
+                                                        "description": "Correo del cliente"
+                                                    },
+                                                    "telefono": {
+                                                        "type": "string",
+                                                        "description": "Teléfono del cliente"
+                                                    }
+                                                }
                                             },
-                                            "cedula_encargado": {
-                                                "type": "string",
-                                                "description": "Cédula del empleado encargado del vehículo"
+                                            "encargado": {
+                                                "type": "object",
+                                                "description": "Empleado encargado del vehículo",
+                                                "properties": {
+                                                    "cedula": {
+                                                        "type": "string",
+                                                        "description": "Cédula del empleado"
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "description": "Nombre del empleado"
+                                                    },
+                                                    "correo": {
+                                                        "type": "string",
+                                                        "description": "Correo del empleado"
+                                                    },
+                                                    "telefono": {
+                                                        "type": "string",
+                                                        "description": "Teléfono del empleado"
+                                                    }
+                                                }
                                             },
                                             "detalles": {
                                                 "type": "string",
@@ -2804,13 +2840,49 @@
                                                 "type": "string",
                                                 "description": "Fecha de salida del vehículo"
                                             },
-                                            "cedula_cliente": {
-                                                "type": "string",
-                                                "description": "Cédula del cliente dueño del vehículo"
+                                            "propietario": {
+                                                "type": "object",
+                                                "description": "Cliente dueño del vehículo",
+                                                "properties": {
+                                                    "cedula": {
+                                                        "type": "string",
+                                                        "description": "Cédula del cliente"
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "description": "Nombre del cliente"
+                                                    },
+                                                    "correo": {
+                                                        "type": "string",
+                                                        "description": "Correo del cliente"
+                                                    },
+                                                    "telefono": {
+                                                        "type": "string",
+                                                        "description": "Teléfono del cliente"
+                                                    }
+                                                }
                                             },
-                                            "cedula_encargado": {
-                                                "type": "string",
-                                                "description": "Cédula del empleado encargado del vehículo"
+                                            "encargado": {
+                                                "type": "object",
+                                                "description": "Empleado encargado del vehículo",
+                                                "properties": {
+                                                    "cedula": {
+                                                        "type": "string",
+                                                        "description": "Cédula del empleado"
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "description": "Nombre del empleado"
+                                                    },
+                                                    "correo": {
+                                                        "type": "string",
+                                                        "description": "Correo del empleado"
+                                                    },
+                                                    "telefono": {
+                                                        "type": "string",
+                                                        "description": "Teléfono del empleado"
+                                                    }
+                                                }
                                             },
                                             "detalles": {
                                                 "type": "string",
@@ -2911,13 +2983,49 @@
                                                 "type": "string",
                                                 "description": "Fecha de salida del vehículo"
                                             },
-                                            "cedula_cliente": {
-                                                "type": "string",
-                                                "description": "Cédula del cliente dueño del vehículo"
+                                            "propietario": {
+                                                "type": "object",
+                                                "description": "Cliente dueño del vehículo",
+                                                "properties": {
+                                                    "cedula": {
+                                                        "type": "string",
+                                                        "description": "Cédula del cliente"
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "description": "Nombre del cliente"
+                                                    },
+                                                    "correo": {
+                                                        "type": "string",
+                                                        "description": "Correo del cliente"
+                                                    },
+                                                    "telefono": {
+                                                        "type": "string",
+                                                        "description": "Teléfono del cliente"
+                                                    }
+                                                }
                                             },
-                                            "cedula_encargado": {
-                                                "type": "string",
-                                                "description": "Cédula del empleado encargado del vehículo"
+                                            "encargado": {
+                                                "type": "object",
+                                                "description": "Empleado encargado del vehículo",
+                                                "properties": {
+                                                    "cedula": {
+                                                        "type": "string",
+                                                        "description": "Cédula del empleado"
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "description": "Nombre del empleado"
+                                                    },
+                                                    "correo": {
+                                                        "type": "string",
+                                                        "description": "Correo del empleado"
+                                                    },
+                                                    "telefono": {
+                                                        "type": "string",
+                                                        "description": "Teléfono del empleado"
+                                                    }
+                                                }
                                             },
                                             "detalles": {
                                                 "type": "string",
