@@ -39,9 +39,7 @@ export const validacionRegistro_empleado = [
     check('telefono')
         .customSanitizer(value => typeof value === 'string' ? value.trim() : value)
         .isLength({ min: 10, max: 10 })
-            .withMessage('El campo "telefono" debe tener 10 caracteres')
-        .isNumeric()
-            .withMessage('El campo "telefono" debe ser un número'),
+            .withMessage('El campo "telefono" debe tener 10 caracteres'),
     
     check("contrasena")
         .customSanitizer(value => typeof value === 'string' ? value.trim() : value)
@@ -91,9 +89,7 @@ export const validacionActualizacion_empleado = [
     check('telefono')
         .customSanitizer(value => typeof value === 'string' ? value.trim() : value)
         .isLength({ min: 10, max: 10 })
-            .withMessage('El campo "telefono" debe tener 10 caracteres')
-        .isNumeric()
-            .withMessage('El campo "telefono" debe ser un número'),
+            .withMessage('El campo "telefono" debe tener 10 caracteres'),
     
     check("estado")
         .isBoolean()
