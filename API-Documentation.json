@@ -53,9 +53,43 @@
                                 "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "token": {
+                                        "mensaje": {
                                             "type": "string",
-                                            "description": "Token de autenticación"
+                                            "description": "Mensaje de éxito",
+                                            "example": "Sesión iniciada correctamente"
+                                        },
+                                        "empleado":{
+                                            "type": "object",
+                                            "properties": {
+                                                "cedula": {
+                                                    "type": "string",
+                                                    "description": "Cédula del empleado"
+                                                },
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "description": "Nombre del empleado"
+                                                },
+                                                "correo": {
+                                                    "type": "string",
+                                                    "description": "Correo del empleado"
+                                                },
+                                                "cargo": {
+                                                    "type": "string",
+                                                    "description": "Rol del empleado"
+                                                },
+                                                "telefono": {
+                                                    "type": "string",
+                                                    "description": "Teléfono del empleado"
+                                                },
+                                                "direccion": {
+                                                    "type": "string",
+                                                    "description": "Dirección del empleado"
+                                                },
+                                                "token":{
+                                                    "type": "string",
+                                                    "description": "Token de autenticación"
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -63,13 +97,58 @@
                         }
                     },
                     "400": {
-                        "description": "Error en la validación de datos"
+                        "description": "Error en la validación de datos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Mensaje de error"
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     },
                     "404": {
-                        "description": "Credenciales incorrectas"
+                        "description": "Credenciales incorrectas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Mensaje de error"
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     },
                     "500": {
-                        "description": "Error en el servidor"
+                        "description": "Error en el servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Mensaje de error",
+                                            "example": "Error en el servidor"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "description": "Detalle del error",
+                                            "example": "Error al iniciar sesión"
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
