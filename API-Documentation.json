@@ -605,6 +605,11 @@
                 "tags": [
                     "Perfil"
                 ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -1952,6 +1957,11 @@
                         }
                     }
                 ],
+                "security":[
+                    {
+                    "bearerAuth": []
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Lista de pagos obtenida correctamente",
@@ -2043,6 +2053,11 @@
                         "schema": {
                             "type": "string"
                         }
+                    }
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
                     }
                 ],
                 "requestBody": {
@@ -2171,6 +2186,11 @@
                 "summary": "Registra un nuevo cliente y su vehiculo",
                 "tags": [
                     "Control de clientes"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
                 ],
                 "requestBody": {
                     "required": true,
@@ -2315,6 +2335,11 @@
                 "tags": [
                     "Control de clientes"
                 ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Lista de clientes obtenida correctamente",
@@ -2387,6 +2412,11 @@
                         "schema": {
                             "type": "string"
                         }
+                    }
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
                     }
                 ],
                 "responses": {
@@ -2473,6 +2503,11 @@
                         "schema": {
                             "type": "string"
                         }
+                    }
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
                     }
                 ],
                 "requestBody": {
@@ -2594,6 +2629,11 @@
                         }
                     }
                 ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Cliente eliminado correctamente",
@@ -2659,6 +2699,11 @@
                 "summary": "Registra un nuevo vehículo a un cliente previamente registrado",
                 "tags": [
                     "Control de vehículos"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
                 ],
                 "requestBody": {
                     "required": true,
@@ -2794,6 +2839,11 @@
                 "tags": [
                     "Control de vehículos"
                 ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Lista de vehículos obtenida correctamente",
@@ -2908,6 +2958,11 @@
                 "summary": "Obtiene la lista de vehículos de un cliente",
                 "tags": [
                     "Control de vehículos"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
                 ],
                 "parameters": [
                     {
@@ -3052,6 +3107,11 @@
                 "tags": [
                     "Control de vehículos"
                 ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
                 "parameters": [
                     {
                         "in": "path",
@@ -3195,6 +3255,11 @@
                 "tags": [
                     "Control de vehículos"
                 ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
                 "parameters": [
                     {
                         "in": "path",
@@ -3332,6 +3397,11 @@
                 "summary": "Actualiza los detalles de un vehículo",
                 "tags": [
                     "Control de vehículos"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
                 ],
                 "parameters": [
                     {
@@ -3471,6 +3541,11 @@
                 "tags": [
                     "Control de vehículos"
                 ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
                 "parameters": [
                     {
                         "in": "path",
@@ -3547,6 +3622,11 @@
                 "summary": "Registra un nuevo mantenimiento",
                 "tags": [
                     "Control de mantenimientos"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
                 ],
                 "requestBody": {
                     "required": true,
@@ -3640,6 +3720,11 @@
                 "summary": "Obtiene la lista de mantenimientos",
                 "tags": [
                     "Control de mantenimientos"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
                 ],
                 "responses": {
                     "200": {
@@ -3773,6 +3858,11 @@
                 "summary": "Obtiene los detalles de un mantenimiento",
                 "tags": [
                     "Control de mantenimientos"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
                 ],
                 "parameters": [
                     {
@@ -3930,6 +4020,11 @@
                 "tags": [
                     "Control de mantenimientos"
                 ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
                 "parameters": [
                     {
                         "in": "path",
@@ -4050,6 +4145,11 @@
                 "summary": "Obtiene la lista de mantenimientos de un vehículo",
                 "tags": [
                     "Control de mantenimientos"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
                 ],
                 "parameters": [
                     {
