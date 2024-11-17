@@ -35,7 +35,14 @@ export const registerMaintenance = async (req, res) => {
 // Metodo para obtener todos los mantenimientos
 export const getMaintenances = async (req, res) => {
     try {
-        const mantenimientos = await mantenimientoModel.find().populate('vehiculo', 'placa marca modelo propietario fecha_ingreso fecha_salida encargado detalles');
+        const mantenimientos = await mantenimientoModel.find().populate({
+            path: 'vehiculo',
+            populate: [
+                { path: 'propietario', select: 'cedula nombre telefono correo' },
+                { path: 'encargado', select: 'cedula nombre telefono correo' }
+            ],
+            select: 'placa marca modelo propietario fecha_ingreso fecha_salida encargado detalles'
+        });
         res.status(200).json(mantenimientos);
     } catch (error) {
         res.status(500).json({ message: "Error al obtener los mantenimientos", error: error.message });
