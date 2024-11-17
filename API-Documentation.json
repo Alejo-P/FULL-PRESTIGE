@@ -1029,7 +1029,7 @@
                                                 "description": "Dirección del empleado"
                                             },
                                             "estado": {
-                                                "type": "boolean",
+                                                "type": "string",
                                                 "description": "Estado del empleado"
                                             }
                                         }
@@ -1111,7 +1111,7 @@
                                             "description": "Dirección del empleado"
                                         },
                                         "estado": {
-                                            "type": "boolean",
+                                            "type": "string",
                                             "description": "Estado del empleado"
                                         }
                                     }
@@ -3124,7 +3124,7 @@
                                             "type": "string",
                                             "description": "Fecha de salida del vehículo"
                                         },
-                                        "cedula_cliente": {
+                                        "propietario": {
                                             "type": "string",
                                             "description": "Cédula del cliente dueño del vehículo"
                                         },

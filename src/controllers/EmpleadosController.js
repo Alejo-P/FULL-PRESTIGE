@@ -199,7 +199,7 @@ export const getEmployee = async (req, res) => {
             estado
         } = empleado;
 
-        return res.status(200).json({ message: 'Información del empleado', empleado: [{ _id, cedula: ced, nombre, cargo, direccion, correo, telefono, estado }] });
+        return res.status(200).json({ message: 'Información del empleado', empleado: [{ _id, cedula: ced, nombre, cargo, direccion, correo, telefono, estado: estado ? "Activo" : "Inactivo" }] });
     } catch (error) {
         return res.status(500).json({ message: 'Error al obtener información del empleado', error: error.message });
     }
@@ -389,8 +389,20 @@ export const getEmployees = async (req, res) => {
             return res.status(404).json({ message: 'No hay empleados registrados' });
         }
 
-        // Filtrar el empleado que hace la peticion
-        const listaEmpleados = empleados.filter(empleado => empleado.cedula !== req.empleado.cedula);
+        const lista = empleados.filter(empleado => empleado.cedula !== req.empleado.cedula);
+
+        const listaEmpleados = lista.map((empleado)=>{
+            return {
+                _id: empleado._id,
+                cedula: empleado.cedula,
+                nombre: empleado.nombre,
+                cargo: empleado.cargo,
+                direccion: empleado.direccion,
+                correo: empleado.correo,
+                telefono: empleado.telefono,
+                estado: empleado.estado ? "Activo" : "Inactivo"
+            }
+        })
 
         return res.status(200).json({ message: 'Empleados encontrados', empleados: listaEmpleados });
     } catch (error) {
