@@ -1038,22 +1038,6 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "Error en el servidor",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "description": "Mensaje de error"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
                     "500": {
                         "description": "Error en el servidor",
                         "content": {
@@ -2247,23 +2231,6 @@
                                                 "type": "string",
                                                 "description": "Teléfono del cliente"
                                             }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "No hay clientes registrados",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "description": "Mensaje de error",
-                                            "example": "No hay clientes registrados"
                                         }
                                     }
                                 }
