@@ -589,6 +589,405 @@
                 }
             }
         },
+        "/profile/update-password": {
+            "put": {
+                "summary": "Actualiza la contraseña del empleado logueado",
+                "tags": [
+                    "Perfil"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "contrasena": {
+                                        "type": "string",
+                                        "description": "Contraseña actual del empleado",
+                                        "example": "ju@n1p."
+                                    },
+                                    "nuevaContrasena": {
+                                        "type": "string",
+                                        "description": "Nueva contraseña del empleado",
+                                        "example": "ju@n2p."
+                                    },
+                                    "confirmarContrasena": {
+                                        "type": "string",
+                                        "description": "Confirmación de la nueva contraseña",
+                                        "example": "ju@n2p."
+                                    }
+                                },
+                                "required": [
+                                    "contrasena",
+                                    "nuevaContrasena"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Contraseña actualizada correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Mensaje de éxito"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la validación de datos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Mensaje de error"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Contraseña actual incorrecta",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Mensaje de error"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error en el servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Mensaje de error"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "description": "Detalle del error"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/profile": {
+            "get": {
+                "summary": "Obtiene los detalles del perfil del empleado logueado",
+                "tags": [
+                    "Perfil"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles del perfil",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cedula": {
+                                            "type": "string",
+                                            "description": "Cédula del empleado"
+                                        },
+                                        "nombre": {
+                                            "type": "string",
+                                            "description": "Nombre del empleado"
+                                        },
+                                        "correo": {
+                                            "type": "string",
+                                            "description": "Correo del empleado"
+                                        },
+                                        "cargo": {
+                                            "type": "string",
+                                            "description": "Rol del empleado"
+                                        },
+                                        "telefono": {
+                                            "type": "string",
+                                            "description": "Teléfono del empleado"
+                                        },
+                                        "direccion": {
+                                            "type": "string",
+                                            "description": "Dirección del empleado"
+                                        },
+                                        "estado": {
+                                            "type": "boolean",
+                                            "description": "Estado del empleado"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Empleado no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Mensaje de error",
+                                            "example": "Empleado no encontrado"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error en el servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Mensaje de error",
+                                            "example": "Error en el servidor"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "description": "Detalle del error",
+                                            "example": "Error al obtener los detalles del perfil"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Actualiza los detalles del perfil del empleado logueado",
+                "tags": [
+                    "Perfil"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "description": "Nombre y apellido del empleado"
+                                    },
+                                    "cargo": {
+                                        "type": "string",
+                                        "description": "Cargo del empleado, puede ser Gerente o Tecnico"
+                                    },
+                                    "correo": {
+                                        "type": "string",
+                                        "description": "Correo del empleado"
+                                    },
+                                    "direccion": {
+                                        "type": "string",
+                                        "description": "Dirección de residencia del empleado"
+                                    },
+                                    "telefono": {
+                                        "type": "string",
+                                        "description": "Número de teléfono del empleado"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Perfil actualizado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Mensaje de éxito"
+                                        },
+                                        "empleado": {
+                                            "type": "object",
+                                            "properties": {
+                                                "cedula": {
+                                                    "type": "string",
+                                                    "description": "Cédula del empleado"
+                                                },
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "description": "Nombre del empleado"
+                                                },
+                                                "correo": {
+                                                    "type": "string",
+                                                    "description": "Correo del empleado"
+                                                },
+                                                "cargo": {
+                                                    "type": "string",
+                                                    "description": "Rol del empleado"
+                                                },
+                                                "telefono": {
+                                                    "type": "string",
+                                                    "description": "Teléfono del empleado"
+                                                },
+                                                "direccion": {
+                                                    "type": "string",
+                                                    "description": "Dirección del empleado"
+                                                },
+                                                "estado": {
+                                                    "type": "boolean",
+                                                    "description": "Estado del empleado"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la validación de datos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Mensaje de error"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se puede actualizar el perfil del usuario logueado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Mensaje de error"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error en el servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Mensaje de error"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "description": "Detalle del error"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Elimina el perfil del empleado logueado",
+                "tags": [
+                    "Perfil"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Perfil eliminado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Mensaje de éxito"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se puede eliminar el perfil del usuario logueado, empleado no encontrado, empleado desactivado previamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Mensaje de error"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error en el servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Mensaje de error"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "description": "Detalle del error"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/employees": {
             "get": {
                 "summary": "Obtiene la lista de empleados",
@@ -945,405 +1344,6 @@
                             "type": "string"
                         }
                     }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Perfil eliminado exitosamente",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "description": "Mensaje de éxito"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "No se puede eliminar el perfil del usuario logueado, empleado no encontrado, empleado desactivado previamente",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "description": "Mensaje de error"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Error en el servidor",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "description": "Mensaje de error"
-                                        },
-                                        "error": {
-                                            "type": "string",
-                                            "description": "Detalle del error"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/profile/update-password": {
-            "put": {
-                "summary": "Actualiza la contraseña del empleado logueado",
-                "tags": [
-                    "Perfil"
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "contrasena": {
-                                        "type": "string",
-                                        "description": "Contraseña actual del empleado",
-                                        "example": "ju@n1p."
-                                    },
-                                    "nuevaContrasena": {
-                                        "type": "string",
-                                        "description": "Nueva contraseña del empleado",
-                                        "example": "ju@n2p."
-                                    },
-                                    "confirmarContrasena": {
-                                        "type": "string",
-                                        "description": "Confirmación de la nueva contraseña",
-                                        "example": "ju@n2p."
-                                    }
-                                },
-                                "required": [
-                                    "contrasena",
-                                    "nuevaContrasena"
-                                ]
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Contraseña actualizada correctamente",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "description": "Mensaje de éxito"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Error en la validación de datos",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "description": "Mensaje de error"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Contraseña actual incorrecta",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "description": "Mensaje de error"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Error en el servidor",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "description": "Mensaje de error"
-                                        },
-                                        "error": {
-                                            "type": "string",
-                                            "description": "Detalle del error"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/profile": {
-            "get": {
-                "summary": "Obtiene los detalles del perfil del empleado logueado",
-                "tags": [
-                    "Perfil"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Detalles del perfil",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "cedula": {
-                                            "type": "string",
-                                            "description": "Cédula del empleado"
-                                        },
-                                        "nombre": {
-                                            "type": "string",
-                                            "description": "Nombre del empleado"
-                                        },
-                                        "correo": {
-                                            "type": "string",
-                                            "description": "Correo del empleado"
-                                        },
-                                        "cargo": {
-                                            "type": "string",
-                                            "description": "Rol del empleado"
-                                        },
-                                        "telefono": {
-                                            "type": "string",
-                                            "description": "Teléfono del empleado"
-                                        },
-                                        "direccion": {
-                                            "type": "string",
-                                            "description": "Dirección del empleado"
-                                        },
-                                        "estado": {
-                                            "type": "boolean",
-                                            "description": "Estado del empleado"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Empleado no encontrado",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "description": "Mensaje de error",
-                                            "example": "Empleado no encontrado"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Error en el servidor",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "description": "Mensaje de error",
-                                            "example": "Error en el servidor"
-                                        },
-                                        "error": {
-                                            "type": "string",
-                                            "description": "Detalle del error",
-                                            "example": "Error al obtener los detalles del perfil"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "put": {
-                "summary": "Actualiza los detalles del perfil del empleado logueado",
-                "tags": [
-                    "Perfil"
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "nombre": {
-                                        "type": "string",
-                                        "description": "Nombre y apellido del empleado"
-                                    },
-                                    "cargo": {
-                                        "type": "string",
-                                        "description": "Cargo del empleado, puede ser Gerente o Tecnico"
-                                    },
-                                    "correo": {
-                                        "type": "string",
-                                        "description": "Correo del empleado"
-                                    },
-                                    "direccion": {
-                                        "type": "string",
-                                        "description": "Dirección de residencia del empleado"
-                                    },
-                                    "telefono": {
-                                        "type": "string",
-                                        "description": "Número de teléfono del empleado"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Perfil actualizado exitosamente",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "description": "Mensaje de éxito"
-                                        },
-                                        "empleado": {
-                                            "type": "object",
-                                            "properties": {
-                                                "cedula": {
-                                                    "type": "string",
-                                                    "description": "Cédula del empleado"
-                                                },
-                                                "nombre": {
-                                                    "type": "string",
-                                                    "description": "Nombre del empleado"
-                                                },
-                                                "correo": {
-                                                    "type": "string",
-                                                    "description": "Correo del empleado"
-                                                },
-                                                "cargo": {
-                                                    "type": "string",
-                                                    "description": "Rol del empleado"
-                                                },
-                                                "telefono": {
-                                                    "type": "string",
-                                                    "description": "Teléfono del empleado"
-                                                },
-                                                "direccion": {
-                                                    "type": "string",
-                                                    "description": "Dirección del empleado"
-                                                },
-                                                "estado": {
-                                                    "type": "boolean",
-                                                    "description": "Estado del empleado"
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Error en la validación de datos",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "description": "Mensaje de error"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "No se puede actualizar el perfil del usuario logueado",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "description": "Mensaje de error"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Error en el servidor",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "description": "Mensaje de error"
-                                        },
-                                        "error": {
-                                            "type": "string",
-                                            "description": "Detalle del error"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "summary": "Elimina el perfil del empleado logueado",
-                "tags": [
-                    "Perfil"
                 ],
                 "responses": {
                     "200": {
