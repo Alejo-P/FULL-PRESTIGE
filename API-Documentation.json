@@ -2636,6 +2636,23 @@
                             }
                         }
                     },
+                    "404": {
+                        "description": "Cliente o empleado no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Mensaje de error",
+                                            "example": "Cliente o empleado no encontrado"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
                     "500": {
                         "description": "Error en el servidor",
                         "content": {
@@ -2709,23 +2726,6 @@
                                                 "type": "string",
                                                 "description": "Detalles del vehículo"
                                             }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "No hay vehículos registrados",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "description": "Mensaje de error",
-                                            "example": "No hay vehículos registrados"
                                         }
                                     }
                                 }
