@@ -2866,7 +2866,7 @@
         },
         "/vehicles/employee/{cedula}": {
             "get": {
-                "summary": "Obtiene la lista de vehículos de un empleado",
+                "summary": "Obtiene la lista de vehículos asignados a un empleado",
                 "tags": [
                     "Control de vehículos"
                 ],

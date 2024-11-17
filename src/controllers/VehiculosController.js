@@ -34,9 +34,17 @@ export const registerVehicle = async (req, res) => {
             return res.status(404).json({ message: "El encargado no existe" });
         }
 
+        if (encargado.cargo !== 'Técnico') {
+            return res.status(400).json({ message: "El encargado debe ser un técnico" });
+        }
+
+        if (!encargado.estado) {
+            return res.status(400).json({ message: "El encargado seleccionado esta inactivo" });
+        }
+
         const vehicle = await vehiculosModel.findOne({ placa });
         if (vehicle) {
-            return res.status(400).json({ message: "El vehículo ya existe" });
+            return res.status(400).json({ message: "La placa ya esta registrada" });
         }
 
         const data = {
