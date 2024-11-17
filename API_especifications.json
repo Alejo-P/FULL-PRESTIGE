@@ -3141,9 +3141,634 @@
         }
       }
     },
-    "/maintenance/register":{},
-    "/maintenances":{},
-    "/maintenance/{id}":{},
-    "/maintenance/vehicle/{placa}":{}
+    "/maintenance/register":{
+      "post":{
+        "summary": "Registra un nuevo mantenimiento",
+        "tags": ["Control de mantenimientos"],
+        "requestBody":{
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "placa":{
+                    "type": "string",
+                    "description": "Placa del vehículo",
+                    "example": "ABC123"
+                  },
+                  "fecha":{
+                    "type": "string",
+                    "description": "Fecha del mantenimiento",
+                    "example": "2021-10-15"
+                  },
+                  "descripcion":{
+                    "type": "string",
+                    "description": "Descripción del mantenimiento",
+                    "example": "Cambio de aceite"
+                  },
+                  "costo":{
+                    "type": "number",
+                    "description": "Costo del mantenimiento",
+                    "example": 100
+                  }
+                }
+              }
+            }
+          }
+        },
+          "responses": {
+            "201": {
+              "description": "Mantenimiento registrado correctamente",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "description": "Mensaje de éxito",
+                        "example": "Mantenimiento registrado correctamente"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Error en la validación de datos",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "description": "Mensaje de error",
+                        "example": "Todos los campos son requeridos"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Error en el servidor",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "description": "Mensaje de error",
+                        "example": "Error al registrar el mantenimiento"
+                      },
+                      "error": {
+                        "type": "string",
+                        "description": "Detalle del error",
+                        "example": "Error al registrar el mantenimiento"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+      }
+    },
+    "/maintenances":{
+      "get":{
+        "summary": "Obtiene la lista de mantenimientos",
+        "tags": ["Control de mantenimientos"],
+        "responses": {
+          "200": {
+            "description": "Lista de mantenimientos obtenida correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "vehiculo": {
+                        "type": "object",
+                        "description": "Detalles del vehículo",
+                        "properties": {
+                          "placa": {
+                            "type": "string",
+                            "description": "Placa del vehículo"
+                          },
+                          "marca": {
+                            "type": "string",
+                            "description": "Marca del vehículo"
+                          },
+                          "modelo": {
+                            "type": "string",
+                            "description": "Modelo del vehículo"
+                          },
+                          "fecha_ingreso": {
+                            "type": "string",
+                            "description": "Fecha de ingreso del vehículo"
+                          },
+                          "fecha_salida": {
+                            "type": "string",
+                            "description": "Fecha de salida del vehículo"
+                          },
+                          "cedula_cliente": {
+                            "type": "string",
+                            "description": "Cédula del cliente dueño del vehículo"
+                          },
+                          "cedula_encargado": {
+                            "type": "string",
+                            "description": "Cédula del empleado encargado del vehículo"
+                          },
+                          "detalles": {
+                            "type": "string",
+                            "description": "Detalles del vehículo"
+                          }
+                        }
+                      },
+                      "fecha": {
+                        "type": "string",
+                        "description": "Fecha del mantenimiento"
+                      },
+                      "descripcion": {
+                        "type": "string",
+                        "description": "Descripción del mantenimiento"
+                      },
+                      "costo": {
+                        "type": "number",
+                        "description": "Costo del mantenimiento"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error en el servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "Error al obtener los mantenimientos"
+                    },
+                    "error": {
+                      "type": "string",
+                      "description": "Detalle del error",
+                      "example": "Error al obtener los mantenimientos"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maintenance/{id}":{
+      "get":{
+        "summary": "Obtiene los detalles de un mantenimiento",
+        "tags": ["Control de mantenimientos"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID del mantenimiento",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detalles del mantenimiento obtenidos correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "vehiculo": {
+                      "type": "object",
+                      "description": "Detalles del vehículo",
+                      "properties": {
+                        "placa": {
+                          "type": "string",
+                          "description": "Placa del vehículo"
+                        },
+                        "marca": {
+                          "type": "string",
+                          "description": "Marca del vehículo"
+                        },
+                        "modelo": {
+                          "type": "string",
+                          "description": "Modelo del vehículo"
+                        },
+                        "fecha_ingreso": {
+                          "type": "string",
+                          "description": "Fecha de ingreso del vehículo"
+                        },
+                        "fecha_salida": {
+                          "type": "string",
+                          "description": "Fecha de salida del vehículo"
+                        },
+                        "cedula_cliente": {
+                          "type": "string",
+                          "description": "Cédula del cliente dueño del vehículo"
+                        },
+                        "cedula_encargado": {
+                          "type": "string",
+                          "description": "Cédula del empleado encargado del vehículo"
+                        },
+                        "detalles": {
+                          "type": "string",
+                          "description": "Detalles del vehículo"
+                        }
+                      }
+                    },
+                    "fecha": {
+                      "type": "string",
+                      "description": "Fecha del mantenimiento"
+                    },
+                    "descripcion": {
+                      "type": "string",
+                      "description": "Descripción del mantenimiento"
+                    },
+                    "costo": {
+                      "type": "number",
+                      "description": "Costo del mantenimiento"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Mantenimiento no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "Mantenimiento no encontrado"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error en el servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "Error al obtener los detalles del mantenimiento"
+                    },
+                    "error": {
+                      "type": "string",
+                      "description": "Detalle del error",
+                      "example": "Error al obtener los detalles del mantenimiento"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put":{
+        "summary": "Actualiza los detalles de un mantenimiento",
+        "tags": ["Control de mantenimientos"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID del mantenimiento",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody":{
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "placa":{
+                    "type": "string",
+                    "description": "Placa del vehículo",
+                    "example": "ABC123"
+                  },
+                  "fecha":{
+                    "type": "string",
+                    "description": "Fecha del mantenimiento",
+                    "example": "2021-10-15"
+                  },
+                  "descripcion":{
+                    "type": "string",
+                    "description": "Descripción del mantenimiento",
+                    "example": "Cambio de aceite"
+                  },
+                  "costo":{
+                    "type": "number",
+                    "description": "Costo del mantenimiento",
+                    "example": 100
+                  }
+                }
+              }
+            }
+          }
+        },
+          "responses": {
+            "200": {
+              "description": "Mantenimiento actualizado correctamente",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "description": "Mensaje de éxito",
+                        "example": "Mantenimiento actualizado correctamente"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Error en la validación de datos",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "description": "Mensaje de error",
+                        "example": "Todos los campos son requeridos"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Mantenimiento no encontrado",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "description": "Mensaje de error",
+                        "example": "Mantenimiento no encontrado"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Error en el servidor",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "description": "Mensaje de error",
+                        "example": "Error al actualizar el mantenimiento"
+                      },
+                      "error": {
+                        "type": "string",
+                        "description": "Detalle del error",
+                        "example": "Error al actualizar el mantenimiento"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+      },
+      "delete":{
+        "summary": "Elimina un mantenimiento",
+        "tags": ["Control de mantenimientos"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID del mantenimiento",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Mantenimiento eliminado correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de éxito",
+                      "example": "Mantenimiento eliminado correctamente"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Mantenimiento no encontrado o ya eliminado previamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "Mantenimiento no encontrado o ya eliminado previamente"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error en el servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "Error al eliminar el mantenimiento"
+                    },
+                    "error": {
+                      "type": "string",
+                      "description": "Detalle del error",
+                      "example": "Error al eliminar el mantenimiento"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maintenance/vehicle/{placa}":{
+      "get":{
+        "summary": "Obtiene la lista de mantenimientos de un vehículo",
+        "tags": ["Control de mantenimientos"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "placa",
+            "required": true,
+            "description": "Placa del vehículo",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de mantenimientos obtenida correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "vehiculo": {
+                        "type": "object",
+                        "description": "Detalles del vehículo",
+                        "properties": {
+                          "placa": {
+                            "type": "string",
+                            "description": "Placa del vehículo"
+                          },
+                          "marca": {
+                            "type": "string",
+                            "description": "Marca del vehículo"
+                          },
+                          "modelo": {
+                            "type": "string",
+                            "description": "Modelo del vehículo"
+                          },
+                          "fecha_ingreso": {
+                            "type": "string",
+                            "description": "Fecha de ingreso del vehículo"
+                          },
+                          "fecha_salida": {
+                            "type": "string",
+                            "description": "Fecha de salida del vehículo"
+                          },
+                          "cedula_cliente": {
+                            "type": "string",
+                            "description": "Cédula del cliente dueño del vehículo"
+                          },
+                          "cedula_encargado": {
+                            "type": "string",
+                            "description": "Cédula del empleado encargado del vehículo"
+                          },
+                          "detalles": {
+                            "type": "string",
+                            "description": "Detalles del vehículo"
+                          }
+                        }
+                      },
+                      "fecha": {
+                        "type": "string",
+                        "description": "Fecha del mantenimiento"
+                      },
+                      "descripcion": {
+                        "type": "string",
+                        "description": "Descripción del mantenimiento"
+                      },
+                      "costo": {
+                        "type": "number",
+                        "description": "Costo del mantenimiento"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Vehículo no encontrado o sin mantenimientos registrados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "Vehículo no encontrado o sin mantenimientos registrados"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error en el servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensaje de error",
+                      "example": "Error al obtener los mantenimientos"
+                    },
+                    "error": {
+                      "type": "string",
+                      "description": "Detalle del error",
+                      "example": "Error al obtener los mantenimientos del vehículo"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }

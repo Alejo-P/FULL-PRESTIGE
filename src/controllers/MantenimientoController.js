@@ -42,20 +42,6 @@ export const getMaintenances = async (req, res) => {
     }
 };
 
-// Metodo para obtener un mantenimiento por id
-export const getMaintenanceById = async (req, res) => {
-    const { id } = req.params;
-    try {
-        const mantenimiento = await mantenimientoModel.findById(id).populate('vehiculo', 'placa marca modelo propietario fecha_ingreso fecha_salida encargado detalles');
-        if (!mantenimiento) {
-            return res.status(404).json({ message: "Mantenimiento no encontrado" });
-        }
-        res.status(200).json(mantenimiento);
-    } catch (error) {
-        res.status(500).json({ message: "Error al obtener el mantenimiento", error: error.message });
-    }
-};
-
 // Metodo para obtener todos los mantenimientos de un vehiculo
 export const getMaintenancesByVehicle = async (req, res) => {
     const { placa } = req.params;
@@ -72,9 +58,23 @@ export const getMaintenancesByVehicle = async (req, res) => {
     }
 };
 
+// Metodo para obtener un mantenimiento por id
+export const getMaintenance = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const mantenimiento = await mantenimientoModel.findById(id).populate('vehiculo', 'placa marca modelo propietario fecha_ingreso fecha_salida encargado detalles');
+        if (!mantenimiento) {
+            return res.status(404).json({ message: "Mantenimiento no encontrado" });
+        }
+        res.status(200).json(mantenimiento);
+    } catch (error) {
+        res.status(500).json({ message: "Error al obtener el mantenimiento", error: error.message });
+    }
+};
+
 // Metodo para actualizar un mantenimiento
 export const updateMaintenance = async (req, res) => {
-    const { placa } = req.params;
+    const { id } = req.params;
     try {
         if (req.empleado.cargo !== 'Administrador') {
             return res.status(403).json({ message: "No tiene permisos para realizar esta acción" });
@@ -84,17 +84,12 @@ export const updateMaintenance = async (req, res) => {
             return res.status(400).json({ message: "Todos los campos son necesarios" });
         }
 
-        const vehicle = await vehiculosModel.findOne({ placa });
-        if (!vehicle) {
-            return res.status(404).json({ message: "El vehículo no existe" });
-        }
-
-        const mantenimiento = await mantenimientoModel.findOne({ vehiculo: vehicle._id });
+        const mantenimiento = await mantenimientoModel.findById(id);
         if (!mantenimiento) {
             return res.status(404).json({ message: "Mantenimiento no encontrado" });
         }
 
-        await mantenimientoModel.findByIdAndUpdate(mantenimiento._id, req.body);
+        await mantenimientoModel.findByIdAndUpdate(id, req.body);
         res.status(200).json({ message: "Mantenimiento actualizado correctamente" });
     } catch (error) {
         res.status(500).json({ message: "Error al actualizar el mantenimiento", error: error.message });
@@ -103,23 +98,18 @@ export const updateMaintenance = async (req, res) => {
 
 // Metodo para eliminar un mantenimiento
 export const deleteMaintenance = async (req, res) => {
-    const { placa } = req.params;
+    const { id } = req.params;
     try {
         if (req.empleado.cargo !== 'Administrador') {
             return res.status(403).json({ message: "No tiene permisos para realizar esta acción" });
         }
 
-        const vehicle = await vehiculosModel.findOne({ placa });
-        if (!vehicle) {
-            return res.status(404).json({ message: "El vehículo no existe" });
-        }
-
-        const mantenimiento = await mantenimientoModel.findOne({ vehiculo: vehicle._id });
+        const mantenimiento = await mantenimientoModel.findById(id);
         if (!mantenimiento) {
             return res.status(404).json({ message: "Mantenimiento no encontrado" });
         }
 
-        await mantenimientoModel.findByIdAndDelete(mantenimiento._id);
+        await mantenimientoModel.findByIdAndDelete(id);
         res.status(200).json({ message: "Mantenimiento eliminado correctamente" });
     } catch (error) {
         res.status(500).json({ message: "Error al eliminar el mantenimiento", error: error.message });

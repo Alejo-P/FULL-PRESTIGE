@@ -2,7 +2,7 @@ import { Router } from 'express';
 import {
     registerMaintenance,
     getMaintenances,
-    getMaintenanceById,
+    getMaintenance,
     getMaintenancesByVehicle,
     updateMaintenance,
     deleteMaintenance
@@ -13,11 +13,12 @@ const router = Router();
 
 router.post('/maintenance/register', auth, registerMaintenance);
 router.get('/maintenances', auth, getMaintenances);
-router.get('/maintenance/:id', auth, getMaintenanceById);
+router.get('/maintenance/vehice/:placa',auth, getMaintenancesByVehicle)
 
-router.route('/maintenance/vehice/:placa')
-    .get(auth, getMaintenancesByVehicle)
+router.route('/maintenance/:id')
+    .get(auth, getMaintenance)
     .put(auth, updateMaintenance)
     .delete(auth, deleteMaintenance);
+
 
 export default router;
