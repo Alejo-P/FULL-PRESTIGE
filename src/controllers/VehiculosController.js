@@ -15,15 +15,20 @@ export const registerVehicle = async (req, res) => {
             cedula_encargado,
             detalles
         } = req.body;
-
-        if (req.empleado.cargo !== 'Administrador') {
-            return res.status(403).json({ message: "No tiene permisos para realizar esta acción" });
-        }
-
+        
         if (Object.values(req.body).includes("")) {
             return res.status(400).json({ message: "Todos los campos son necesarios" });
         }
 
+        if (req.empleado.cargo !== 'Administrador') {
+            return res.status(403).json({ message: "No tiene permisos para realizar esta acción" });
+        }
+        
+        const vehicle = await vehiculosModel.findOne({ placa });
+        if (vehicle) {
+            return res.status(400).json({ message: "La placa ya esta registrada" });
+        }
+        
         const cliente = await clientesModel.findOne({ cedula: cedula_cliente });
         if (!cliente) {
             return res.status(404).json({ message: "El cliente no existe" });
@@ -40,11 +45,6 @@ export const registerVehicle = async (req, res) => {
 
         if (!encargado.estado) {
             return res.status(400).json({ message: "El encargado seleccionado esta inactivo" });
-        }
-
-        const vehicle = await vehiculosModel.findOne({ placa });
-        if (vehicle) {
-            return res.status(400).json({ message: "La placa ya esta registrada" });
         }
 
         const data = {

@@ -29,6 +29,7 @@ const VehiculosSchema = new Schema({
     },
     fecha_salida: {
         type: Date,
+        default: null,
     },
     encargado: {
         type: Schema.Types.ObjectId,

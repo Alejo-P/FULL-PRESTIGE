@@ -23,6 +23,20 @@ export const registerMaintenance = async (req, res) => {
             return res.status(404).json({ message: "El vehículo no existe" });
         }
 
+        const maintenance = await mantenimientoModel.find({ vehiculo: vehicle._id });
+        let maintenanceFound = false;
+        if (maintenance.length > 0) {
+            maintenance.forEach(maintenance => {
+                if (maintenance.descripcion === descripcion) {
+                    maintenanceFound = true;
+                }
+            });
+        }
+
+        if (maintenanceFound) {
+            return res.status(400).json({ message: "El mantenimiento ya ha sido registrado" });
+        }
+
         const newMaintenance = new mantenimientoModel({ vehiculo: vehicle._id, descripcion, costo });
         await newMaintenance.save();
 
@@ -58,7 +72,14 @@ export const getMaintenancesByVehicle = async (req, res) => {
             return res.status(404).json({ message: "El vehículo no existe" });
         }
 
-        const mantenimientos = await mantenimientoModel.find({ vehiculo: vehicle._id }).populate('vehiculo', 'placa marca modelo propietario fecha_ingreso fecha_salida encargado detalles');
+        const mantenimientos = await mantenimientoModel.find({ vehiculo: vehicle._id }).populate({
+            path: 'vehiculo',
+            populate: [
+                { path: 'propietario', select: 'cedula nombre telefono correo' },
+                { path: 'encargado', select: 'cedula nombre telefono correo' }
+            ],
+            select: 'placa marca modelo propietario fecha_ingreso fecha_salida encargado detalles'
+        });
         res.status(200).json(mantenimientos);
     } catch (error) {
         res.status(500).json({ message: "Error al obtener los mantenimientos", error: error.message });
@@ -69,7 +90,14 @@ export const getMaintenancesByVehicle = async (req, res) => {
 export const getMaintenance = async (req, res) => {
     const { id } = req.params;
     try {
-        const mantenimiento = await mantenimientoModel.findById(id).populate('vehiculo', 'placa marca modelo propietario fecha_ingreso fecha_salida encargado detalles');
+        const mantenimiento = await mantenimientoModel.findById(id).populate({
+            path: 'vehiculo',
+            populate: [
+                { path: 'propietario', select: 'cedula nombre telefono correo' },
+                { path: 'encargado', select: 'cedula nombre telefono correo' }
+            ],
+            select: 'placa marca modelo propietario fecha_ingreso fecha_salida encargado detalles'
+        });
         if (!mantenimiento) {
             return res.status(404).json({ message: "Mantenimiento no encontrado" });
         }
@@ -82,6 +110,7 @@ export const getMaintenance = async (req, res) => {
 // Metodo para actualizar un mantenimiento
 export const updateMaintenance = async (req, res) => {
     const { id } = req.params;
+    const { descripcion, costo, estado } = req.body;
     try {
         if (req.empleado.cargo !== 'Administrador') {
             return res.status(403).json({ message: "No tiene permisos para realizar esta acción" });
@@ -96,7 +125,7 @@ export const updateMaintenance = async (req, res) => {
             return res.status(404).json({ message: "Mantenimiento no encontrado" });
         }
 
-        await mantenimientoModel.findByIdAndUpdate(id, req.body);
+        await mantenimientoModel.findByIdAndUpdate(id, { descripcion, costo, estado });
         res.status(200).json({ message: "Mantenimiento actualizado correctamente" });
     } catch (error) {
         res.status(500).json({ message: "Error al actualizar el mantenimiento", error: error.message });

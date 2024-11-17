@@ -8,7 +8,7 @@ const MantenimientosSchema = new Schema({
     },
     estado: {
         type: Boolean,
-        default: true,
+        default: false,
     },
     descripcion: {
         type: String,
