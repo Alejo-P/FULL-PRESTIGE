@@ -2893,6 +2893,10 @@
                                                     "telefono": {
                                                         "type": "string",
                                                         "description": "Teléfono del cliente"
+                                                    },
+                                                    "direccion": {
+                                                        "type": "string",
+                                                        "description": "Dirección de residencia del cliente"
                                                     }
                                                 }
                                             },
@@ -2915,6 +2919,10 @@
                                                     "telefono": {
                                                         "type": "string",
                                                         "description": "Teléfono del empleado"
+                                                    },
+                                                    "direccion": {
+                                                        "type": "string",
+                                                        "description": "Dirección de residencia del empleado"
                                                     }
                                                 }
                                             },

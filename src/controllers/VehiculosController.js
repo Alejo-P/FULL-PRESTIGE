@@ -70,7 +70,7 @@ export const registerVehicle = async (req, res) => {
 // Metodo para obtener todos los vehiculos
 export const getVehicles = async (req, res) => {
     try {
-        const vehicles = await vehiculosModel.find().populate('propietario encargado', 'nombre cedula telefono correo');
+        const vehicles = await vehiculosModel.find().populate('propietario encargado', 'nombre cedula telefono correo direccion');
         res.status(200).json(vehicles);
     } catch (error) {
         res.status(500).json({ message: "Error al obtener los vehículos", error: error.message });
