@@ -56,9 +56,9 @@ export const registerClient = async (req, res) => {
         }
 
         const newCliente = new clientesModel({ cedula, nombre, correo, telefono, direccion });
-        await newCliente.save();
+        const registro = await newCliente.save();
 
-        const newVehiculo = new vehiculosModel({ placa, n_orden: orden, marca, modelo, fecha_ingreso, fecha_salida, propietario: newCliente._id, encargado: tecnicoEncargado._id, detalles: descripcion });
+        const newVehiculo = new vehiculosModel({ placa, n_orden: orden, marca, modelo, fecha_ingreso, fecha_salida, propietario: registro._id, encargado: tecnicoEncargado._id, detalles: descripcion });
         await newVehiculo.save();
 
         res.status(201).json({ message: "Cliente registrado correctamente" });
