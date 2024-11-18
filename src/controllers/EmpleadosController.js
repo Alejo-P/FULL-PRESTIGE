@@ -240,7 +240,17 @@ export const updateProfile = async (req, res) => {
         empleado.telefono = telefono;
         await empleado.save();
 
-        return res.status(200).json({ message: 'Perfil actualizado exitosamente', empleado });
+        const {
+            cedula,
+            nombre,
+            correo,
+            cargo,
+            telefono,
+            direccion,
+            estado
+        } = empleado;
+
+        return res.status(200).json({ message: 'Perfil actualizado exitosamente', empleado: { cedula, nombre, correo, cargo, telefono, direccion, estado: estado ? "Activo" : "Inactivo" } });
     } catch (error) {
         return res.status(500).json({ message: 'Error al actualizar perfil', error: error.message });
     }
@@ -287,7 +297,17 @@ export const updateEmployee = async (req, res) => {
         empleado.estado = estado;
         await empleado.save();
 
-        return res.status(200).json({ message: 'Empleado actualizado exitosamente', empleado });
+        const {
+            cedula: ced,
+            nombre: nom,
+            correo: cor,
+            cargo: car,
+            telefono: tel,
+            direccion: dir,
+            estado: est
+        } = empleado;
+
+        return res.status(200).json({ message: 'Empleado actualizado exitosamente', empleado: { cedula: ced, nombre: nom, correo: cor, cargo: car, telefono: tel, direccion: dir, estado: est ? "Activo" : "Inactivo" }});
     } catch (error) {
         return res.status(500).json({ message: 'Error al actualizar empleado', error: error.message });
     }
