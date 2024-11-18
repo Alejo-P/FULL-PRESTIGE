@@ -3032,6 +3032,10 @@
                                                     "telefono": {
                                                         "type": "string",
                                                         "description": "Teléfono del cliente"
+                                                    },
+                                                    "direccion": {
+                                                        "type": "string",
+                                                        "description": "direccion de residencia del cliente"
                                                     }
                                                 }
                                             },
@@ -3054,6 +3058,10 @@
                                                     "telefono": {
                                                         "type": "string",
                                                         "description": "Teléfono del empleado"
+                                                    },
+                                                    "direccion": {
+                                                        "type": "string",
+                                                        "description": "direccion de residencia del empleado"
                                                     }
                                                 }
                                             },
