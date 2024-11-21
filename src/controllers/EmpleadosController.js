@@ -199,7 +199,7 @@ export const getEmployee = async (req, res) => {
             estado
         } = empleado;
 
-        return res.status(200).json({ message: 'Información del empleado', empleado: [{ _id, cedula: ced, nombre, cargo, direccion, correo, telefono, estado: estado ? "Activo" : "Inactivo" }] });
+        return res.status(200).json([{ _id, cedula: ced, nombre, cargo, direccion, correo, telefono, estado: estado ? "Activo" : "Inactivo" }]);
     } catch (error) {
         return res.status(500).json({ message: 'Error al obtener información del empleado', error: error.message });
     }
