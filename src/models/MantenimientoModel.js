@@ -6,10 +6,6 @@ const MantenimientosSchema = new Schema({
         ref: "Vehiculos",
         required: true,
     },
-    estado: {
-        type: Boolean,
-        default: false,
-    },
     descripcion: {
         type: String,
         required: true,

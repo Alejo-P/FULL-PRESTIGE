@@ -19,8 +19,9 @@ const VehiculosSchema = new Schema({
         required: true,
     },
     estado: {
-        type: Boolean,
-        default: true,
+        type: String,
+        enum: ['Finalizado', 'En proceso', 'Entregado', 'Pendiente'],
+        default: 'Pendiente'
     },
     propietario: {
         type: Schema.Types.ObjectId,
