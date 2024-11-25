@@ -7,16 +7,21 @@ const AsistenciasSchema = new Schema({
     },
     hora_ingreso: {
         type: String,
-        required: true
+        default: null
     },
     hora_salida: {
         type: String,
-        required: true
+        default: null
     },
     empleado: {
         type: Schema.Types.ObjectId,
         ref: 'Empleados',
         required: true
+    },
+    estado: {
+        type: String,
+        enum: ['Presente', 'Ausente'],
+        default: 'Presente'
     }
 }, {
     timestamps: true

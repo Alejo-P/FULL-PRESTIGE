@@ -7,16 +7,14 @@ export const registerAssistance = async (req, res) => {
     try {
         const {
             fecha,
-            hora_ingreso,
-            hora_salida
         } = req.body;
 
         if (req.empleado.cargo !== 'Administrador') {
             return res.status(403).json({ message: "No tiene permisos para realizar esta acción" });
         }
 
-        if (Object.values(req.body).includes("")) {
-            return res.status(400).json({ message: "Todos los campos son necesarios" });
+        if (!fecha) {
+            return res.status(400).json({ message: "La fecha es necesaria" });
         }
 
         if (!cedula) {
@@ -28,7 +26,17 @@ export const registerAssistance = async (req, res) => {
             return res.status(404).json({ message: "Empleado no encontrado" });
         }
 
-        const newAsistencia = new asistencasModel({ empleado:empleado._id, fecha, hora_ingreso, hora_salida });
+        const date = await asistencasModel.findOne({ fecha });
+        if (date) {
+            return res.status(400).json({ message: "Ya existe una asistencia registrada para esta fecha" });
+        }
+
+        const newAsistencia = new asistencasModel({ empleado:empleado._id, ...req.body });
+
+        if (!req.body?.hora_ingreso && !req.body?.hora_salida) {
+            newAsistencia.estado = 'Ausente';
+        }
+
         await newAsistencia.save();
 
         res.status(201).json({ message: "Asistencia registrada correctamente" });
@@ -60,6 +68,7 @@ export const getAssistance = async (req, res) => {
 // Metodo para actualizar una asistencia
 export const updateAssistance = async (req, res) => {
     const { cedula } = req.params;
+    const { fecha } = req.body;
     try {
         if (req.empleado.cargo !== 'Administrador') {
             return res.status(403).json({ message: "No tiene permisos para realizar esta acción" });
@@ -78,7 +87,12 @@ export const updateAssistance = async (req, res) => {
             return res.status(404).json({ message: "Empleado no encontrado" });
         }
 
-        const asistencia = await asistencasModel.findOne({ empleado: empleado._id });
+        const listaAsistencias = await asistencasModel.find({ empleado: empleado._id });
+        if (!listaAsistencias) {
+            return res.status(404).json({ message: "Asistencias no encontrada" });
+        }
+
+        const asistencia = listaAsistencias.find((asistencia) => asistencia.fecha === fecha);
         if (!asistencia) {
             return res.status(404).json({ message: "Asistencia no encontrada" });
         }

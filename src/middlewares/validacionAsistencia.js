@@ -22,40 +22,43 @@ export const validacionAsistencia = [
         }),
 
     check('hora_ingreso')
+        .optional({ nullable: true, checkFalsy: true })
         .matches(/^\d{2}:\d{2}$/)
             .withMessage('El campo "hora_ingreso" debe tener el formato HH:mm')
-        .custom((value) => {
+        .custom((value, { req }) => {
+            if (!value && !req.body.hora_salida) return true;
+            
             const [hora, minutos] = value.split(':').map(Number);
             const ahora = new Date();
-            const horaActual = ahora.getUTCHours() -5;
+            const horaActual = ahora.getUTCHours() - 5;
             const minutosActual = ahora.getUTCMinutes();
 
             if (hora < horaActual || (hora === horaActual && minutos < minutosActual)) {
-                throw new Error(`La hora de ingreso no puede ser distinta a la hora actual.${horaActual}:${minutosActual}`);
+                throw new Error(`La hora de ingreso no puede ser anterior a la hora actual (${horaActual}:${minutosActual}).`);
             }
             return true;
         }),
 
     check('hora_salida')
+        .optional({ nullable: true, checkFalsy: true })
         .matches(/^\d{2}:\d{2}$/)
             .withMessage('El campo "hora_salida" debe tener el formato HH:mm')
         .custom((value, { req }) => {
-            const [horaIngreso, minutosIngreso] = req.body.hora_ingreso.split(':').map(Number);
+            if (!value && !req.body.hora_ingreso) return true;
+            
+            const [horaIngreso, minutosIngreso] = req.body.hora_ingreso
+                ? req.body.hora_ingreso.split(':').map(Number)
+                : [null, null];
             const [horaSalida, minutosSalida] = value.split(':').map(Number);
 
             if (
-                horaSalida < horaIngreso ||
-                (horaSalida === horaIngreso && minutosSalida < minutosIngreso)
+                horaIngreso !== null &&
+                (horaSalida < horaIngreso || (horaSalida === horaIngreso && minutosSalida < minutosIngreso))
             ) {
                 throw new Error('La hora de salida no puede ser menor a la hora de ingreso.');
             }
             return true;
         }),
-
-    check('observaciones')
-        .optional()
-        .isString()
-            .withMessage('El campo "observaciones" debe ser una cadena de texto'),
 
     (req, res, next) => {
         const errors = validationResult(req);

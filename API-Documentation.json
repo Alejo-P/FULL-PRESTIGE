@@ -1607,6 +1607,11 @@
                                             "hora_salida": {
                                                 "type": "string",
                                                 "description": "Hora de la salida"
+                                            },
+                                            "estado": {
+                                                "type": "string",
+                                                "description": "Estado de la asistencia",
+                                                "example": "Presente"
                                             }
                                         }
                                     }
@@ -1697,6 +1702,11 @@
                                         "type": "string",
                                         "description": "Hora de la salida",
                                         "example": "17:00"
+                                    },
+                                    "estado": {
+                                        "type": "string",
+                                        "description": "Estado de la asistencia",
+                                        "example": "Presente"
                                     }
                                 },
                                 "required": [
