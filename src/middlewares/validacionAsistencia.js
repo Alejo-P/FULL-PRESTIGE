@@ -33,6 +33,10 @@ export const validacionAsistencia = [
             const horaActual = ahora.getUTCHours() - 5;
             const minutosActual = ahora.getUTCMinutes();
 
+            if (hora < 8 || hora > 18) {
+                throw new Error('La hora de ingreso debe estar entre las 8:00 y las 18:00.');
+            }
+
             if (hora < horaActual || (hora === horaActual && minutos < minutosActual)) {
                 throw new Error(`La hora de ingreso no puede ser anterior a la hora actual (${horaActual}:${minutosActual}).`);
             }
