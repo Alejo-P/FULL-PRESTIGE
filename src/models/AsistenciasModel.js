@@ -13,10 +13,6 @@ const AsistenciasSchema = new Schema({
         type: String,
         required: true
     },
-    observaciones: {
-        type: String,
-        default: null
-    },
     empleado: {
         type: Schema.Types.ObjectId,
         ref: 'Empleados',

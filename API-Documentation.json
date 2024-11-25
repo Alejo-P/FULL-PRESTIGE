@@ -1478,17 +1478,12 @@
                                         "type": "string",
                                         "description": "Hora de la salida",
                                         "example": "17:00"
-                                    },
-                                    "descripcion": {
-                                        "type": "string",
-                                        "description": "Observaciones de la asistencia"
                                     }
                                 },
                                 "required": [
                                     "fecha",
                                     "hora_ingreso",
-                                    "hora_salida",
-                                    "descripcion"
+                                    "hora_salida"
                                 ]
                             }
                         }
@@ -1612,10 +1607,6 @@
                                             "hora_salida": {
                                                 "type": "string",
                                                 "description": "Hora de la salida"
-                                            },
-                                            "descripcion": {
-                                                "type": "string",
-                                                "description": "Observaciones de la asistencia"
                                             }
                                         }
                                     }
@@ -1706,17 +1697,12 @@
                                         "type": "string",
                                         "description": "Hora de la salida",
                                         "example": "17:00"
-                                    },
-                                    "descripcion": {
-                                        "type": "string",
-                                        "description": "Observaciones de la asistencia"
                                     }
                                 },
                                 "required": [
                                     "fecha",
                                     "hora_ingreso",
-                                    "hora_salida",
-                                    "descripcion"
+                                    "hora_salida"
                                 ]
                             }
                         }

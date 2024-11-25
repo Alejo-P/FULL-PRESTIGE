@@ -8,8 +8,7 @@ export const registerAssistance = async (req, res) => {
         const {
             fecha,
             hora_ingreso,
-            hora_salida,
-            observaciones
+            hora_salida
         } = req.body;
 
         if (req.empleado.cargo !== 'Administrador') {
@@ -29,12 +28,12 @@ export const registerAssistance = async (req, res) => {
             return res.status(404).json({ message: "Empleado no encontrado" });
         }
 
-        const newAsistencia = new asistencasModel({ empleado:empleado._id, fecha, hora_ingreso, hora_salida, observaciones });
+        const newAsistencia = new asistencasModel({ empleado:empleado._id, fecha, hora_ingreso, hora_salida });
         await newAsistencia.save();
 
         res.status(201).json({ message: "Asistencia registrada correctamente" });
     } catch (error) {
-        res.status(500).json({ message: "Error al registrar la asistencia", error });
+        res.status(500).json({ message: "Error al registrar la asistencia", error: error.message });
     }
 };
 
