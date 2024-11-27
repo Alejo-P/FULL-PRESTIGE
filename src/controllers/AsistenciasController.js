@@ -26,7 +26,7 @@ export const registerAssistance = async (req, res) => {
             return res.status(404).json({ message: "Empleado no encontrado" });
         }
 
-        const date = await asistencasModel.findOne({ fecha });
+        const date = await asistencasModel.findOne({ fecha, empleado: empleado._id });
         if (date) {
             return res.status(400).json({ message: "Ya existe una asistencia registrada para esta fecha" });
         }
@@ -58,7 +58,7 @@ export const getAssistance = async (req, res) => {
             return res.status(404).json({ message: "Empleado no encontrado" });
         }
 
-        const asistencias = await asistencasModel.find({ empleado: empleado._id }).populate('empleado', 'nombre correo cedula direccion');
+        const asistencias = await asistencasModel.find({ empleado: empleado._id }).populate('empleado', 'nombre correo cedula direccion cargo telefono');
         res.status(200).json(asistencias);
     } catch (error) {
         res.status(500).json({  message: "Error al obtener las asistencias", error: error.message });
