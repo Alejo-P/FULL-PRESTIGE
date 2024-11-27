@@ -8,6 +8,13 @@ export const validacionAsistencia = [
             .withMessage('El campo "fecha" debe ser una fecha válida')
         .custom((value) => {
             const hoy = new Date();
+            const year = hoy.getFullYear();
+            const month = String(hoy.getMonth() + 1).padStart(2, '0'); // Mes en formato 2 dígitos
+            const day = String(hoy.getDate()).padStart(2, '0'); // Día en formato 2 dígitos
+
+            const fechaActual = `${year}-${month}-${day}`; // Fecha en formato YYYY-MM-DD
+
+
             hoy.setUTCHours(0, 0, 0, 0);
 
             const manana = new Date(hoy);
@@ -15,7 +22,7 @@ export const validacionAsistencia = [
 
             const fecha = new Date(value);
 
-            if (fecha < hoy || fecha >= manana) {
+            if (fecha < fechaActual || fecha >= manana) {
                 throw new Error('La fecha de ingreso debe ser la fecha actual.');
             }
             return true;
