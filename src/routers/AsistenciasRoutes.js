@@ -5,13 +5,14 @@ import {
     updateAssistance
 } from "../controllers/AsistenciasController.js";
 import auth from "../middlewares/auth.js";
-import { validacionAsistencia } from "../middlewares/validacionAsistencia.js";
+import { validacionAsistencia, validacionAsistenciaUpdate } from "../middlewares/validacionAsistencia.js";
 
 const router = Router();
 
 router.route("/employee/:cedula/assistance")
     .get(auth, getAssistance)
     .post(auth, validacionAsistencia, registerAssistance)
-    .put(auth, validacionAsistencia, updateAssistance)
+
+router.put("/employee/assistance/:id", auth, validacionAsistenciaUpdate, updateAssistance);
 
 export default router;

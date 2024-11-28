@@ -22,6 +22,10 @@ const AsistenciasSchema = new Schema({
         type: String,
         enum: ['Presente', 'Ausente'],
         default: 'Presente'
+    },
+    justificacion: {
+        type: String,
+        default: null
     }
 }, {
     timestamps: true

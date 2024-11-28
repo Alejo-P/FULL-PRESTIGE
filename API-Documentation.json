@@ -1659,7 +1659,9 @@
                         }
                     }
                 }
-            },
+            }
+        },
+        "/employee/assistance/{id}": {
             "put": {
                 "summary": "Actualiza la asistencia de un empleado",
                 "tags": [
@@ -1673,9 +1675,9 @@
                 "parameters": [
                     {
                         "in": "path",
-                        "name": "cedula",
+                        "name": "id",
                         "required": true,
-                        "description": "Cédula del empleado",
+                        "description": "Id de la asistencia",
                         "schema": {
                             "type": "string"
                         }
@@ -1707,6 +1709,11 @@
                                         "type": "string",
                                         "description": "Estado de la asistencia",
                                         "example": "Presente"
+                                    },
+                                    "justificacion": {
+                                        "type": "string",
+                                        "description": "Justificación de la actualizacion de la asistencia",
+                                        "example": "Se justifica la actualización de la asistencia"
                                     }
                                 },
                                 "required": [

@@ -67,9 +67,12 @@ export const getAssistance = async (req, res) => {
 
 // Metodo para actualizar una asistencia
 export const updateAssistance = async (req, res) => {
-    const { cedula } = req.params;
-    const { fecha } = req.body;
+    const { id } = req.params;
     try {
+        if (!id) {
+            return res.status(400).json({ message: "El id de la asistencia es necesario" });
+        }
+
         if (req.empleado.cargo !== 'Administrador') {
             return res.status(403).json({ message: "No tiene permisos para realizar esta acción" });
         }
@@ -78,26 +81,19 @@ export const updateAssistance = async (req, res) => {
             return res.status(400).json({ message: "Todos los campos son necesarios" });
         }
 
-        if (!cedula) {
-            return res.status(400).json({ message: "La cedula es necesaria" });
-        }
-
-        const empleado = await empleadosModel.findOne({ cedula });
-        if (!empleado) {
-            return res.status(404).json({ message: "Empleado no encontrado" });
-        }
-
-        const listaAsistencias = await asistencasModel.find({ empleado: empleado._id });
-        if (!listaAsistencias) {
-            return res.status(404).json({ message: "Asistencias no encontrada" });
-        }
-
-        const asistencia = listaAsistencias.find((asistencia) => asistencia.fecha === fecha);
+        const asistencia = await asistencasModel.findById(id);
         if (!asistencia) {
             return res.status(404).json({ message: "Asistencia no encontrada" });
         }
 
-        await asistencasModel.findByIdAndUpdate(asistencia._id, req.body);
+        // Verificar que la fecha no se haya modificado
+        const fecha_registrada = new Date(asistencia.fecha).toISOString().split('T')[0];
+        const fecha_ingresada = new Date(req.body.fecha).toISOString().split('T')[0];
+        if (fecha_registrada !== fecha_ingresada) {
+            return res.status(400).json({ message: "No se puede modificar la fecha de la asistencia" });
+        }
+
+        await asistencasModel.findByIdAndUpdate(id, req.body);
 
         res.status(200).json({ message: "Asistencia actualizada correctamente" });
     } catch (error) {
