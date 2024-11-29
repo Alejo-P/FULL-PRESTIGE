@@ -1,6 +1,6 @@
 node_modules/
 .env
-env.js
+tests/env.js
 
 #Archivos adicionales
 *.pyc
