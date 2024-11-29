@@ -12,9 +12,18 @@ export const connect = async () => {
     try {
         // Si estamos en el entorno de pruebas, usar MongoDB en memoria
         if (process.env.NODE_ENV === 'test') {
-            mongoServer = await MongoMemoryServer.create();
+            mongoServer = await MongoMemoryServer.create({
+                instance: {
+                    dbName: 'test',
+                },
+                binary: {
+                    downloadDir: './mongodb-binaries', // Opcional: especificar un directorio para binarios
+                },
+            });
             const uri = mongoServer.getUri();
-            const { connection } = await mongoose.connect(uri);
+            const { connection } = await mongoose.connect(uri, {
+                connectTimeoutMS: 30000, // Aumenta el tiempo de espera para la conexión
+            });
             console.log('Conexión exitosa a la base de datos en memoria', "Host:", connection.host, "Port:", connection.port);
         } else {
             // Conexión a la base de datos real (para producción, desarrollo, etc.)

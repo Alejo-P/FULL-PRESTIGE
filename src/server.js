@@ -24,7 +24,7 @@ app.use(morgan('dev'));
 
 // Ruta principal
 app.get('/', (req, res) => {
-    res.send('Hello World');
+    res.status(200).send('Hello World');
 });
 
 // Uso de rutas
