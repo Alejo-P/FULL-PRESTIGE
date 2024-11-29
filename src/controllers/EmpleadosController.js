@@ -241,16 +241,18 @@ export const updateProfile = async (req, res) => {
         await empleado.save();
 
         const {
-            cedula,
-            nombre,
-            correo,
-            cargo,
-            telefono,
-            direccion,
-            estado
+            cedula: ced,
+            nombre: nom,
+            correo: cor,
+            cargo: car,
+            telefono: tel,
+            direccion: dir,
+            estado: est
         } = empleado;
 
-        return res.status(200).json({ message: 'Perfil actualizado exitosamente', empleado: { cedula, nombre, correo, cargo, telefono, direccion, estado: estado ? "Activo" : "Inactivo" } });
+        return res.status(200).json({ message: 'Perfil actualizado exitosamente', empleado: { 
+            cedula: ced, nombre: nom, correo: cor, cargo: car, telefono: tel, direccion: dir, estado: est ? "Activo" : "Inactivo"
+        }});
     } catch (error) {
         return res.status(500).json({ message: 'Error al actualizar perfil', error: error.message });
     }
