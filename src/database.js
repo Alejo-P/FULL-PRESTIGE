@@ -27,8 +27,12 @@ export const connect = async () => {
             console.log('Conexión exitosa a la base de datos en memoria', "Host:", connection.host, "Port:", connection.port);
         } else {
             // Conexión a la base de datos real (para producción, desarrollo, etc.)
-            const { connection } = await mongoose.connect(process.env.MONGO_URI);
-            console.log('Conexión exitosa a la base de datos real', "Host:", connection.host, "Port:", connection.port);
+            const { connection } = await mongoose.connect(process.env.MONGO_URI,
+                {
+                    connectTimeoutMS: 30000, // Aumenta el tiempo de espera para la conexión
+                }
+            );
+            console.log('Conexión exitosa a la base de datos local', "Host:", connection.host, "Port:", connection.port);
         }
     } catch (error) {
         console.error('Error al conectar a la base de datos', error);
@@ -38,7 +42,11 @@ export const connect = async () => {
 // Función para conectar a la base de datos de producción
 export const connect_prod = async () => {
     try {
-        const { connection } = await mongoose.connect(process.env.MONGO_URI_PROD);
+        const { connection } = await mongoose.connect(process.env.MONGO_URI_PROD,
+            {
+                connectTimeoutMS: 30000, // Aumenta el tiempo de espera para la conexión
+            }
+        );
         console.log('Conexión exitosa a la base de datos de producción', "Host:", connection.host, "Port:", connection.port);
     } catch (error) {
         console.error('Error al conectar a la base de datos de producción', error);
