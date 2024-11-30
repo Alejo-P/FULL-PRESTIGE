@@ -139,6 +139,7 @@ export const getVehiclesByEmployee = async (req, res) => {
 // Metodo para actualizar un vehiculo
 export const updateVehicle = async (req, res) => {
     const { placa } = req.params;
+    const { cedula_encargado } = req.body;
     try {
         if (req.empleado.cargo !== 'Administrador') {
             return res.status(403).json({ message: "No tiene permisos para realizar esta acción" });
@@ -157,6 +158,16 @@ export const updateVehicle = async (req, res) => {
             return res.status(404).json({ message: "Vehículo no encontrado" });
         }
 
+        const encargado = await empleadosModel.findOne({ cedula: cedula_encargado });
+        if (!encargado || !encargado.estado) {
+            return res.status(404).json({ message: "El encargado no existe o se encuentra desactivado" });
+        }
+
+        if (encargado.cargo !== 'Técnico') {
+            return res.status(400).json({ message: "El encargado debe ser un técnico" });
+        }
+
+        req.body.encargado = encargado._id;
         await vehiculosModel.findByIdAndUpdate(vehicle._id, req.body);
 
         res.status(200).json({ message: "Vehículo actualizado correctamente" });
