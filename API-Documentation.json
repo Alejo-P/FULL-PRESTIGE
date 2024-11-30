@@ -1851,6 +1851,11 @@
                                         "description": "Atrasos del empleado",
                                         "example": 0
                                     },
+                                    "fecha": {
+                                        "type": "string",
+                                        "description": "Fecha del pago",
+                                        "example": "2021-10-15"
+                                    },
                                     "subtotal": {
                                         "type": "number",
                                         "description": "Subtotal del pago",
@@ -1862,6 +1867,7 @@
                                     "permisos",
                                     "multas",
                                     "atrasos",
+                                    "fecha",
                                     "subtotal"
                                 ]
                             }
@@ -1991,6 +1997,10 @@
                                                 "type": "number",
                                                 "description": "Atrasos del empleado"
                                             },
+                                            "fecha": {
+                                                "type": "string",
+                                                "description": "Fecha del pago"
+                                            },
                                             "justificacion": {
                                                 "type": "string",
                                                 "description": "Justificación del pago"
@@ -2045,7 +2055,9 @@
                         }
                     }
                 }
-            },
+            }
+        },
+        "/employee/payment/{id}": {
             "put": {
                 "summary": "Actualiza el pago de un empleado",
                 "tags": [
@@ -2054,9 +2066,9 @@
                 "parameters": [
                     {
                         "in": "path",
-                        "name": "cedula",
+                        "name": "id",
                         "required": true,
-                        "description": "Cédula del empleado",
+                        "description": "Id del pago a actualizar",
                         "schema": {
                             "type": "string"
                         }
@@ -2099,6 +2111,11 @@
                                         "description": "Justificación del pago",
                                         "example": "Se justifica el pago"
                                     },
+                                    "fecha":{
+                                        "type": "string",
+                                        "description": "Fecha del pago",
+                                        "example": "2021-10-15"
+                                    },
                                     "subtotal": {
                                         "type": "number",
                                         "description": "Subtotal del pago",
@@ -2111,6 +2128,7 @@
                                     "multas",
                                     "atrasos",
                                     "justificacion",
+                                    "fecha",
                                     "subtotal"
                                 ]
                             }

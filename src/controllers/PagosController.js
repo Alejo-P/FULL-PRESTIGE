@@ -10,6 +10,7 @@ export const registerPayments = async (req, res) => {
             permisos,
             multas,
             atrasos,
+            fecha,
             subtotal
         } = req.body;
 
@@ -32,6 +33,7 @@ export const registerPayments = async (req, res) => {
             multas,
             atrasos,
             subtotal,
+            fecha,
             empleado: empleado._id,
         });
 
@@ -64,7 +66,7 @@ export const getPayments = async (req, res) => {
 
 // Metodo para actualizar un pago
 export const updatePayment = async (req, res) => {
-    const { cedula } = req.params;
+    const { id } = req.params;
     try {
         if (req.empleado.cargo !== "Administrador") {
             return res.status(401).json({ error: "No tiene permisos para realizar esta acción" });
@@ -74,17 +76,12 @@ export const updatePayment = async (req, res) => {
             return res.status(400).json({ error: "Faltan campos por completar" });
         }
 
-        const empleado = await empleadosModel.findOne({ cedula });
-        if (!empleado) {
-            return res.status(404).json({ error: "No se encontró al empleado" });
-        }
-
-        const pago = await pagosModel.findOne({ empleado: empleado._id });
+        const pago = await pagosModel.findById(id);
         if (!pago) {
             return res.status(404).json({ error: "No se encontró el pago" });
         }
 
-        await pagosModel.findByIdAndUpdate(pago._id, req.body);
+        await pagosModel.findByIdAndUpdate(id, req.body);
         res.status(200).json({ message: "Pago actualizado correctamente" });
     } catch (error) {
         res.status(500).json({ error: error.message });
