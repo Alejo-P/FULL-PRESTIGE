@@ -10,16 +10,21 @@ export const validacionPagos = [
             .withMessage('El adelanto debe ser un número'),
     
     check('permisos')
-        .isString()
-            .withMessage('Los permisos deben ser un texto'),
+        .isNumeric()
+            .withMessage('Los permisos deben ser un número'),
     
     check('multas')
-        .isString()
-            .withMessage('Las multas deben ser un texto'),
+        .isNumeric()
+            .withMessage('Las multas deben ser un número'),
     
     check('atrasos')
+        .isNumeric()
+            .withMessage('Los atrasos deben ser un número'),
+    
+    check('justificacion')
+        .optional({ nullable: true, checkFalsy: true })
         .isString()
-            .withMessage('Los atrasos deben ser un texto'),
+            .withMessage('La justificación debe ser un texto'),
     
     check('subtotal')
         .isNumeric()

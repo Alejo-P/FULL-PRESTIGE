@@ -1837,19 +1837,19 @@
                                         "example": 100
                                     },
                                     "permisos": {
-                                        "type": "string",
+                                        "type": "number",
                                         "description": "Permisos del empleado",
-                                        "example": "Vacaciones"
+                                        "example": 1
                                     },
                                     "multas": {
-                                        "type": "string",
+                                        "type": "number",
                                         "description": "Multas del empleado",
-                                        "example": "Retraso"
+                                        "example": 0
                                     },
                                     "atrasos": {
-                                        "type": "string",
+                                        "type": "number",
                                         "description": "Atrasos del empleado",
-                                        "example": "1"
+                                        "example": 0
                                     },
                                     "subtotal": {
                                         "type": "number",
@@ -1980,16 +1980,20 @@
                                                 "description": "Adelanto del pago"
                                             },
                                             "permisos": {
-                                                "type": "string",
+                                                "type": "number",
                                                 "description": "Permisos del empleado"
                                             },
                                             "multas": {
-                                                "type": "string",
+                                                "type": "number",
                                                 "description": "Multas del empleado"
                                             },
                                             "atrasos": {
-                                                "type": "string",
+                                                "type": "number",
                                                 "description": "Atrasos del empleado"
+                                            },
+                                            "justificacion": {
+                                                "type": "string",
+                                                "description": "Justificación del pago"
                                             },
                                             "subtotal": {
                                                 "type": "number",
@@ -2076,19 +2080,24 @@
                                         "example": 100
                                     },
                                     "permisos": {
-                                        "type": "string",
+                                        "type": "number",
                                         "description": "Permisos del empleado",
-                                        "example": "Vacaciones"
+                                        "example": 1
                                     },
                                     "multas": {
-                                        "type": "string",
+                                        "type": "number",
                                         "description": "Multas del empleado",
-                                        "example": "Retraso"
+                                        "example": 0
                                     },
                                     "atrasos": {
-                                        "type": "string",
+                                        "type": "number",
                                         "description": "Atrasos del empleado",
-                                        "example": "1"
+                                        "example": 0
+                                    },
+                                    "justificacion": {
+                                        "type": "string",
+                                        "description": "Justificación del pago",
+                                        "example": "Se justifica el pago"
                                     },
                                     "subtotal": {
                                         "type": "number",
@@ -2101,6 +2110,7 @@
                                     "permisos",
                                     "multas",
                                     "atrasos",
+                                    "justificacion",
                                     "subtotal"
                                 ]
                             }

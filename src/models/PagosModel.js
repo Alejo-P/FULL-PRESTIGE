@@ -6,16 +6,20 @@ const PagosSchema = new Schema({
         required: true,
     },
     permisos: {
-        type: String,
+        type: Number,
         required: true,
     },
     multas: {
-        type: String,
+        type: Number,
         required: true,
     },
     atrasos: {
-        type: String,
+        type: Number,
         required: true,
+    },
+    justificacion: {
+        type: String,
+        default: "",
     },
     subtotal: {
         type: Number,
