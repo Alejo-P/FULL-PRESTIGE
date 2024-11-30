@@ -153,7 +153,7 @@ export const updateVehicle = async (req, res) => {
         }
 
         const vehicle = await vehiculosModel.findOne({ placa });
-        if (!vehicle || !vehicle.estado) {
+        if (!vehicle) {
             return res.status(404).json({ message: "Vehículo no encontrado" });
         }
 

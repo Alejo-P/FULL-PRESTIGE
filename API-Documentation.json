@@ -2562,8 +2562,19 @@
                                         "type": "string",
                                         "description": "Teléfono del cliente",
                                         "example": "0987654321"
+                                    },
+                                    "direccion": {
+                                        "type": "string",
+                                        "description": "Dirección del cliente",
+                                        "example": "Calle 123"
                                     }
-                                }
+                                },
+                                "required": [
+                                    "nombre",
+                                    "correo",
+                                    "telefono",
+                                    "direccion"
+                                ]
                             }
                         }
                     }
