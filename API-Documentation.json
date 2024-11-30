@@ -2287,8 +2287,8 @@
                                     },
                                     "tecnico":{
                                         "type": "string",
-                                        "description": "Nombre del técnico asignado",
-                                        "example": "Juan Perez"
+                                        "description": "Cedula del técnico asignado",
+                                        "example": "1234567890"
                                     },
                                     "descripcion":{
                                         "type": "string",

@@ -42,7 +42,7 @@ export const registerClient = async (req, res) => {
             return res.status(400).json({ message: "El vehiculo ya esta registrado" });
         }
 
-        const tecnicoEncargado = await empleadosModel.findOne({ nombre: tecnico });
+        const tecnicoEncargado = await empleadosModel.findOne({ cedula: tecnico });
         if (!tecnicoEncargado) {
             return res.status(404).json({ message: "El técnico no existe" });
         }
