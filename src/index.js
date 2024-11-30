@@ -1,6 +1,6 @@
 // Importaciones iniciales
 import app from "./server.js";
-import { connect } from "./database.js";
+import { connect_prod } from "./database.js";
 
 // Puerto de la aplicación
 const PORT = process.env.PORT || 3000;
@@ -9,5 +9,5 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Aplicación corriendo en ${process.env.URL_BACKEND}`);
     console.log(`Documentacion en: ${process.env.URL_BACKEND}/api-docs`);
-    connect();
+    connect_prod();
 });
