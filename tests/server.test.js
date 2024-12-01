@@ -85,6 +85,16 @@ describe("PUT /api/v1/employee/:cedula", () => {
     });
 });
 
+describe("GET /api/v1/profile", () => {
+    it("should return 200 OK", async () => {
+        const response = await request(app)
+            .get("/api/v1/profile")
+            .set("Authorization", `Bearer ${env.getToken()}`);
+        
+        expect(response.status).toBe(200);
+    });
+});
+
 describe("PUT /api/v1/profile", () => {
     it("should return 200 OK", async () => {
         env.actualizarInfoAdmin();
@@ -108,3 +118,49 @@ describe("PUT /api/v1/profile/update-password", () => {
     });
 });
 
+describe("POST /api/v1/employee/:cedula/assistance", () => {
+    it("should return 201 Created", async () => {
+        const response = await request(app)
+            .post(`/api/v1/employee/${env.empleadoUser.cedula}/assistance`)
+            .set("Authorization", `Bearer ${env.getToken()}`)
+            .send(env.datosAsistenciaEmpleado());
+        
+        console.log(response.body);
+        expect(response.status).toBe(201);
+    });
+});
+
+describe("GET /api/v1/employee/:cedula/assistance", () => {
+    it("should return 200 OK", async () => {
+        const response = await request(app)
+            .get(`/api/v1/employee/${env.empleadoUser.cedula}/assistance`)
+            .set("Authorization", `Bearer ${env.getToken()}`);
+        
+        console.log(response.body);
+        env.idAsistencia = response.body[0]._id;
+        expect(response.status).toBe(200);
+    });
+});
+
+describe("PUT /api/v1/employee/assistance/:id", () => {
+    it("should return 200 OK", async () => {
+        const response = await request(app)
+            .put(`/api/v1/employee/assistance/${env.idAsistencia}`)
+            .set("Authorization", `Bearer ${env.getToken()}`)
+            .send(env.datosAsistenciaEmpleado());
+        
+        console.log(response.body);
+        expect(response.status).toBe(200);
+    });
+});
+
+describe("GET /api/v1/employee/:cedula/payments", () => {
+    it("should return 200 OK", async () => {
+        const response = await request(app)
+            .get(`/api/v1/employee/${env.empleadoUser.cedula}/payments`)
+            .set("Authorization", `Bearer ${env.getToken()}`);
+        
+        console.log(response.body);
+        expect(response.status).toBe(200);
+    });
+});
