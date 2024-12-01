@@ -275,6 +275,10 @@ export const updateEmployee = async (req, res) => {
             return res.status(400).json({ message: 'Todos los campos son requeridos' });
         }
 
+        if (req.empleado.cargo !== 'Administrador') {
+            return res.status(403).json({ message: 'No tiene permisos para realizar esta acción' });
+        }
+
         const empleado = await empleadosModel.findOne({ cedula });
         if (!empleado) {
             return res.status(404).json({ message: 'Empleado no encontrado' });
@@ -348,8 +352,16 @@ export const deactivateEmployee = async (req, res) => {
             return res.status(404).json({ message: 'Empleado no encontrado' });
         }
 
+        if (req.empleado.cargo !== 'Administrador') {
+            return res.status(403).json({ message: 'No tiene permisos para realizar esta acción' });
+        }
+
         if (empleado.cedula === req.empleado.cedula) {
             return res.status(404).json({ message: 'No puedes desactivar tu propio perfil' });
+        }
+
+        if (!empleado.estado) {
+            return res.status(404).json({ message: 'El empleado ya se encuentra inactivo' });
         }
 
         if (!empleado.estado) {
