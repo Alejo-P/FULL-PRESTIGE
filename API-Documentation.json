@@ -2759,6 +2759,11 @@
                                         "description": "Placa del vehículo",
                                         "example": "ABC123"
                                     },
+                                    "n_orden":{
+                                        "type": "string",
+                                        "description": "Número de orden",
+                                        "example": "1"
+                                    },
                                     "marca": {
                                         "type": "string",
                                         "description": "Marca del vehículo",

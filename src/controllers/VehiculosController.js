@@ -6,6 +6,7 @@ import empleadosModel from '../models/EmpleadosModel.js';
 export const registerVehicle = async (req, res) => {
     try {
         const {
+            n_orden,
             placa,
             marca,
             modelo,
@@ -48,6 +49,7 @@ export const registerVehicle = async (req, res) => {
         }
 
         const data = {
+            n_orden,
             placa,
             marca,
             modelo,
