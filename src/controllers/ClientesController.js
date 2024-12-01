@@ -70,11 +70,6 @@ export const registerClient = async (req, res) => {
 // Metodo para obtener todos los clientes
 export const getClients = async (req, res) => {
     try {
-
-        if (req.empleado.cargo !== 'Administrador') {
-            return res.status(403).json({ message: "No tiene permisos para realizar esta acción" });
-        }
-
         const clientes = await clientesModel.find();
         res.status(200).json(clientes);
     } catch (error) {
@@ -86,11 +81,6 @@ export const getClients = async (req, res) => {
 export const getClient = async (req, res) => {
     const { cedula } = req.params;
     try {
-
-        if (req.empleado.cargo !== 'Administrador') {
-            return res.status(403).json({ message: "No tiene permisos para realizar esta acción" });
-        }
-
         if (!cedula) {
             return res.status(400).json({ message: "La cédula es necesaria" });
         }
