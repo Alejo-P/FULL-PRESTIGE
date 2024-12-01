@@ -149,8 +149,18 @@ describe("PUT /api/v1/employee/assistance/:id", () => {
             .set("Authorization", `Bearer ${env.getToken()}`)
             .send(env.datosAsistenciaEmpleado());
         
-        console.log(response.body);
         expect(response.status).toBe(200);
+    });
+});
+
+describe("POST /api/v1/employee/:cedula/payments", () => {
+    it("should return 201 Created", async () => {
+        const response = await request(app)
+            .post(`/api/v1/employee/${env.empleadoUser.cedula}/payments`)
+            .set("Authorization", `Bearer ${env.getToken()}`)
+            .send(env.datosPagoEmpleado());
+        
+        expect(response.status).toBe(201);
     });
 });
 
@@ -161,6 +171,18 @@ describe("GET /api/v1/employee/:cedula/payments", () => {
             .set("Authorization", `Bearer ${env.getToken()}`);
         
         console.log(response.body);
+        env.idPago = response.body[0]._id;
+        expect(response.status).toBe(200);
+    });
+});
+
+describe("PUT /api/v1/employee/payment/:id", () => {
+    it("should return 200 OK", async () => {
+        const response = await request(app)
+            .put(`/api/v1/employee/payment/${env.idPago}`)
+            .set("Authorization", `Bearer ${env.getToken()}`)
+            .send(env.datosPagoEmpleado());
+        
         expect(response.status).toBe(200);
     });
 });
