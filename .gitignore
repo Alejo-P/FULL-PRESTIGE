@@ -3,6 +3,11 @@ node_modules/
 tests/env.js
 tests/logs.txt
 
+#Archivos adicionales de pruebas unitarias
+tests/createHTML.js
+tests/handler.js
+tests/results.html
+
 #Archivos adicionales
 *.pyc
 *.DS_Store
