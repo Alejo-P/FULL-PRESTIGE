@@ -36,6 +36,11 @@ export const validacionAsistencia = [
                 throw new Error('La hora de ingreso debe estar entre las 8:00 y las 18:00.');
             }
 
+            // Verificar que la hora actual este dentro del intervalo permitido
+            if (horaActual < 8 || horaActual > 18) {
+                throw new Error('La hora actual no está dentro del intervalo permitido.');
+            }
+
             if (hora < horaActual || (hora === horaActual && minutos < minutosActual)) {
                 throw new Error(`La hora de ingreso no puede ser anterior a la hora actual (${horaActual}:${minutosActual}).`);
             }
