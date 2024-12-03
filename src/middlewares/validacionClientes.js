@@ -52,14 +52,14 @@ export const validacionClientes = [
             .withMessage('El campo "fecha_ingreso" debe ser una fecha válida')
         .custom((value) => {
             const hoy = new Date();
-            hoy.setUTCHours(0, 0, 0, 0);
-            
-            const manana = new Date(hoy);
-            manana.setUTCDate(hoy.getUTCDate() + 1);
+            hoy.setHours(0, 0, 0, 0);
+            const fechahoy = hoy.toISOString().split('T')[0];
 
-            const fechaIngreso = new Date(value);
-            if (fechaIngreso < hoy || fechaIngreso >= manana) {
-                throw new Error("La fecha de ingreso debe ser la fecha actual y no puede ser diferente.");
+            const fecha = new Date(value);
+            const fechaf = fecha.toISOString().split('T')[0];
+
+            if (fechaf !== fechahoy) {
+                throw new Error('La fecha de ingreso debe ser la fecha actual.');
             }
             return true;
         }),

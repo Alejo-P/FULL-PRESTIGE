@@ -177,29 +177,3 @@ export const updateVehicle = async (req, res) => {
         res.status(500).json({ message: "Error al actualizar el vehículo", error: error.message });
     }
 };
-
-// Metodo para eliminar un vehiculo
-export const deleteVehicle = async (req, res) => {
-    const { placa } = req.params;
-    try {
-        if (req.empleado.cargo !== 'Administrador') {
-            return res.status(403).json({ message: "No tiene permisos para realizar esta acción" });
-        }
-
-        if (!placa) {
-            return res.status(400).json({ message: "La placa es necesaria" });
-        }
-
-        const vehicle = await vehiculosModel.findOne({ placa });
-        if (!vehicle) {
-            return res.status(404).json({ message: "Vehículo no encontrado" });
-        }
-
-        vehicle.estado = false;
-        await vehicle.save();
-
-        res.status(200).json({ message: "Vehículo eliminado correctamente" });
-    } catch (error) {
-        res.status(500).json({ message: "Error al eliminar el vehículo", error: error.message });
-    }
-};

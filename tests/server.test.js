@@ -370,3 +370,27 @@ describe("DELETE /api/v1/client/:cedula", () => {
         expect(response.status).toBe(200);
     });
 });
+
+describe("GET /api/v1/vehicle/:placa", () => {
+    it("should return 200 OK", async () => {
+        const response = await request(app)
+            .get(`/api/v1/vehicle/${env.datosRegistroVehiculo().placa}`)
+            .set("Authorization", `Bearer ${env.getToken()}`);
+        
+        response_api = response;
+        expect(response.status).toBe(200);
+    });
+});
+
+describe("PUT /api/v1/vehicle/:placa", () => {
+    it("should return 200 OK", async () => {
+        env.actualizarInfoVehiculo();
+        const response = await request(app)
+            .put(`/api/v1/vehicle/${env.datosRegistroVehiculo().placa}`)
+            .set("Authorization", `Bearer ${env.getToken()}`)
+            .send(env.datosRegistroVehiculo());
+        
+        response_api = response;
+        expect(response.status).toBe(200);
+    });
+});
