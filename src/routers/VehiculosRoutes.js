@@ -5,8 +5,7 @@ import {
     getVehicle,
     getVehiclesByClient,
     getVehiclesByEmployee,
-    updateVehicle,
-    deleteVehicle
+    updateVehicle
 } from '../controllers/VehiculosController.js';
 import auth from '../middlewares/auth.js';
 import { validacionVehiculos } from '../middlewares/validacionVehiculos.js';
