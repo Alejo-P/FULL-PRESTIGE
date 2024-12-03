@@ -97,6 +97,6 @@ export const updateAssistance = async (req, res) => {
 
         res.status(200).json({ message: "Asistencia actualizada correctamente" });
     } catch (error) {
-        res.status(500).json({  message: "Error al actualizar la asistencia", error: error.message });
+        res.status(500).json({ message: "Error al actualizar la asistencia", error: error.message });
     }
 };
