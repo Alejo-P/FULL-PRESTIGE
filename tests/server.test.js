@@ -394,3 +394,61 @@ describe("PUT /api/v1/vehicle/:placa", () => {
         expect(response.status).toBe(200);
     });
 });
+
+describe("POST /api/v1/maintenance/register", () => {
+    it("should return 201 Created", async () => {
+        const response = await request(app)
+            .post("/api/v1/maintenance/register")
+            .set("Authorization", `Bearer ${env.getToken()}`)
+            .send(env.datosRegistroMantenimiento());
+        
+        response_api = response;
+        expect(response.status).toBe(201);
+    });
+});
+
+describe("GET /api/v1/maintenances", () => {
+    it("should return 200 OK", async () => {
+        const response = await request(app)
+            .get("/api/v1/maintenances")
+            .set("Authorization", `Bearer ${env.getToken()}`);
+        
+        response_api = response;
+        env.idMantenimiento = response.body[0]._id;
+        expect(response.status).toBe(200);
+    });
+});
+
+describe("GET /api/v1/maintenance/:id", () => {
+    it("should return 200 OK", async () => {
+        const response = await request(app)
+            .get(`/api/v1/maintenance/${env.idMantenimiento}`)
+            .set("Authorization", `Bearer ${env.getToken()}`);
+        
+        response_api = response;
+        expect(response.status).toBe(200);
+    });
+});
+
+describe("GET /api/v1/maintenance/vehicle/:placa", () => {
+    it("should return 200 OK", async () => {
+        const response = await request(app)
+            .get(`/api/v1/maintenance/vehicle/${env.datosRegistroVehiculo().placa}`)
+            .set("Authorization", `Bearer ${env.getToken()}`);
+        
+        response_api = response;
+        expect(response.status).toBe(200);
+    });
+});
+
+describe("PUT /api/v1/maintenance/:id", () => {
+    it("should return 200 OK", async () => {
+        const response = await request(app)
+            .put(`/api/v1/maintenance/${env.idMantenimiento}`)
+            .set("Authorization", `Bearer ${env.getToken()}`)
+            .send(env.datosRegistroMantenimiento());
+        
+        response_api = response;
+        expect(response.status).toBe(200);
+    });
+});
