@@ -6,6 +6,11 @@ const MantenimientosSchema = new Schema({
         ref: "Vehiculos",
         required: true,
     },
+    encargado: {
+        type: Schema.Types.ObjectId,
+        ref: 'Empleados',
+        required: true,
+    },
     descripcion: {
         type: String,
         required: true,

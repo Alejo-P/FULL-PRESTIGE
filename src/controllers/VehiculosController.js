@@ -12,9 +12,7 @@ export const registerVehicle = async (req, res) => {
             modelo,
             fecha_ingreso,
             fecha_salida,
-            cedula_cliente,
-            cedula_encargado,
-            detalles
+            cedula_cliente
         } = req.body;
         
         if (Object.values(req.body).includes("")) {
@@ -35,19 +33,6 @@ export const registerVehicle = async (req, res) => {
             return res.status(404).json({ message: "El cliente no existe" });
         }
 
-        const encargado = await empleadosModel.findOne({ cedula: cedula_encargado });
-        if (!encargado) {
-            return res.status(404).json({ message: "El encargado no existe" });
-        }
-
-        if (encargado.cargo !== 'Técnico') {
-            return res.status(400).json({ message: "El encargado debe ser un técnico" });
-        }
-
-        if (!encargado.estado) {
-            return res.status(400).json({ message: "El encargado seleccionado esta inactivo" });
-        }
-
         const data = {
             n_orden,
             placa,
@@ -56,8 +41,7 @@ export const registerVehicle = async (req, res) => {
             fecha_ingreso,
             fecha_salida,
             propietario: cliente._id,
-            encargado: encargado._id,
-            detalles
+            encargado: encargado._id
         };
 
         const newVehicle = new vehiculosModel(data);
@@ -72,7 +56,7 @@ export const registerVehicle = async (req, res) => {
 // Metodo para obtener todos los vehiculos
 export const getVehicles = async (req, res) => {
     try {
-        const vehicles = await vehiculosModel.find().populate('propietario encargado', 'nombre cedula telefono correo direccion');
+        const vehicles = await vehiculosModel.find().populate('propietario', 'nombre cedula telefono correo direccion');
         res.status(200).json(vehicles);
     } catch (error) {
         res.status(500).json({ message: "Error al obtener los vehículos", error: error.message });
@@ -87,7 +71,7 @@ export const getVehicle = async (req, res) => {
             return res.status(400).json({ message: "La placa es necesaria" });
         }
 
-        const vehicle = await vehiculosModel.findOne({ placa }).populate('propietario encargado', 'nombre cedula telefono correo direccion');
+        const vehicle = await vehiculosModel.findOne({ placa }).populate('propietario', 'nombre cedula telefono correo direccion');
         if (!vehicle) {
             return res.status(404).json({ message: "Vehículo no encontrado" });
         }
@@ -111,7 +95,7 @@ export const getVehiclesByClient = async (req, res) => {
             return res.status(404).json({ message: "Cliente no encontrado" });
         }
 
-        const vehicles = await vehiculosModel.find({ propietario: cliente._id }).populate('propietario encargado', 'nombre cedula telefono correo direccion');
+        const vehicles = await vehiculosModel.find({ propietario: cliente._id }).populate('propietario', 'nombre cedula telefono correo direccion');
         res.status(200).json(vehicles);
     } catch (error) {
         res.status(500).json({ message: "Error al obtener los vehículos", error: error.message });
