@@ -1,7 +1,7 @@
 import { check, validationResult } from "express-validator";
 
 export const validacionVehiculos = [
-    check(["placa", "marca", "modelo", "cedula_cliente", "fecha_ingreso", "cedula_encargado", "detalles"])
+    check(["placa", "marca", "modelo", "cedula_cliente", "fecha_ingreso"])
         .exists()
             .withMessage("Todos los campos son requeridos")
         .notEmpty()
@@ -41,13 +41,22 @@ export const validacionVehiculos = [
         }
     ),
 
-    check("cedula_encargado")
-        .isString()
-            .withMessage("El campo 'cedula_encargado' debe ser una cadena de texto"),
+    check("fecha_salida")
+        .optional({ checkFalsy: true, nullable: true })
+        .isISO8601()
+            .withMessage("El campo 'fecha_salida' debe ser una fecha válida")
+        .custom((value) => {
+            const fecha_ingreso = req.body.fecha_ingreso;
+            const fecha_salida = new Date(value);
+            const fecha_i = new Date(fecha_ingreso);
+            fecha_i.setHours(0, 0, 0, 0);
 
-    check("detalles")
-        .isString()
-            .withMessage("El campo 'detalles' debe ser una cadena de texto"),
+            if (fecha_salida < fecha_i) {
+                throw new Error('La fecha de salida no puede ser menor a la fecha de ingreso.');
+            }
+            return true;
+        }
+    ),
 
     (req, res, next) => {
         const errors = validationResult(req);

@@ -61,8 +61,6 @@ export const registerMaintenance = async (req, res) => {
             return res.status(400).json({ message: "El encargado seleccionado esta inactivo" });
         }
 
-        console.log("Datos registro: ", maintenance);
-
         if (encargado === maintenance?.encargado?.cedula) {
             return res.status(400).json({ message: "El encargado no puede ser el mismo que el encargado del vehículo" });
         }
@@ -106,14 +104,16 @@ export const getMaintenancesByVehicle = async (req, res) => {
             return res.status(404).json({ message: "El vehículo no existe" });
         }
 
-        const mantenimientos = await mantenimientoModel.find({ vehiculo: vehicle._id }).populate({
+        const mantenimientos = await mantenimientoModel.find({ vehiculo: vehicle._id }).populate([{
             path: 'vehiculo',
             populate: [
-                { path: 'propietario', select: 'cedula nombre telefono correo' },
-                { path: 'encargado', select: 'cedula nombre telefono correo' }
+                { path: 'propietario', select: 'cedula nombre telefono correo' }
             ],
-            select: 'placa marca modelo propietario fecha_ingreso fecha_salida encargado detalles'
-        });
+            select: 'placa marca modelo propietario fecha_ingreso fecha_salida detalles'
+        },{
+            path: 'encargado',
+            select: 'cedula nombre telefono correo'
+        }]);
         res.status(200).json(mantenimientos);
     } catch (error) {
         res.status(500).json({ message: "Error al obtener los mantenimientos", error: error.message });
@@ -124,14 +124,17 @@ export const getMaintenancesByVehicle = async (req, res) => {
 export const getMaintenance = async (req, res) => {
     const { id } = req.params;
     try {
-        const mantenimiento = await mantenimientoModel.findById(id).populate({
+        const mantenimiento = await mantenimientoModel.findById(id).populate([{
             path: 'vehiculo',
             populate: [
                 { path: 'propietario', select: 'cedula nombre telefono correo' },
                 { path: 'encargado', select: 'cedula nombre telefono correo' }
             ],
-            select: 'placa marca modelo propietario fecha_ingreso fecha_salida encargado detalles'
-        });
+            select: 'placa marca modelo propietario fecha_ingreso fecha_salida detalles'
+        }, {
+            path: 'encargado',
+            select: 'cedula nombre telefono correo'
+        }]);
         if (!mantenimiento) {
             return res.status(404).json({ message: "Mantenimiento no encontrado" });
         }
@@ -141,10 +144,40 @@ export const getMaintenance = async (req, res) => {
     }
 };
 
+// Metodo para obtener los mantenimientos de un encargado
+export const getMaintenancesByEmployee = async (req, res) => {
+    const { cedula } = req.params;
+    try {
+        const empleado = await empleadosModel.findOne({ cedula });
+        if (!empleado.estado) {
+            return res.status(400).json({ message: "El empleado seleccionado esta inactivo" });
+        }
+
+        if (!empleado || empleado.cargo !== 'Técnico') {
+            return res.status(404).json({ message: "El empleado no existe o no es un técnico" });
+        }
+
+        const mantenimientos = await mantenimientoModel.find({ encargado: empleado._id }).populate([{
+            path: 'vehiculo',
+            populate: [
+                { path: 'propietario', select: 'cedula nombre telefono correo' }
+            ],
+            select: 'placa marca modelo propietario fecha_ingreso fecha_salida detalles'
+        }, {
+            path: 'encargado',
+            select: 'cedula nombre telefono correo'
+        }]);
+
+        res.status(200).json(mantenimientos);
+    } catch (error) {
+        res.status(500).json({ message: "Error al obtener los mantenimientos", error: error.message });
+    }
+};
+
 // Metodo para actualizar un mantenimiento
 export const updateMaintenance = async (req, res) => {
     const { id } = req.params;
-    const { descripcion, costo, estado } = req.body;
+    const { descripcion, costo, estado, cedula_encargado } = req.body;
     try {
         if (req.empleado.cargo !== 'Administrador') {
             return res.status(403).json({ message: "No tiene permisos para realizar esta acción" });
@@ -157,6 +190,15 @@ export const updateMaintenance = async (req, res) => {
         const mantenimiento = await mantenimientoModel.findById(id);
         if (!mantenimiento) {
             return res.status(404).json({ message: "Mantenimiento no encontrado" });
+        }
+
+        const encargado = await empleadosModel.findOne({ cedula: cedula_encargado });
+        if (!encargado || !encargado.estado) {
+            return res.status(404).json({ message: "El encargado no existe o se encuentra desactivado" });
+        }
+
+        if (encargado.cargo !== 'Técnico') {
+            return res.status(400).json({ message: "El encargado debe ser un técnico" });
         }
 
         await mantenimientoModel.findByIdAndUpdate(id, { descripcion, costo, estado });

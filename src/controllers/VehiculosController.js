@@ -1,6 +1,5 @@
 import vehiculosModel from '../models/VehiculosModel.js';
 import clientesModel from '../models/ClientesModel.js';
-import empleadosModel from '../models/EmpleadosModel.js';
 
 // Metodo para registrar un vehiculo
 export const registerVehicle = async (req, res) => {
@@ -40,8 +39,7 @@ export const registerVehicle = async (req, res) => {
             modelo,
             fecha_ingreso,
             fecha_salida,
-            propietario: cliente._id,
-            encargado: encargado._id
+            propietario: cliente._id
         };
 
         const newVehicle = new vehiculosModel(data);
@@ -102,30 +100,9 @@ export const getVehiclesByClient = async (req, res) => {
     }
 };
 
-// Metodo para obtener los vehiculos de un encargado
-export const getVehiclesByEmployee = async (req, res) => {
-    const { cedula } = req.params;
-    try {
-        if (!cedula) {
-            return res.status(400).json({ message: "La cedula es necesaria" });
-        }
-
-        const encargado = await empleadosModel.findOne({ cedula });
-        if (!encargado) {
-            return res.status(404).json({ message: "Tecnico no encontrado" });
-        }
-
-        const vehicles = await vehiculosModel.find({ encargado: encargado._id }).populate('propietario encargado', 'nombre cedula telefono correo');
-        res.status(200).json(vehicles);
-    } catch (error) {
-        res.status(500).json({ message: "Error al obtener los vehículos", error: error.message });
-    }
-};
-
 // Metodo para actualizar un vehiculo
 export const updateVehicle = async (req, res) => {
     const { placa } = req.params;
-    const { cedula_encargado } = req.body;
     try {
         if (req.empleado.cargo !== 'Administrador') {
             return res.status(403).json({ message: "No tiene permisos para realizar esta acción" });
@@ -144,16 +121,6 @@ export const updateVehicle = async (req, res) => {
             return res.status(404).json({ message: "Vehículo no encontrado" });
         }
 
-        const encargado = await empleadosModel.findOne({ cedula: cedula_encargado });
-        if (!encargado || !encargado.estado) {
-            return res.status(404).json({ message: "El encargado no existe o se encuentra desactivado" });
-        }
-
-        if (encargado.cargo !== 'Técnico') {
-            return res.status(400).json({ message: "El encargado debe ser un técnico" });
-        }
-
-        req.body.encargado = encargado._id;
         await vehiculosModel.findByIdAndUpdate(vehicle._id, req.body);
 
         res.status(200).json({ message: "Vehículo actualizado correctamente" });
