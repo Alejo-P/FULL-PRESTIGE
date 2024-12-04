@@ -2,7 +2,7 @@ import empleadosModel from '../models/EmpleadosModel.js';
 import generarJWT from '../helpers/JWT.js';
 import bcrypt from 'bcrypt';
 
-import { sendMailToRecoveryPassword } from '../config/nodeMailer.js';
+import { sendMailToRecoveryPassword, sendMailToUser } from '../config/nodeMailer.js';
 
 // Controlador para el inicio de sesion de los empleados
 export const login = async (req, res) => {
@@ -34,11 +34,12 @@ export const login = async (req, res) => {
             cargo,
             direccion,
             correo: email,
+            telefono
         } = empleado
 
         const token = generarJWT(_id, cargo);
 
-        return res.status(200).json({ message: 'Inicio de sesión exitoso', empleado: { _id, cedula, nombre, cargo, email, direccion, token }});
+        return res.status(200).json({ message: 'Inicio de sesión exitoso', empleado: { _id, cedula, nombre, cargo, correo: email, direccion, telefono, token }});
     } catch (error) {
         return res.status(500).json({ message: 'Error al iniciar sesión', error: error.message });
     }
@@ -51,6 +52,10 @@ export const register = async (req, res) => {
     try {
         if(Object.values(req.body).includes('')) {
             return res.status(400).json({ message: 'Todos los campos son requeridos' });
+        }
+
+        if (req.empleado.cargo !== 'Administrador') {
+            return res.status(403).json({ message: 'No tiene permisos para realizar esta acción' });
         }
 
         const cedulaFound = await empleadosModel.findOne({ cedula });
@@ -68,6 +73,7 @@ export const register = async (req, res) => {
         empleado.contrasena = bcrypt.hashSync(contrasena, salt);
 
         await empleado.save();
+        await sendMailToUser(correo, {correo, cargo: req.body.cargo, contrasena});
 
         return res.status(201).json({ message: 'Empleado registrado exitosamente', empleado });
     } catch (error) {
