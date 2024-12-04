@@ -103,6 +103,7 @@ export const getVehiclesByClient = async (req, res) => {
 // Metodo para actualizar un vehiculo
 export const updateVehicle = async (req, res) => {
     const { placa } = req.params;
+    const { cedula_cliente } = req.body;
     try {
         if (req.empleado.cargo !== 'Administrador') {
             return res.status(403).json({ message: "No tiene permisos para realizar esta acción" });
@@ -116,10 +117,22 @@ export const updateVehicle = async (req, res) => {
             return res.status(400).json({ message: "La placa es necesaria" });
         }
 
+        if (!cedula_cliente) {
+            return res.status(400).json({ message: "La cedula del cliente es necesaria" });
+        }
+
         const vehicle = await vehiculosModel.findOne({ placa });
         if (!vehicle) {
             return res.status(404).json({ message: "Vehículo no encontrado" });
         }
+
+        const cliente = await clientesModel.findOne({ cedula: cedula_cliente });
+        if (!cliente) {
+            return res.status(404).json({ message: "El cliente no existe" });
+        }
+
+        req.body.propietario = cliente._id;
+        delete req.body.cedula_cliente;
 
         await vehiculosModel.findByIdAndUpdate(vehicle._id, req.body);
 
