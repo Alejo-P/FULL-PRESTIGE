@@ -54,10 +54,6 @@ export const register = async (req, res) => {
             return res.status(400).json({ message: 'Todos los campos son requeridos' });
         }
 
-        if (req.empleado.cargo !== 'Administrador') {
-            return res.status(403).json({ message: 'No tiene permisos para realizar esta acción' });
-        }
-
         const cedulaFound = await empleadosModel.findOne({ cedula });
         if (cedulaFound) {
             return res.status(404).json({ message: 'La cédula ya se encuentra registrada' });
