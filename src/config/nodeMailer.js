@@ -12,6 +12,7 @@ let transporter = nodemailer.createTransport({
     }
 });
 
+// Enviar correo de confirmación al usuario
 export const sendMailToUser = async (userMail, userInfo) => {
     let mailOptions = {
         from: process.env.USER_MAILTRAP,
@@ -172,4 +173,199 @@ export const sendMailToRecoveryPassword = async(userMail, token)=>{
             console.log("Correo de recuperacion enviado satisfactoriamente: ", info.messageId);
         }
     });
-}
+};
+
+// Enviar correo de asignacion de un mantenimiento a un tecnico
+export const sendMailToTechnician = async (userMail, userInfo) => {
+    let mailOptions = {
+        from: process.env.USER_MAILTRAP,
+        to: userMail,
+        subject: "Asignación de mantenimiento",
+        html: `
+            <body style="margin: 0; font-family: Arial, sans-serif;">
+                <!-- Header con imagen de fondo -->
+                <header 
+                    style="
+                        background-image: url('cid:logoImage'); 
+                        background-size: cover; 
+                        background-position: center; 
+                        background-repeat: no-repeat; 
+                        display: flex; 
+                        justify-content: center; 
+                        align-items: center; 
+                        padding: 50px 10px;"
+                >
+                    <h1
+                        style="
+                            color: white; 
+                            text-shadow: 2px 2px 4px #000000; 
+                            text-align: center; 
+                            background-color: rgba(23, 23, 23, 0.7); 
+                            height: 80px; 
+                            line-height: 80px; 
+                            width: 90%; 
+                            margin: 0; 
+                            box-shadow: 0px 0px 10px 5px #171717; 
+                            font-family: cursive; 
+                            font-size: 2.5em;"
+                    >Full Prestige</h1>
+                </header>
+
+                <hr>
+
+                <main style="text-align: center; padding: 10px; background-color: #f2f2f2;">
+                    <p>Se te ha asignado un nuevo mantenimiento</p>
+                    <p>A continuación te proporcionamos los detalles del mantenimiento:</p>
+
+                    <ul style="list-style-type: none; padding: 0;">
+                        <li><strong>Nombre cliente:</strong> ${userInfo.cliente}</li>
+                        <li><strong>Fecha de ingreso:</strong> ${userInfo.fecha}</li>
+                        <li><strong>Placa vehiculo:</strong> ${userInfo.placa}</li>
+                        <li><strong>Marca vehiculo:</strong> ${userInfo.marca}</li>
+                        <li><strong>Modelo vehiculo:</strong> ${userInfo.modelo}</li>
+                    </ul>
+
+                    <div style="text-align: center; padding: 10px;">
+                        <a 
+                            href="${process.env.URL_FRONTEND}/login"
+                            style="background-color: #4CAF50; 
+                                border: none; 
+                                color: white; 
+                                padding: 15px 32px;
+                                text-align: center;
+                                text-decoration: none;
+                                display: inline-block;
+                                font-size: 16px;
+                                border-radius: 15px;"
+                        >
+                            Inicia sesión y revisalo en tu lista de mantenimientos
+                        </a>
+                    </div>
+                    <hr>
+
+                    <p>Si tienes alguna duda o problema, no dudes en contactarnos</p>
+                </main>
+
+                <hr>
+
+                <footer style="background-color: #333333; color: white; text-align: center; padding: 10px;">
+                    Atentamente: <br>
+                    El equipo de soporte
+                </footer>
+            </body>
+        `,
+        attachments: [
+            {
+                filename: 'logo.jpg', // Imagen que usas como fondo
+                path: './assets/logo.jpg', // Ruta a la imagen
+                cid: 'logoImage', // CID único para referenciar la imagen en el correo
+            },
+        ],
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log("Error al enviar el correo: ", error);
+        } else {
+            console.log("Correo de asignacion enviado satisfactoriamente: ", info.messageId);
+        }
+    });
+
+};
+
+// Enviar correo de actualizacion de un mantenimiento a un administrador
+export const sendMailToAdmin = async (userMail, userInfo) => {
+    let mailOptions = {
+        from: process.env.USER_MAILTRAP,
+        to: userMail,
+        subject: "Actualización de mantenimiento",
+        html: `
+            <body style="margin: 0; font-family: Arial, sans-serif;">
+                <!-- Header con imagen de fondo -->
+                <header 
+                    style="
+                        background-image: url('cid:logoImage'); 
+                        background-size: cover; 
+                        background-position: center; 
+                        background-repeat: no-repeat; 
+                        display: flex; 
+                        justify-content: center; 
+                        align-items: center; 
+                        padding: 50px 10px;"
+                >
+                    <h1
+                        style="
+                            color: white; 
+                            text-shadow: 2px 2px 4px #000000; 
+                            text-align: center; 
+                            background-color: rgba(23, 23, 23, 0.7); 
+                            height: 80px; 
+                            line-height: 80px; 
+                            width: 90%; 
+                            margin: 0; 
+                            box-shadow: 0px 0px 10px 5px #171717; 
+                            font-family: cursive; 
+                            font-size: 2.5em;"
+                    >Full Prestige</h1>
+                </header>
+
+                <hr>
+
+                <main style="text-align: center; padding: 10px; background-color: #f2f2f2;">
+                    <p>Se ha actualizado un mantenimiento</p>
+                    <p>A continuación te proporcionamos los detalles del mantenimiento:</p>
+
+                    <ul style="list-style-type: none; padding: 0;">
+                        <li><strong>Nombre cliente:</strong> ${userInfo.cliente}</li>
+                        <li><strong>Fecha de ingreso:</strong> ${userInfo.fecha}</li>
+                        <li><strong>Placa vehiculo:</strong> ${userInfo.placa}</li>
+                        <li><strong>Marca vehiculo:</strong> ${userInfo.marca}</li>
+                        <li><strong>Modelo vehiculo:</strong> ${userInfo.modelo}</li>
+                    </ul>
+
+                    <div style="text-align: center; padding: 10px;">
+                        <a 
+                            href="${process.env.URL_FRONTEND}/login"
+                            style="background-color: #4CAF50; 
+                                border: none; 
+                                color: white; 
+                                padding: 15px 32px; 
+                                text-align: center; 
+                                text-decoration: none; 
+                                display: inline-block; 
+                                font-size: 16px; 
+                                border-radius: 15px;"
+                        >
+                            Revisa el estado del mantenimiento
+                        </a>
+                    </div>
+                    <hr>
+
+                    <p>Si tienes alguna duda o problema, no dudes en contactarnos</p>
+                </main>
+
+                <hr>
+
+                <footer style="background-color: #333333; color: white; text-align: center; padding: 10px;">
+                    Atentamente: <br>
+                    El equipo de soporte
+                </footer>
+            </body>
+        `,
+        attachments: [
+            {
+                filename: 'logo.jpg', // Imagen que usas como fondo
+                path: './assets/logo.jpg', // Ruta a la imagen
+                cid: 'logoImage', // CID único para referenciar la imagen en el correo
+            },
+        ],
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log("Error al enviar el correo: ", error);
+        } else {
+            console.log("Correo de actualizacion enviado satisfactoriamente: ", info.messageId);
+        }
+    });
+};

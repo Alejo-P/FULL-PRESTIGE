@@ -1,27 +1,14 @@
 import clientesModel from '../models/ClientesModel.js';
-import empleadosModel from '../models/EmpleadosModel.js';
-import vehiculosModel from '../models/VehiculosModel.js';
 
 // Metodo para registrar un cliente
 export const registerClient = async (req, res) => {
     try {
         const {
-            // Info del cliente
             cedula,
             nombre,
             correo,
             telefono,
             direccion,
-
-            // Info del vehiculo
-            orden,
-            placa,
-            marca,
-            modelo,
-            fecha_ingreso,
-            fecha_salida,
-            tecnico,
-            descripcion
         } = req.body;
 
         if (req.empleado.cargo !== 'Administrador') {
@@ -37,29 +24,8 @@ export const registerClient = async (req, res) => {
             return res.status(400).json({ message: "El cliente ya esta registrado" });
         }
 
-        const vehiculo = await vehiculosModel.findOne({ placa });
-        if (vehiculo) {
-            return res.status(400).json({ message: "El vehiculo ya esta registrado" });
-        }
-
-        const tecnicoEncargado = await empleadosModel.findOne({ cedula: tecnico });
-        if (!tecnicoEncargado) {
-            return res.status(404).json({ message: "El técnico no existe" });
-        }
-
-        if (tecnicoEncargado.cargo !== 'Técnico') {
-            return res.status(400).json({ message: "El técnico debe ser un técnico" });
-        }
-
-        if (!tecnicoEncargado.estado) {
-            return res.status(400).json({ message: "El técnico seleccionado esta inactivo" });
-        }
-
         const newCliente = new clientesModel({ cedula, nombre, correo, telefono, direccion });
-        const registro = await newCliente.save();
-
-        const newVehiculo = new vehiculosModel({ placa, n_orden: orden, marca, modelo, fecha_ingreso, fecha_salida, propietario: registro._id, encargado: tecnicoEncargado._id, detalles: descripcion });
-        await newVehiculo.save();
+        await newCliente.save();
 
         res.status(201).json({ message: "Cliente registrado correctamente" });
     } catch (error) {

@@ -35,16 +35,7 @@ const VehiculosSchema = new Schema({
     fecha_salida: {
         type: Date,
         default: null,
-    },
-    encargado: {
-        type: Schema.Types.ObjectId,
-        ref: 'Empleados',
-        required: true,
-    },
-    detalles: {
-        type: String,
-        required: true,
-    },
+    }
 },{
     timestamps: true,
 });
