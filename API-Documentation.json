@@ -2254,46 +2254,6 @@
                                         "type": "string",
                                         "description": "Dirección del cliente",
                                         "example": "Calle 123"
-                                    },
-                                    "orden":{
-                                        "type": "string",
-                                        "description": "Orden de servicio",
-                                        "example": "1"
-                                    },
-                                    "placa":{
-                                        "type": "string",
-                                        "description": "Placa del vehículo",
-                                        "example": "ABC123"
-                                    },
-                                    "marca":{
-                                        "type": "string",
-                                        "description": "Marca del vehículo",
-                                        "example": "Chevrolet"
-                                    },
-                                    "modelo":{
-                                        "type": "string",
-                                        "description": "Modelo del vehículo",
-                                        "example": "Aveo"
-                                    },
-                                    "fecha_ingreso":{
-                                        "type": "string",
-                                        "description": "Fecha de ingreso del vehículo",
-                                        "example": "2021-10-15"
-                                    },
-                                    "fecha_salida":{
-                                        "type": "string",
-                                        "description": "Fecha de salida del vehículo",
-                                        "example": "2021-10-15"
-                                    },
-                                    "tecnico":{
-                                        "type": "string",
-                                        "description": "Cedula del técnico asignado",
-                                        "example": "1234567890"
-                                    },
-                                    "descripcion":{
-                                        "type": "string",
-                                        "description": "Descripción del servicio",
-                                        "example": "Cambio de aceite"
                                     }
                                 }
                             }
@@ -2788,15 +2748,6 @@
                                         "type": "string",
                                         "description": "Cédula del cliente dueño del vehículo",
                                         "example": "1234567890"
-                                    },
-                                    "cedula_encargado": {
-                                        "type": "string",
-                                        "description": "Cédula del empleado encargado del vehículo",
-                                        "example": "0987654321"
-                                    },
-                                    "detalles": {
-                                        "type": "string",
-                                        "description": "Detalles del vehículo"
                                     }
                                 }
                             }
@@ -2946,36 +2897,6 @@
                                                         "description": "Dirección de residencia del cliente"
                                                     }
                                                 }
-                                            },
-                                            "encargado": {
-                                                "type": "object",
-                                                "description": "Empleado encargado del vehículo",
-                                                "properties": {
-                                                    "cedula": {
-                                                        "type": "string",
-                                                        "description": "Cédula del empleado"
-                                                    },
-                                                    "nombre": {
-                                                        "type": "string",
-                                                        "description": "Nombre del empleado"
-                                                    },
-                                                    "correo": {
-                                                        "type": "string",
-                                                        "description": "Correo del empleado"
-                                                    },
-                                                    "telefono": {
-                                                        "type": "string",
-                                                        "description": "Teléfono del empleado"
-                                                    },
-                                                    "direccion": {
-                                                        "type": "string",
-                                                        "description": "Dirección de residencia del empleado"
-                                                    }
-                                                }
-                                            },
-                                            "detalles": {
-                                                "type": "string",
-                                                "description": "Detalles del vehículo"
                                             }
                                         }
                                     }
@@ -3085,36 +3006,6 @@
                                                         "description": "direccion de residencia del cliente"
                                                     }
                                                 }
-                                            },
-                                            "encargado": {
-                                                "type": "object",
-                                                "description": "Empleado encargado del vehículo",
-                                                "properties": {
-                                                    "cedula": {
-                                                        "type": "string",
-                                                        "description": "Cédula del empleado"
-                                                    },
-                                                    "nombre": {
-                                                        "type": "string",
-                                                        "description": "Nombre del empleado"
-                                                    },
-                                                    "correo": {
-                                                        "type": "string",
-                                                        "description": "Correo del empleado"
-                                                    },
-                                                    "telefono": {
-                                                        "type": "string",
-                                                        "description": "Teléfono del empleado"
-                                                    },
-                                                    "direccion": {
-                                                        "type": "string",
-                                                        "description": "direccion de residencia del empleado"
-                                                    }
-                                                }
-                                            },
-                                            "detalles": {
-                                                "type": "string",
-                                                "description": "Detalles del vehículo"
                                             }
                                         }
                                     }
@@ -3155,154 +3046,6 @@
                                             "type": "string",
                                             "description": "Detalle del error",
                                             "example": "Error al obtener los vehículos del cliente"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/vehicles/employee/{cedula}": {
-            "get": {
-                "summary": "Obtiene la lista de vehículos asignados a un empleado",
-                "tags": [
-                    "Control de vehículos"
-                ],
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "cedula",
-                        "required": true,
-                        "description": "Cédula del empleado",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Lista de vehículos obtenida correctamente",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "object",
-                                        "properties": {
-                                            "placa": {
-                                                "type": "string",
-                                                "description": "Placa del vehículo"
-                                            },
-                                            "marca": {
-                                                "type": "string",
-                                                "description": "Marca del vehículo"
-                                            },
-                                            "modelo": {
-                                                "type": "string",
-                                                "description": "Modelo del vehículo"
-                                            },
-                                            "fecha_ingreso": {
-                                                "type": "string",
-                                                "description": "Fecha de ingreso del vehículo"
-                                            },
-                                            "fecha_salida": {
-                                                "type": "string",
-                                                "description": "Fecha de salida del vehículo"
-                                            },
-                                            "propietario": {
-                                                "type": "object",
-                                                "description": "Cliente dueño del vehículo",
-                                                "properties": {
-                                                    "cedula": {
-                                                        "type": "string",
-                                                        "description": "Cédula del cliente"
-                                                    },
-                                                    "nombre": {
-                                                        "type": "string",
-                                                        "description": "Nombre del cliente"
-                                                    },
-                                                    "correo": {
-                                                        "type": "string",
-                                                        "description": "Correo del cliente"
-                                                    },
-                                                    "telefono": {
-                                                        "type": "string",
-                                                        "description": "Teléfono del cliente"
-                                                    }
-                                                }
-                                            },
-                                            "encargado": {
-                                                "type": "object",
-                                                "description": "Empleado encargado del vehículo",
-                                                "properties": {
-                                                    "cedula": {
-                                                        "type": "string",
-                                                        "description": "Cédula del empleado"
-                                                    },
-                                                    "nombre": {
-                                                        "type": "string",
-                                                        "description": "Nombre del empleado"
-                                                    },
-                                                    "correo": {
-                                                        "type": "string",
-                                                        "description": "Correo del empleado"
-                                                    },
-                                                    "telefono": {
-                                                        "type": "string",
-                                                        "description": "Teléfono del empleado"
-                                                    }
-                                                }
-                                            },
-                                            "detalles": {
-                                                "type": "string",
-                                                "description": "Detalles del vehículo"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Empleado no encontrado o sin vehículos registrados",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "description": "Mensaje de error",
-                                            "example": "Empleado no encontrado o sin vehículos registrados"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Error en el servidor",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "description": "Mensaje de error",
-                                            "example": "Error al obtener los vehículos"
-                                        },
-                                        "error": {
-                                            "type": "string",
-                                            "description": "Detalle del error",
-                                            "example": "Error al obtener los vehículos del empleado"
                                         }
                                     }
                                 }
@@ -3383,32 +3126,6 @@
                                                     "description": "Teléfono del cliente"
                                                 }
                                             }
-                                        },
-                                        "encargado": {
-                                            "type": "object",
-                                            "description": "Empleado encargado del vehículo",
-                                            "properties": {
-                                                "cedula": {
-                                                    "type": "string",
-                                                    "description": "Cédula del empleado"
-                                                },
-                                                "nombre": {
-                                                    "type": "string",
-                                                    "description": "Nombre del empleado"
-                                                },
-                                                "correo": {
-                                                    "type": "string",
-                                                    "description": "Correo del empleado"
-                                                },
-                                                "telefono": {
-                                                    "type": "string",
-                                                    "description": "Teléfono del empleado"
-                                                }
-                                            }
-                                        },
-                                        "detalles": {
-                                            "type": "string",
-                                            "description": "Detalles del vehículo"
                                         }
                                     }
                                 }
@@ -3484,6 +3201,11 @@
                             "schema": {
                                 "type": "object",
                                 "properties": {
+                                    "n_orden":{
+                                        "type": "string",
+                                        "description": "Número de orden",
+                                        "example": "1"
+                                    },
                                     "marca": {
                                         "type": "string",
                                         "description": "Marca del vehículo",
@@ -3509,14 +3231,10 @@
                                         "description": "Cédula del cliente dueño del vehículo",
                                         "example": "1234567890"
                                     },
-                                    "cedula_encargado": {
+                                    "estado": {
                                         "type": "string",
-                                        "description": "Cédula del empleado encargado del vehículo",
-                                        "example": "0987654321"
-                                    },
-                                    "detalles": {
-                                        "type": "string",
-                                        "description": "Detalles del vehículo"
+                                        "description": "Estado del vehículo, puede ser ('Finalizado', 'En proceso', 'Entregado' o 'Pendiente')",
+                                        "example": "En proceso"
                                     }
                                 }
                             }
@@ -3632,6 +3350,11 @@
                                         "type": "number",
                                         "description": "Costo del mantenimiento",
                                         "example": 100
+                                    },
+                                    "encargado": {
+                                        "type": "string",
+                                        "description": "Cédula del empleado encargado del mantenimiento",
+                                        "example": "1234567890"
                                     }
                                 }
                             }
@@ -3764,42 +3487,34 @@
                                                                 "description": "Teléfono del cliente"
                                                             }
                                                         }
-                                                    },
-                                                    "encargado": {
-                                                        "type": "object",
-                                                        "description": "Empleado encargado del vehículo",
-                                                        "properties": {
-                                                            "cedula": {
-                                                                "type": "string",
-                                                                "description": "Cédula del empleado"
-                                                            },
-                                                            "nombre": {
-                                                                "type": "string",
-                                                                "description": "Nombre del empleado"
-                                                            },
-                                                            "correo": {
-                                                                "type": "string",
-                                                                "description": "Correo del empleado"
-                                                            },
-                                                            "telefono": {
-                                                                "type": "string",
-                                                                "description": "Teléfono del empleado"
-                                                            }
-                                                        }
-                                                    },
-                                                    "detalles": {
-                                                        "type": "string",
-                                                        "description": "Detalles del vehículo"
                                                     }
                                                 }
                                             },
-                                            "fecha": {
-                                                "type": "string",
-                                                "description": "Fecha del mantenimiento"
+                                            "encargado": {
+                                                "type": "object",
+                                                "description": "Empleado encargado del vehículo",
+                                                "properties": {
+                                                    "cedula": {
+                                                        "type": "string",
+                                                        "description": "Cédula del empleado"
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "description": "Nombre del empleado"
+                                                    },
+                                                    "correo": {
+                                                        "type": "string",
+                                                        "description": "Correo del empleado"
+                                                    },
+                                                    "telefono": {
+                                                        "type": "string",
+                                                        "description": "Teléfono del empleado"
+                                                    }
+                                                }
                                             },
                                             "descripcion": {
                                                 "type": "string",
-                                                "description": "Descripción del mantenimiento"
+                                                "description": "Descripcion del mantenimiento"
                                             },
                                             "costo": {
                                                 "type": "number",
@@ -3867,86 +3582,78 @@
                                     "type": "object",
                                     "properties": {
                                         "vehiculo": {
+                                                "type": "object",
+                                                "description": "Detalles del vehículo",
+                                                "properties": {
+                                                    "placa": {
+                                                        "type": "string",
+                                                        "description": "Placa del vehículo"
+                                                    },
+                                                    "marca": {
+                                                        "type": "string",
+                                                        "description": "Marca del vehículo"
+                                                    },
+                                                    "modelo": {
+                                                        "type": "string",
+                                                        "description": "Modelo del vehículo"
+                                                    },
+                                                    "fecha_ingreso": {
+                                                        "type": "string",
+                                                        "description": "Fecha de ingreso del vehículo"
+                                                    },
+                                                    "fecha_salida": {
+                                                        "type": "string",
+                                                        "description": "Fecha de salida del vehículo"
+                                                    },
+                                                    "propietario": {
+                                                        "type": "object",
+                                                        "description": "Cliente dueño del vehículo",
+                                                        "properties": {
+                                                            "cedula": {
+                                                                "type": "string",
+                                                                "description": "Cédula del cliente"
+                                                            },
+                                                            "nombre": {
+                                                                "type": "string",
+                                                                "description": "Nombre del cliente"
+                                                            },
+                                                            "correo": {
+                                                                "type": "string",
+                                                                "description": "Correo del cliente"
+                                                            },
+                                                            "telefono": {
+                                                                "type": "string",
+                                                                "description": "Teléfono del cliente"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                        },
+                                        "encargado": {
                                             "type": "object",
-                                            "description": "Detalles del vehículo",
+                                            "description": "Empleado encargado del vehículo",
                                             "properties": {
-                                                "placa": {
+                                                "cedula": {
                                                     "type": "string",
-                                                    "description": "Placa del vehículo"
+                                                    "description": "Cédula del empleado"
                                                 },
-                                                "marca": {
+                                                "nombre": {
                                                     "type": "string",
-                                                    "description": "Marca del vehículo"
+                                                    "description": "Nombre del empleado"
                                                 },
-                                                "modelo": {
+                                                "correo": {
                                                     "type": "string",
-                                                    "description": "Modelo del vehículo"
+                                                    "description": "Correo del empleado"
                                                 },
-                                                "fecha_ingreso": {
+                                                "telefono": {
                                                     "type": "string",
-                                                    "description": "Fecha de ingreso del vehículo"
-                                                },
-                                                "fecha_salida": {
-                                                    "type": "string",
-                                                    "description": "Fecha de salida del vehículo"
-                                                },
-                                                "propietario": {
-                                                    "type": "object",
-                                                    "description": "Cliente dueño del vehículo",
-                                                    "properties": {
-                                                        "cedula": {
-                                                            "type": "string",
-                                                            "description": "Cédula del cliente"
-                                                        },
-                                                        "nombre": {
-                                                            "type": "string",
-                                                            "description": "Nombre del cliente"
-                                                        },
-                                                        "correo": {
-                                                            "type": "string",
-                                                            "description": "Correo del cliente"
-                                                        },
-                                                        "telefono": {
-                                                            "type": "string",
-                                                            "description": "Teléfono del cliente"
-                                                        }
-                                                    }
-                                                },
-                                                "encargado": {
-                                                    "type": "object",
-                                                    "description": "Empleado encargado del vehículo",
-                                                    "properties": {
-                                                        "cedula": {
-                                                            "type": "string",
-                                                            "description": "Cédula del empleado"
-                                                        },
-                                                        "nombre": {
-                                                            "type": "string",
-                                                            "description": "Nombre del empleado"
-                                                        },
-                                                        "correo": {
-                                                            "type": "string",
-                                                            "description": "Correo del empleado"
-                                                        },
-                                                        "telefono": {
-                                                            "type": "string",
-                                                            "description": "Teléfono del empleado"
-                                                        }
-                                                    }
-                                                },
-                                                "detalles": {
-                                                    "type": "string",
-                                                    "description": "Detalles del vehículo"
+                                                    "description": "Teléfono del empleado"
                                                 }
                                             }
                                         },
-                                        "fecha": {
-                                            "type": "string",
-                                            "description": "Fecha del mantenimiento"
-                                        },
                                         "descripcion": {
                                             "type": "string",
-                                            "description": "Descripción del mantenimiento"
+                                            "description": "Descripcion del mantenimiento"
                                         },
                                         "costo": {
                                             "type": "number",
@@ -4031,15 +3738,15 @@
                                         "description": "Descripción del mantenimiento",
                                         "example": "Cambio de aceite"
                                     },
-                                    "estado":{
-                                        "type": "boolean",
-                                        "description": "Estado del mantenimiento (true: completado, false: pendiente)",
-                                        "example": true
-                                    },
                                     "costo": {
                                         "type": "number",
                                         "description": "Costo del mantenimiento",
                                         "example": 100
+                                    },
+                                    "cedula_encargado":{
+                                        "type": "string",
+                                        "description": "Cédula del empleado encargado del mantenimiento",
+                                        "example": "1234567890"
                                     }
                                 }
                             }
@@ -4114,6 +3821,164 @@
                                             "type": "string",
                                             "description": "Detalle del error",
                                             "example": "Error al actualizar el mantenimiento"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/maintenance/employee/{cedula}":{
+            "get": {
+                "summary": "Obtiene la lista de mantenimientos asignados a un empleado",
+                "tags": [
+                    "Control de mantenimientos"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "cedula",
+                        "required": true,
+                        "description": "Cedula del empleado",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles del mantenimiento obtenidos correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items":{
+                                        "type": "object",
+                                        "properties": {
+                                            "vehiculo": {
+                                                    "type": "object",
+                                                    "description": "Detalles del vehículo",
+                                                    "properties": {
+                                                        "placa": {
+                                                            "type": "string",
+                                                            "description": "Placa del vehículo"
+                                                        },
+                                                        "marca": {
+                                                            "type": "string",
+                                                            "description": "Marca del vehículo"
+                                                        },
+                                                        "modelo": {
+                                                            "type": "string",
+                                                            "description": "Modelo del vehículo"
+                                                        },
+                                                        "fecha_ingreso": {
+                                                            "type": "string",
+                                                            "description": "Fecha de ingreso del vehículo"
+                                                        },
+                                                        "fecha_salida": {
+                                                            "type": "string",
+                                                            "description": "Fecha de salida del vehículo"
+                                                        },
+                                                        "propietario": {
+                                                            "type": "object",
+                                                            "description": "Cliente dueño del vehículo",
+                                                            "properties": {
+                                                                "cedula": {
+                                                                    "type": "string",
+                                                                    "description": "Cédula del cliente"
+                                                                },
+                                                                "nombre": {
+                                                                    "type": "string",
+                                                                    "description": "Nombre del cliente"
+                                                                },
+                                                                "correo": {
+                                                                    "type": "string",
+                                                                    "description": "Correo del cliente"
+                                                                },
+                                                                "telefono": {
+                                                                    "type": "string",
+                                                                    "description": "Teléfono del cliente"
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                            },
+                                            "encargado": {
+                                                "type": "object",
+                                                "description": "Empleado encargado del vehículo",
+                                                "properties": {
+                                                    "cedula": {
+                                                        "type": "string",
+                                                        "description": "Cédula del empleado"
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "description": "Nombre del empleado"
+                                                    },
+                                                    "correo": {
+                                                        "type": "string",
+                                                        "description": "Correo del empleado"
+                                                    },
+                                                    "telefono": {
+                                                        "type": "string",
+                                                        "description": "Teléfono del empleado"
+                                                    }
+                                                }
+                                            },
+                                            "descripcion": {
+                                                "type": "string",
+                                                "description": "Descripcion del mantenimiento"
+                                            },
+                                            "costo": {
+                                                "type": "number",
+                                                "description": "Costo del mantenimiento"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Mantenimiento no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Mensaje de error",
+                                            "example": "Mantenimiento no encontrado"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error en el servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Mensaje de error",
+                                            "example": "Error al obtener los detalles del mantenimiento"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "description": "Detalle del error",
+                                            "example": "Error al obtener los detalles del mantenimiento"
                                         }
                                     }
                                 }

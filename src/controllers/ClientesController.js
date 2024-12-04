@@ -1,6 +1,4 @@
 import clientesModel from '../models/ClientesModel.js';
-import empleadosModel from '../models/EmpleadosModel.js';
-import vehiculosModel from '../models/VehiculosModel.js';
 
 // Metodo para registrar un cliente
 export const registerClient = async (req, res) => {

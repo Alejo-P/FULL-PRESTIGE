@@ -127,8 +127,7 @@ export const getMaintenance = async (req, res) => {
         const mantenimiento = await mantenimientoModel.findById(id).populate([{
             path: 'vehiculo',
             populate: [
-                { path: 'propietario', select: 'cedula nombre telefono correo' },
-                { path: 'encargado', select: 'cedula nombre telefono correo' }
+                { path: 'propietario', select: 'cedula nombre telefono correo' }
             ],
             select: 'placa marca modelo propietario fecha_ingreso fecha_salida detalles'
         }, {
@@ -177,7 +176,7 @@ export const getMaintenancesByEmployee = async (req, res) => {
 // Metodo para actualizar un mantenimiento
 export const updateMaintenance = async (req, res) => {
     const { id } = req.params;
-    const { descripcion, costo, estado, cedula_encargado } = req.body;
+    const { descripcion, costo, cedula_encargado } = req.body;
     try {
         if (req.empleado.cargo !== 'Administrador') {
             return res.status(403).json({ message: "No tiene permisos para realizar esta acción" });
@@ -201,7 +200,7 @@ export const updateMaintenance = async (req, res) => {
             return res.status(400).json({ message: "El encargado debe ser un técnico" });
         }
 
-        await mantenimientoModel.findByIdAndUpdate(id, { descripcion, costo, estado });
+        await mantenimientoModel.findByIdAndUpdate(id, { descripcion, costo, encargado: encargado._id });
         res.status(200).json({ message: "Mantenimiento actualizado correctamente" });
     } catch (error) {
         res.status(500).json({ message: "Error al actualizar el mantenimiento", error: error.message });
