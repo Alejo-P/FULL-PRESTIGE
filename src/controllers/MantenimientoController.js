@@ -9,7 +9,7 @@ export const registerMaintenance = async (req, res) => {
             placa,
             descripcion,
             costo,
-            cedula_encargado
+            encargado: cedula_encargado
         } = req.body;
 
         if (req.empleado.cargo !== 'Administrador') {
