@@ -12,8 +12,8 @@ export const registerMaintenance = async (req, res) => {
             encargado: cedula_encargado
         } = req.body;
 
-        if (req.empleado.cargo !== 'Administrador') {
-            return res.status(403).json({ message: "No tiene permisos para realizar esta acción" });
+        if (req.empleado.cargo !== 'Técnico') {
+            return res.status(403).json({ message: "Solo los técnicos pueden registrar informacion sobre mantenimientos" });
         }
 
         if (Object.values(req.body).includes("")) {
@@ -61,8 +61,8 @@ export const registerMaintenance = async (req, res) => {
             return res.status(400).json({ message: "El encargado seleccionado esta inactivo" });
         }
 
-        if (encargado === maintenance?.encargado?.cedula) {
-            return res.status(400).json({ message: "El encargado no puede ser el mismo que el encargado del vehículo" });
+        if (vehicle.encargado !== encargado._id) {
+            return res.status(400).json({ message: "EL vehiculo no esta asignado a este encargado" });
         }
 
         const newMaintenance = new mantenimientoModel({ vehiculo: vehicle._id, descripcion, costo, encargado: encargado._id });

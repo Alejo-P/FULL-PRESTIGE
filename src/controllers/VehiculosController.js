@@ -1,5 +1,6 @@
 import vehiculosModel from '../models/VehiculosModel.js';
 import clientesModel from '../models/ClientesModel.js';
+import empleadosModel from '../models/EmpleadosModel.js';
 
 // Metodo para registrar un vehiculo
 export const registerVehicle = async (req, res) => {
@@ -51,6 +52,40 @@ export const registerVehicle = async (req, res) => {
     }
 };
 
+// Metodo para asignar un vehiculo a un técnico
+export const assignVehicle = async (req, res) => {
+    const { placa, cedula_tecnico } = req.body;
+    try {
+        if (req.empleado.cargo !== 'Administrador') {
+            return res.status(403).json({ message: "No tiene permisos para realizar esta acción" });
+        }
+
+        if (!placa) {
+            return res.status(400).json({ message: "La placa es necesaria" });
+        }
+
+        if (!cedula_tecnico) {
+            return res.status(400).json({ message: "La cedula del técnico es necesaria" });
+        }
+
+        const vehicle = await vehiculosModel.findOne({ placa });
+        if (!vehicle) {
+            return res.status(404).json({ message: "Vehículo no encontrado" });
+        }
+
+        const tecnico = await empleadosModel.findOne({ cedula: cedula_tecnico });
+        if (!tecnico || tecnico.cargo !== 'Técnico') {
+            return res.status(404).json({ message: "El técnico no existe o no es un técnico" });
+        }
+
+        await vehiculosModel.findByIdAndUpdate(vehicle._id, { encargado: tecnico._id });
+
+        res.status(200).json({ message: "Vehículo asignado correctamente" });
+    } catch (error) {
+        res.status(500).json({ message: "Error al asignar el vehículo", error: error.message });
+    }
+};
+
 // Metodo para obtener todos los vehiculos
 export const getVehicles = async (req, res) => {
     try {
@@ -94,6 +129,26 @@ export const getVehiclesByClient = async (req, res) => {
         }
 
         const vehicles = await vehiculosModel.find({ propietario: cliente._id }).populate('propietario', 'nombre cedula telefono correo direccion');
+        res.status(200).json(vehicles);
+    } catch (error) {
+        res.status(500).json({ message: "Error al obtener los vehículos", error: error.message });
+    }
+};
+
+// Metodo para obtener los vehiculos asignados a un técnico
+export const getVehiclesByEmployee = async (req, res) => {
+    const { cedula } = req.params;
+    try {
+        if (!cedula) {
+            return res.status(400).json({ message: "La cedula es necesaria" });
+        }
+
+        const tecnico = await empleadosModel.findOne({ cedula });
+        if (!tecnico) {
+            return res.status(404).json({ message: "Técnico no encontrado" });
+        }
+
+        const vehicles = await vehiculosModel.find({ encargado: tecnico._id }).populate('propietario', 'nombre cedula telefono correo direccion');
         res.status(200).json(vehicles);
     } catch (error) {
         res.status(500).json({ message: "Error al obtener los vehículos", error: error.message });

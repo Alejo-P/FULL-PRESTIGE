@@ -2214,7 +2214,7 @@
         },
         "/client": {
             "post": {
-                "summary": "Registra un nuevo cliente y su vehiculo",
+                "summary": "Registra un nuevo cliente",
                 "tags": [
                     "Control de clientes"
                 ],
@@ -2831,6 +2831,116 @@
                 }
             }
         },
+        "/vehicle/assign":{
+            "post": {
+                "summary": "Asigna un vehículo a un técnico",
+                "tags": [
+                    "Control de vehículos"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "placa": {
+                                        "type": "string",
+                                        "description": "Placa del vehículo",
+                                        "example": "ABC123"
+                                    },
+                                    "cedula_tecnico": {
+                                        "type": "string",
+                                        "description": "Cédula del técnico",
+                                        "example": "1234567890"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Vehículo asignado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Mensaje de éxito",
+                                            "example": "Vehículo asignado correctamente"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la validación de datos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Mensaje de error",
+                                            "example": "Todos los campos son requeridos"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Cliente o vehículo no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Mensaje de error",
+                                            "example": "Cliente o vehículo no encontrado"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error en el servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Mensaje de error",
+                                            "example": "Error al asignar el vehículo"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "description": "Detalle del error",
+                                            "example": "Error al asignar el vehículo"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/vehicles": {
             "get": {
                 "summary": "Obtiene la lista de vehículos",
@@ -3046,6 +3156,132 @@
                                             "type": "string",
                                             "description": "Detalle del error",
                                             "example": "Error al obtener los vehículos del cliente"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/vehicles/employee/{cedula}":{
+            "get": {
+                "summary": "Obtiene la lista de vehículos asignados a un técnico",
+                "tags": [
+                    "Control de vehículos"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "cedula",
+                        "required": true,
+                        "description": "Cédula del técnico",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de vehículos obtenida correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "placa": {
+                                                "type": "string",
+                                                "description": "Placa del vehículo"
+                                            },
+                                            "marca": {
+                                                "type": "string",
+                                                "description": "Marca del vehículo"
+                                            },
+                                            "modelo": {
+                                                "type": "string",
+                                                "description": "Modelo del vehículo"
+                                            },
+                                            "fecha_ingreso": {
+                                                "type": "string",
+                                                "description": "Fecha de ingreso del vehículo"
+                                            },
+                                            "fecha_salida": {
+                                                "type": "string",
+                                                "description": "Fecha de salida del vehículo"
+                                            },
+                                            "propietario": {
+                                                "type": "object",
+                                                "description": "Cliente dueño del vehículo",
+                                                "properties": {
+                                                    "cedula": {
+                                                        "type": "string",
+                                                        "description": "Cédula del cliente"
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "description": "Nombre del cliente"
+                                                    },
+                                                    "correo": {
+                                                        "type": "string",
+                                                        "description": "Correo del cliente"
+                                                    },
+                                                    "telefono": {
+                                                        "type": "string",
+                                                        "description": "Teléfono del cliente"
+                                                    },
+                                                    "direccion": {
+                                                        "type": "string",
+                                                        "description": "Dirección de residencia del cliente"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Técnico no encontrado o sin vehículos asignados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Mensaje de error",
+                                            "example": "Técnico no encontrado o sin vehículos asignados"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error en el servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Mensaje de error",
+                                            "example": "Error al obtener los vehículos"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "description": "Detalle del error",
+                                            "example": "Error al obtener los vehículos del técnico"
                                         }
                                     }
                                 }

@@ -128,7 +128,7 @@ export const sendMailToRecoveryPassword = async(userMail, token)=>{
         subject: "Restablece tu contraseña"
     };
 
-    info.html = `
+    mailOptions.html = `
         <body style="margin: 0; font-family: Arial, sans-serif;">
             <header style="background-color: #333333; color: white; text-align: center; padding: 10px;">
                 <h1>Full Prestige</h1>
