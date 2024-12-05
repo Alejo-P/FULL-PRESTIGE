@@ -327,6 +327,21 @@ describe("POST /api/v1/vehicle", () => {
     });
 });
 
+describe("POST /api/v1/vehicle/assign", () => {
+    it("should return 201 Created", async () => {
+        const response = await request(app)
+            .post("/api/v1/vehicle/assign")
+            .set("Authorization", `Bearer ${env.getToken()}`)
+            .send({
+                placa: env.datosRegistroVehiculo().placa,
+                tecnico: env.empleadoUser.cedula
+            });
+        
+        response_api = response;
+        expect(response.status).toBe(201);
+    });
+});
+
 describe("GET /api/v1/vehicles", () => {
     it("should return 200 OK", async () => {
         const response = await request(app)
