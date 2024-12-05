@@ -176,7 +176,7 @@ export const getMaintenancesByEmployee = async (req, res) => {
 // Metodo para actualizar un mantenimiento
 export const updateMaintenance = async (req, res) => {
     const { id } = req.params;
-    const { descripcion, costo, cedula_encargado } = req.body;
+    const { descripcion, costo, cedula_encargado, estado } = req.body;
     try {
         if (req.empleado.cargo !== 'Administrador') {
             return res.status(403).json({ message: "No tiene permisos para realizar esta acción" });
@@ -200,7 +200,7 @@ export const updateMaintenance = async (req, res) => {
             return res.status(400).json({ message: "El encargado debe ser un técnico" });
         }
 
-        await mantenimientoModel.findByIdAndUpdate(id, { descripcion, costo, encargado: encargado._id });
+        await mantenimientoModel.findByIdAndUpdate(id, { descripcion, costo, encargado: encargado._id, estado });
         res.status(200).json({ message: "Mantenimiento actualizado correctamente" });
     } catch (error) {
         res.status(500).json({ message: "Error al actualizar el mantenimiento", error: error.message });

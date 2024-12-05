@@ -19,6 +19,11 @@ const MantenimientosSchema = new Schema({
         type: Number,
         required: true,
     },
+    estado: {
+        type: String,
+        enum: ['Pendiente', 'En Proceso', 'Finalizado'],
+        default: 'Pendiente',
+    },
 },{
     timestamps: true,
 });

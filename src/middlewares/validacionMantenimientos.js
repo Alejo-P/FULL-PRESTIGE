@@ -21,7 +21,11 @@ export const validacionMantenimientos = [
     
     check("cedula_encargado")
         .isString()
-            .withMessage("El campo 'cedula_encargado' debe ser una cadena de texto"),
+            .withMessage("El campo 'cedula_encargado' debe ser una cadena de texto")
+        .isLength({ min: 10, max: 10 })
+            .withMessage("La cédula del encargado debe tener 10 caracteres")
+        .matches(/^[0-9]+$/)
+            .withMessage("La cédula del encargado solo puede contener números"),
 
     check("descripcion")
         .isString()

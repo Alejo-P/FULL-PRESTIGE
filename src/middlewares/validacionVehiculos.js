@@ -45,7 +45,7 @@ export const validacionVehiculos = [
         .optional({ checkFalsy: true, nullable: true })
         .isISO8601()
             .withMessage("El campo 'fecha_salida' debe ser una fecha válida")
-        .custom((value) => {
+        .custom((value, { req }) => {
             const fecha_ingreso = req.body.fecha_ingreso;
             const fecha_salida = new Date(value);
             const fecha_i = new Date(fecha_ingreso);

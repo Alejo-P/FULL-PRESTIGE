@@ -10,7 +10,7 @@
     "test": "cross-env NODE_ENV=test jest --detectOpenHandles"
   },
   "keywords": [],
-  "author": "",
+  "author": "Marcelo Pinzón",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
