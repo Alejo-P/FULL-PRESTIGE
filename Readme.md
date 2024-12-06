@@ -1,6 +1,6 @@
 <h1>Full Prestige - API (Backend)</h1>
 <p>
-    API desarrollada con Express y Node.js para la gestión de información de
+    API desarrollada con Express y Node.js para la gestión de infromación de
     un taller automotriz <code>Full Prestige</code>
 </p>
 
@@ -19,15 +19,15 @@
 
 <h1 id="descripción">Descripción</h1>
 <p>
-    API que permite gestionar la información de un taller automotriz.
-    Incluye funcionalidades como la gestión de clientes, vehículos,
-    empleados y controles. Los datos se almacenan en una base de datos MongoDB.
+    API que permite la gestión de la información que se maneja en el taller,
+    como lo son los clientes, vehículos que ingresan, empleados presentes, y
+    controles, almacenandolos en una base de datos MongoDB.
 </p>
 
 <h1 id="características">Características</h1>
 <ul>
-    <li>Autorización basada en roles</li>
-    <li>Autenticación basada en JWT</li>
+    <li>Autorizacion basada en roles</li>
+    <li>Autenticacion basada en JWT</li>
     <li>Registro y actualización de empleado con distinto cargos</li>
     <li>Registro y control de asistencia a cada uno de los empleados</li>
     <li>Registro y actualización de clientes y sus respectivos vehiculos</li>
@@ -68,7 +68,7 @@ cd FULL-PRESTIGE</code></pre>
     proyecto basado en el archivo <code>.env.example</code> y configurar las
     variables de entorno necesarias.
 </p>
-<pre><code>copy .env.example .env</code></pre>
+<pre><code>opy .env.example .env</code></pre>
 
 <h1 id="uso">Uso</h1>
 
