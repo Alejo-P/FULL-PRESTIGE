@@ -180,7 +180,7 @@ export const sendMailToTechnician = async (userMail, userInfo) => {
     let mailOptions = {
         from: process.env.USER_MAILTRAP,
         to: userMail,
-        subject: "Asignación de mantenimiento",
+        subject: "Asignación de nuevo vehiculo",
         html: `
             <body style="margin: 0; font-family: Arial, sans-serif;">
                 <!-- Header con imagen de fondo -->
@@ -214,15 +214,16 @@ export const sendMailToTechnician = async (userMail, userInfo) => {
                 <hr>
 
                 <main style="text-align: center; padding: 10px; background-color: #f2f2f2;">
-                    <p>Se te ha asignado un nuevo mantenimiento</p>
-                    <p>A continuación te proporcionamos los detalles del mantenimiento:</p>
+                    <p>Se te ha asignado un nuevo vehiculo para mantenimiento</p>
+                    <p>A continuación te proporcionamos detalles del vehiculo:</p>
 
                     <ul style="list-style-type: none; padding: 0;">
                         <li><strong>Nombre cliente:</strong> ${userInfo.cliente}</li>
-                        <li><strong>Fecha de ingreso:</strong> ${userInfo.fecha}</li>
+                        <li><strong>Fecha de ingreso:</strong> ${userInfo.fecha_ingreso}</li>
                         <li><strong>Placa vehiculo:</strong> ${userInfo.placa}</li>
                         <li><strong>Marca vehiculo:</strong> ${userInfo.marca}</li>
                         <li><strong>Modelo vehiculo:</strong> ${userInfo.modelo}</li>
+                        <li><strong>Técnico asignado:</strong> ${userInfo.tecnico}</li>
                     </ul>
 
                     <div style="text-align: center; padding: 10px;">

@@ -2,6 +2,8 @@ import vehiculosModel from '../models/VehiculosModel.js';
 import clientesModel from '../models/ClientesModel.js';
 import empleadosModel from '../models/EmpleadosModel.js';
 
+import { sendMailToTechnician } from '../config/nodeMailer.js';
+
 // Metodo para registrar un vehiculo
 export const registerVehicle = async (req, res) => {
     try {
@@ -68,7 +70,7 @@ export const assignVehicle = async (req, res) => {
             return res.status(400).json({ message: "La cedula del técnico es necesaria" });
         }
 
-        const vehicle = await vehiculosModel.findOne({ placa });
+        const vehicle = await vehiculosModel.findOne({ placa }).populate('propietario encargado', 'nombre cedula telefono correo direccion');
         if (!vehicle) {
             return res.status(404).json({ message: "Vehículo no encontrado" });
         }
@@ -80,6 +82,16 @@ export const assignVehicle = async (req, res) => {
 
         await vehiculosModel.findByIdAndUpdate(vehicle._id, { encargado: tecnico._id });
 
+        const payload = {
+            cliente: vehicle.propietario.nombre,
+            fecha_ingreso: new Date(vehicle.fecha_ingreso).toLocaleDateString(),
+            placa: vehicle.placa,
+            marca: vehicle.marca,
+            modelo: vehicle.modelo,
+            tecnico: tecnico.nombre
+        }
+
+        await sendMailToTechnician(tecnico.correo, payload);
         res.status(200).json({ message: "Vehículo asignado correctamente" });
     } catch (error) {
         res.status(500).json({ message: "Error al asignar el vehículo", error: error.message });
