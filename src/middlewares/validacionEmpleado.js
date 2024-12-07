@@ -58,7 +58,7 @@ export const validacionRegistro_empleado = [
 ];
 
 export const validacionActualizacion_empleado = [
-    check(['nombre', 'correo', 'direccion', 'cargo', 'telefono', 'estado'])
+    check(['nombre', 'correo', 'direccion', 'telefono', 'estado'])
         .exists()
             .withMessage('Todos los campos son requeridos')
         .notEmpty()
@@ -77,6 +77,7 @@ export const validacionActualizacion_empleado = [
             .withMessage('Ingrese un correo válido'),
     
     check('cargo')
+        .optional({ nullable: true, checkFalsy: true })
         .customSanitizer(value => typeof value === 'string' ? value.trim() : value)
         .isIn(['Administrador', 'Gerente', 'Técnico'])
             .withMessage('El campo "cargo" debe ser uno de los siguientes: Administrador, Gerente, Técnico'),

@@ -237,11 +237,11 @@ export const updateProfile = async (req, res) => {
 
         if (req.body?.cargo && req.empleado.cargo !== 'Administrador') {
             return res.status(403).json({ message: 'No tiene permisos para realizar esta acción' });
+            empleado.cargo = cargo;
         }
 
         empleado.nombre = nombre;
         empleado.direccion = direccion;
-        empleado.cargo = cargo;
         empleado.correo = correo;
         empleado.telefono = telefono;
         await empleado.save();
