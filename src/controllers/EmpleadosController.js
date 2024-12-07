@@ -210,15 +210,15 @@ export const getEmployee = async (req, res) => {
 // Metodo para actualizar la info del perfil de un empleado
 export const updateProfile = async (req, res) => {
     const { _id } = req.empleado;
-    const {
-        nombre,
-        direccion,
-        cargo,
-        correo,
-        telefono
-    } = req.body;
-
     try {
+        const {
+            nombre,
+            direccion,
+            cargo,
+            correo,
+            telefono
+        } = req.body;
+
         if(Object.values(req.body).includes('')) {
             return res.status(400).json({ message: 'Todos los campos son requeridos' });
         }
@@ -233,6 +233,10 @@ export const updateProfile = async (req, res) => {
             if (mailFound) {
                 return res.status(400).json({ message: 'El correo ya se encuentra registrado' });
             }
+        }
+
+        if (req.body?.cargo && req.empleado.cargo !== 'Administrador') {
+            return res.status(403).json({ message: 'No tiene permisos para realizar esta acción' });
         }
 
         empleado.nombre = nombre;
@@ -273,12 +277,12 @@ export const updateEmployee = async (req, res) => {
     } = req.body;
 
     try {
-        if(Object.values(req.body).includes('')) {
-            return res.status(400).json({ message: 'Todos los campos son requeridos' });
-        }
-
         if (req.empleado.cargo !== 'Administrador') {
             return res.status(403).json({ message: 'No tiene permisos para realizar esta acción' });
+        }
+
+        if(Object.values(req.body).includes('')) {
+            return res.status(400).json({ message: 'Todos los campos son requeridos' });
         }
 
         const empleado = await empleadosModel.findOne({ cedula });
@@ -347,15 +351,14 @@ export const deactivateProfile = async (req, res) => {
 // Metodo para desactivar a un empleado por el administrador
 export const deactivateEmployee = async (req, res) => {
     const { cedula } = req.params;
-
     try {
+        if (req.empleado.cargo !== 'Administrador') {
+            return res.status(403).json({ message: 'No tiene permisos para realizar esta acción' });
+        }
+
         const empleado = await empleadosModel.findOne({ cedula });
         if (!empleado) {
             return res.status(404).json({ message: 'Empleado no encontrado' });
-        }
-
-        if (req.empleado.cargo !== 'Administrador') {
-            return res.status(403).json({ message: 'No tiene permisos para realizar esta acción' });
         }
 
         if (empleado.cedula === req.empleado.cedula) {

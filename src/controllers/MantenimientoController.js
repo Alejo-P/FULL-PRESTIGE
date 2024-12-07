@@ -2,6 +2,8 @@ import mantenimientoModel from "../models/MantenimientoModel.js";
 import vehiculosModel from "../models/VehiculosModel.js";
 import empleadosModel from "../models/EmpleadosModel.js";
 
+import { sendMailToAdmin } from "../config/nodeMailer.js";
+
 // Metodo para registrar un mantenimiento
 export const registerMaintenance = async (req, res) => {
     try {
@@ -205,4 +207,10 @@ export const updateMaintenance = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: "Error al actualizar el mantenimiento", error: error.message });
     }
+};
+
+// Metodo parasolicitar una actualizacion de un mantenimiento al administrador
+export const requestUpdateMaintenance = async (req, res) => {
+    const { id } = req.params;
+    
 };

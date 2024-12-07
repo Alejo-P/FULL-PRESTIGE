@@ -275,7 +275,7 @@ export const sendMailToTechnician = async (userMail, userInfo) => {
 };
 
 // Enviar correo de actualizacion de un mantenimiento a un administrador
-export const sendMailToAdmin = async (userMail, userInfo) => {
+export const sendMailToAdmin = async (userMail, info) => {
     let mailOptions = {
         from: process.env.USER_MAILTRAP,
         to: userMail,
@@ -313,16 +313,33 @@ export const sendMailToAdmin = async (userMail, userInfo) => {
                 <hr>
 
                 <main style="text-align: center; padding: 10px; background-color: #f2f2f2;">
-                    <p>Se ha actualizado un mantenimiento</p>
-                    <p>A continuación te proporcionamos los detalles del mantenimiento:</p>
+                    <p>Se ha solicitado la actualizacion de un mantenimiento</p>
 
-                    <ul style="list-style-type: none; padding: 0;">
-                        <li><strong>Nombre cliente:</strong> ${userInfo.cliente}</li>
-                        <li><strong>Fecha de ingreso:</strong> ${userInfo.fecha}</li>
-                        <li><strong>Placa vehiculo:</strong> ${userInfo.placa}</li>
-                        <li><strong>Marca vehiculo:</strong> ${userInfo.marca}</li>
-                        <li><strong>Modelo vehiculo:</strong> ${userInfo.modelo}</li>
-                    </ul>
+                    <p>${info.solicitante} requiere que actualices la infromacion de un mantenimiento</p>
+
+                    <p>A continuación te proporcionamos los detalles del mantenimiento:</p>
+                    <li><strong>ID del mantenimiento:</strong> ${info.id}</li>
+                    <div style="display: flex; justify-content: space-around;">
+                        <div style="text-align: center; padding: 10px;">
+                            <h3>Datos actuales del mantenimiento</h3>
+                            <ul style="list-style-type: none; padding: 0;">
+                                <li><strong>Vehiculo:</strong> ${info.current.vehiculo}</li>
+                                <li><strong>Descripcion:</strong> ${info.current.descripcion}</li>
+                                <li><strong>Costo:</strong> ${info.current.costo}$</li>
+                                <li><strong>Técnico responsable:</strong> ${info.current.tecnico}</li>
+                            </ul>
+                        </div>
+
+                        <div style="text-align: center; padding: 10px;">
+                            <h3>Nuevos datos del mantenimiento</h3>
+                            <ul style="list-style-type: none; padding: 0;">
+                                <li><strong>Vehiculo:</strong> ${info.new.vehiculo}</li>
+                                <li><strong>Descripcion:</strong> ${info.new.descripcion}</li>
+                                <li><strong>Costo:</strong> ${info.new.costo}$</li>
+                                <li><strong>Técnico responsable:</strong> ${info.new.tecnico}</li>
+                            </ul>
+                        </div>
+                    </div>
 
                     <div style="text-align: center; padding: 10px;">
                         <a 
