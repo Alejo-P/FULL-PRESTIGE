@@ -4402,7 +4402,7 @@
             }
         },
         "/maintenance/request/{id}":{
-            "post": {
+            "put": {
                 "summary": "Solicita un mantenimiento para un vehículo",
                 "tags": [
                     "Control de mantenimientos"
@@ -4430,20 +4430,20 @@
                             "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "placa": {
+                                    "nueva_descripcion": {
                                         "type": "string",
-                                        "description": "Placa del vehículo",
+                                        "description": "Nueva descripcion del mantenimiento",
                                         "example": "ABC123"
                                     },
-                                    "descripcion": {
-                                        "type": "string",
-                                        "description": "Descripción del mantenimiento",
-                                        "example": "Cambio de aceite"
-                                    },
-                                    "costo": {
+                                    "nuevo_costo": {
                                         "type": "number",
-                                        "description": "Costo del mantenimiento",
+                                        "description": "Nuevo consto del mantenimiento",
                                         "example": 100
+                                    },
+                                    "nuevo_estado": {
+                                        "type": "string",
+                                        "description": "Nuevo estado del mantenimiento",
+                                        "example": "Cambio de lubricantes"
                                     }
                                 }
                             }
