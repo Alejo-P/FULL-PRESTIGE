@@ -13,11 +13,11 @@ const MantenimientosSchema = new Schema({
     },
     descripcion: {
         type: String,
-        required: true,
+        default: '',
     },
     costo: {
         type: Number,
-        required: true,
+        default: 0,
     },
     estado: {
         type: String,

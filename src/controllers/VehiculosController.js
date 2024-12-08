@@ -1,6 +1,7 @@
 import vehiculosModel from '../models/VehiculosModel.js';
 import clientesModel from '../models/ClientesModel.js';
 import empleadosModel from '../models/EmpleadosModel.js';
+import mantenimientosModel from '../models/MantenimientoModel.js';
 
 import { sendMailToTechnician } from '../config/nodeMailer.js';
 
@@ -90,6 +91,9 @@ export const assignVehicle = async (req, res) => {
             modelo: vehicle.modelo,
             tecnico: tecnico.nombre
         }
+
+        const newMaintenance = new mantenimientosModel({ vehiculo: vehicle._id, encargado: tecnico._id });
+        await newMaintenance.save();
 
         await sendMailToTechnician(tecnico.correo, payload);
         return res.status(200).json({ message: "Vehículo asignado correctamente" });
