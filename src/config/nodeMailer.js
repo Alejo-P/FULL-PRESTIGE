@@ -285,7 +285,7 @@ export const sendMailToAdmin = async (userMail, info) => {
                 <!-- Header con imagen de fondo -->
                 <header 
                     style="
-                        background-image: url('cid:logoImage'); 
+                        background-image: url('cid:logoImage');
                         background-size: cover; 
                         background-position: center; 
                         background-repeat: no-repeat; 
@@ -313,30 +313,29 @@ export const sendMailToAdmin = async (userMail, info) => {
                 <hr>
 
                 <main style="text-align: center; padding: 10px; background-color: #f2f2f2;">
-                    <p>Se ha solicitado la actualizacion de un mantenimiento</p>
+                    <p>Se ha solicitado la actualización de un mantenimiento</p>
 
-                    <p>${info.solicitante} requiere que actualices la infromacion de un mantenimiento</p>
+                    <p>${info.solicitante} requiere que actualices la información de un mantenimiento</p>
 
                     <p>A continuación te proporcionamos los detalles del mantenimiento:</p>
                     <li><strong>ID del mantenimiento:</strong> ${info.id}</li>
+                    <li><strong>Placa del vehiculo:</strong> ${info.vehiculo}</li>
                     <div style="display: flex; justify-content: space-around;">
-                        <div style="text-align: center; padding: 10px;">
+                        <div style="text-align: center; padding: 10px; border-right: 2px solid #7fc91e; border-radius: 15px 0 0 15px;">
                             <h3>Datos actuales del mantenimiento</h3>
                             <ul style="list-style-type: none; padding: 0;">
-                                <li><strong>Vehiculo:</strong> ${info.current.vehiculo}</li>
                                 <li><strong>Descripcion:</strong> ${info.current.descripcion}</li>
                                 <li><strong>Costo:</strong> ${info.current.costo}$</li>
-                                <li><strong>Técnico responsable:</strong> ${info.current.tecnico}</li>
+                                <li><strong>Estado:</strong> ${info.current.estado}</li>
                             </ul>
                         </div>
 
-                        <div style="text-align: center; padding: 10px;">
+                        <div style="text-align: center; padding: 10px; border-left: 2px solid #f7b40b; border-radius: 0 15px 15px 0;">
                             <h3>Nuevos datos del mantenimiento</h3>
-                            <ul style="list-style-type: none; padding: 0;">
-                                <li><strong>Vehiculo:</strong> ${info.new.vehiculo}</li>
+                            <ul style="list-style-type: none; padding: 10px">
                                 <li><strong>Descripcion:</strong> ${info.new.descripcion}</li>
                                 <li><strong>Costo:</strong> ${info.new.costo}$</li>
-                                <li><strong>Técnico responsable:</strong> ${info.new.tecnico}</li>
+                                <li><strong>Estado:</strong> ${info.new.estado}</li>
                             </ul>
                         </div>
                     </div>
@@ -354,7 +353,7 @@ export const sendMailToAdmin = async (userMail, info) => {
                                 font-size: 16px; 
                                 border-radius: 15px;"
                         >
-                            Revisa el estado del mantenimiento
+                            Iniciar sesión
                         </a>
                     </div>
                     <hr>

@@ -4400,6 +4400,115 @@
                     }
                 }
             }
+        },
+        "/maintenance/request/{id}":{
+            "post": {
+                "summary": "Solicita un mantenimiento para un vehículo",
+                "tags": [
+                    "Control de mantenimientos"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "id del mantenimiento",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "placa": {
+                                        "type": "string",
+                                        "description": "Placa del vehículo",
+                                        "example": "ABC123"
+                                    },
+                                    "descripcion": {
+                                        "type": "string",
+                                        "description": "Descripción del mantenimiento",
+                                        "example": "Cambio de aceite"
+                                    },
+                                    "costo": {
+                                        "type": "number",
+                                        "description": "Costo del mantenimiento",
+                                        "example": 100
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Mantenimiento solicitado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Mensaje de éxito",
+                                            "example": "Mantenimiento solicitado correctamente"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la validación de datos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Mensaje de error",
+                                            "example": "Todos los campos son requeridos"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error en el servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Mensaje de error",
+                                            "example": "Error al solicitar el mantenimiento"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "description": "Detalle del error",
+                                            "example": "Error al solicitar el mantenimiento"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

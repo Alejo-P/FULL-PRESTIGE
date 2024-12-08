@@ -235,5 +235,55 @@ export const updateMaintenance = async (req, res) => {
 // Metodo parasolicitar una actualizacion de un mantenimiento al administrador
 export const requestUpdateMaintenance = async (req, res) => {
     const { id } = req.params;
+    try{
+        const {
+            nueva_descripcion,
+            nuevo_costo,
+            nuevo_estado
+        } = req.body;
+
+        if (Object.values(req.body).includes("")) {
+            return res.status(400).json({ message: "Todos los campos son necesarios" });
+        }
+
+        const mantenimiento = await mantenimientoModel.findById(id).populate('vehiculo', 'placa').populate('encargado', 'nombre correo');
+        if (!mantenimiento){
+            return res.status(404).json({ message: "Mantenimiento no encontrado" });
+        }
+
+        const empleados = await empleadosModel.find({ cargo: 'Administrador' });
+        if (empleados.length === 0){
+            return res.status(404).json({ message: "No hay administradores disponibles" });
+        }
+
+        const {
+            descripcion,
+            costo,
+            estado
+        } = mantenimiento;
+
+        const info = {
+            id: mantenimiento._id,
+            solicitante: req.empleado.nombre,
+            vehiculo: mantenimiento.vehiculo.placa,
+            current: {
+                descripcion,
+                costo,
+                estado
+            },
+            new: {
+                descripcion: nueva_descripcion,
+                costo: nuevo_costo,
+                estado: nuevo_estado
+            }
+        }
+
+        empleados.forEach(async (empleado) => {
+            await sendMailToAdmin(empleado.correo, info);
+        });
+        return res.status(200).json({ message: "Solicitud de actualización enviada correctamente" });
+    }catch(error){
+        return res.status(500).json({ message: "Error al solicitar actualización del mantenimiento", error: error.message });
+    }
     
 };

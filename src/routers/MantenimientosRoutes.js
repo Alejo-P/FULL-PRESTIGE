@@ -6,6 +6,7 @@ import {
     getMaintenancesByEmployee,
     getMaintenancesByVehicle,
     updateMaintenance,
+    requestUpdateMaintenance
 } from '../controllers/MantenimientoController.js'
 import auth from '../middlewares/auth.js';
 import { validacionMantenimientos } from '../middlewares/validacionMantenimientos.js';
@@ -16,6 +17,7 @@ router.post('/maintenance/register/:id', auth, validacionMantenimientos, registe
 router.get('/maintenances', auth, getMaintenances)
 router.get('/maintenance/vehicle/:placa',auth, getMaintenancesByVehicle)
 router.get('/maintenance/employee/:cedula',auth, getMaintenancesByEmployee)
+router.put('/maintenance/request/:id',auth, requestUpdateMaintenance)
 
 router.route('/maintenance/:id')
     .get(auth, getMaintenance)
