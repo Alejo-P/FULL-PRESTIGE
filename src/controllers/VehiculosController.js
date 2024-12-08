@@ -48,9 +48,9 @@ export const registerVehicle = async (req, res) => {
         const newVehicle = new vehiculosModel(data);
         await newVehicle.save();
 
-        res.status(201).json({ message: "Vehículo registrado correctamente" });
+        return res.status(201).json({ message: "Vehículo registrado correctamente" });
     } catch (error) {
-        res.status(500).json({ message: "Error al registrar el vehículo", error: error.message });
+        return res.status(500).json({ message: "Error al registrar el vehículo", error: error.message });
     }
 };
 
@@ -92,9 +92,9 @@ export const assignVehicle = async (req, res) => {
         }
 
         await sendMailToTechnician(tecnico.correo, payload);
-        res.status(200).json({ message: "Vehículo asignado correctamente" });
+        return res.status(200).json({ message: "Vehículo asignado correctamente" });
     } catch (error) {
-        res.status(500).json({ message: "Error al asignar el vehículo", error: error.message });
+        return res.status(500).json({ message: "Error al asignar el vehículo", error: error.message });
     }
 };
 
@@ -102,9 +102,9 @@ export const assignVehicle = async (req, res) => {
 export const getVehicles = async (req, res) => {
     try {
         const vehicles = await vehiculosModel.find().populate('propietario encargado', 'nombre cedula telefono correo direccion');
-        res.status(200).json(vehicles);
+        return res.status(200).json(vehicles);
     } catch (error) {
-        res.status(500).json({ message: "Error al obtener los vehículos", error: error.message });
+        return res.status(500).json({ message: "Error al obtener los vehículos", error: error.message });
     }
 };
 
@@ -121,9 +121,9 @@ export const getVehicle = async (req, res) => {
             return res.status(404).json({ message: "Vehículo no encontrado" });
         }
 
-        res.status(200).json(vehicle);
+        return res.status(200).json(vehicle);
     } catch (error) {
-        res.status(500).json({ message: "Error al obtener el vehículo", error: error.message });
+        return res.status(500).json({ message: "Error al obtener el vehículo", error: error.message });
     }
 };
 
@@ -141,9 +141,9 @@ export const getVehiclesByClient = async (req, res) => {
         }
 
         const vehicles = await vehiculosModel.find({ propietario: cliente._id }).populate('propietario encargado', 'nombre cedula telefono correo direccion');
-        res.status(200).json(vehicles);
+        return res.status(200).json(vehicles);
     } catch (error) {
-        res.status(500).json({ message: "Error al obtener los vehículos", error: error.message });
+        return res.status(500).json({ message: "Error al obtener los vehículos", error: error.message });
     }
 };
 
@@ -161,9 +161,9 @@ export const getVehiclesByEmployee = async (req, res) => {
         }
 
         const vehicles = await vehiculosModel.find({ encargado: tecnico._id }).populate('propietario', 'nombre cedula telefono correo direccion');
-        res.status(200).json(vehicles);
+        return res.status(200).json(vehicles);
     } catch (error) {
-        res.status(500).json({ message: "Error al obtener los vehículos", error: error.message });
+        return res.status(500).json({ message: "Error al obtener los vehículos", error: error.message });
     }
 };
 
@@ -203,8 +203,8 @@ export const updateVehicle = async (req, res) => {
 
         await vehiculosModel.findByIdAndUpdate(vehicle._id, req.body);
 
-        res.status(200).json({ message: "Vehículo actualizado correctamente" });
+        return res.status(200).json({ message: "Vehículo actualizado correctamente" });
     } catch (error) {
-        res.status(500).json({ message: "Error al actualizar el vehículo", error: error.message });
+        return res.status(500).json({ message: "Error al actualizar el vehículo", error: error.message });
     }
 };

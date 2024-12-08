@@ -39,9 +39,9 @@ export const registerAssistance = async (req, res) => {
 
         await newAsistencia.save();
 
-        res.status(201).json({ message: "Asistencia registrada correctamente" });
+        return res.status(201).json({ message: "Asistencia registrada correctamente" });
     } catch (error) {
-        res.status(500).json({ message: "Error al registrar la asistencia", error: error.message });
+        return res.status(500).json({ message: "Error al registrar la asistencia", error: error.message });
     }
 };
 
@@ -59,9 +59,9 @@ export const getAssistance = async (req, res) => {
         }
 
         const asistencias = await asistencasModel.find({ empleado: empleado._id }).populate('empleado', 'nombre correo cedula direccion cargo telefono');
-        res.status(200).json(asistencias);
+        return res.status(200).json(asistencias);
     } catch (error) {
-        res.status(500).json({  message: "Error al obtener las asistencias", error: error.message });
+        return res.status(500).json({  message: "Error al obtener las asistencias", error: error.message });
     }
 };
 
@@ -95,8 +95,8 @@ export const updateAssistance = async (req, res) => {
 
         await asistencasModel.findByIdAndUpdate(id, req.body);
 
-        res.status(200).json({ message: "Asistencia actualizada correctamente" });
+        return res.status(200).json({ message: "Asistencia actualizada correctamente" });
     } catch (error) {
-        res.status(500).json({ message: "Error al actualizar la asistencia", error: error.message });
+        return res.status(500).json({ message: "Error al actualizar la asistencia", error: error.message });
     }
 };

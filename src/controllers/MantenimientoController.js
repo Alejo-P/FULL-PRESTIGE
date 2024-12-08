@@ -70,15 +70,29 @@ export const registerMaintenance = async (req, res) => {
         const newMaintenance = new mantenimientoModel({ vehiculo: vehicle._id, descripcion, costo, encargado: encargado._id });
         await newMaintenance.save();
 
-        res.status(201).json({ message: "Mantenimiento registrado correctamente" });
+        return res.status(201).json({ message: "Mantenimiento registrado correctamente" });
     } catch (error) {
-        res.status(500).json({ message:"Error al registrar detalles del mantenimiento", error: error.message });
+        return res.status(500).json({ message:"Error al registrar detalles del mantenimiento", error: error.message });
     }
 };
 
 // Metodo para obtener todos los mantenimientos
 export const getMaintenances = async (req, res) => {
     try {
+        if (req.empleado.cargo === 'Técnico') {
+            const mantenimientos = await mantenimientoModel.find({ encargado: req.empleado._id }).populate([{
+                path: 'vehiculo',
+                populate: [
+                    { path: 'propietario', select: 'cedula nombre telefono correo' }
+                ],
+                select: 'placa marca modelo propietario fecha_ingreso fecha_salida detalles'
+            }, {
+                path: 'encargado',
+                select: 'cedula nombre telefono correo'
+            }]);
+            return res.status(200).json(mantenimientos);
+        }
+
         const mantenimientos = await mantenimientoModel.find().populate([
             {
                 path: 'vehiculo',
@@ -91,9 +105,9 @@ export const getMaintenances = async (req, res) => {
                 select: 'cedula nombre telefono correo'
             }
         ]);
-        res.status(200).json(mantenimientos);
+        return res.status(200).json(mantenimientos);
     } catch (error) {
-        res.status(500).json({ message: "Error al obtener los mantenimientos", error: error.message });
+        return res.status(500).json({ message: "Error al obtener los mantenimientos", error: error.message });
     }
 };
 
@@ -116,13 +130,18 @@ export const getMaintenancesByVehicle = async (req, res) => {
             path: 'encargado',
             select: 'cedula nombre telefono correo'
         }]);
-        res.status(200).json(mantenimientos);
+
+        if (req.empleado.cargo === "Técnico" && vehicle.encargado.cedula !== req.empleado.cedula) {
+            return res.status(200).json([]); // No se puede acceder a la informacion de un mantenimiento que no le corresponde
+        }
+
+        return res.status(200).json(mantenimientos);
     } catch (error) {
-        res.status(500).json({ message: "Error al obtener los mantenimientos", error: error.message });
+        return res.status(500).json({ message: "Error al obtener los mantenimientos", error: error.message });
     }
 };
 
-// Metodo para obtener un mantenimiento
+// Metodo para obtener un mantenimiento por su id
 export const getMaintenance = async (req, res) => {
     const { id } = req.params;
     try {
@@ -139,9 +158,13 @@ export const getMaintenance = async (req, res) => {
         if (!mantenimiento) {
             return res.status(404).json({ message: "Mantenimiento no encontrado" });
         }
-        res.status(200).json(mantenimiento);
+
+        if (req.empleado.cargo === "Técnico" && mantenimiento.encargado.cedula !== req.empleado.cedula) {
+            return res.status(200).json([]); // No se puede acceder a la informacion de un mantenimiento que no le corresponde
+        }
+        return res.status(200).json(mantenimiento);
     } catch (error) {
-        res.status(500).json({ message: "Error al obtener el mantenimiento", error: error.message });
+        return res.status(500).json({ message: "Error al obtener el mantenimiento", error: error.message });
     }
 };
 
@@ -169,9 +192,9 @@ export const getMaintenancesByEmployee = async (req, res) => {
             select: 'cedula nombre telefono correo'
         }]);
 
-        res.status(200).json(mantenimientos);
+        return res.status(200).json(mantenimientos);
     } catch (error) {
-        res.status(500).json({ message: "Error al obtener los mantenimientos", error: error.message });
+        return res.status(500).json({ message: "Error al obtener los mantenimientos", error: error.message });
     }
 };
 
@@ -203,9 +226,9 @@ export const updateMaintenance = async (req, res) => {
         }
 
         await mantenimientoModel.findByIdAndUpdate(id, { descripcion, costo, encargado: encargado._id, estado });
-        res.status(200).json({ message: "Mantenimiento actualizado correctamente" });
+        return res.status(200).json({ message: "Mantenimiento actualizado correctamente" });
     } catch (error) {
-        res.status(500).json({ message: "Error al actualizar el mantenimiento", error: error.message });
+        return res.status(500).json({ message: "Error al actualizar el mantenimiento", error: error.message });
     }
 };
 

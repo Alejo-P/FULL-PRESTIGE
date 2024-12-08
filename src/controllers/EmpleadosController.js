@@ -104,7 +104,7 @@ export const recoverPassword = async (req, res) => {
         await sendMailToRecoveryPassword(correo, token);
         await empleado.save();
 
-        res.status(200).json({ message: 'Correo enviado exitosamente' });
+        return res.status(200).json({ message: 'Correo enviado exitosamente' });
     } catch (error) {
         return res.status(500).json({ message: 'Error al recuperar contraseña', error: error.message });
     }
