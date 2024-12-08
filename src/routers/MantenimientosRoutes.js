@@ -12,7 +12,7 @@ import { validacionMantenimientos } from '../middlewares/validacionMantenimiento
 
 const router = Router();
 
-router.post('/maintenance/register', auth, validacionMantenimientos, registerMaintenance)
+router.post('/maintenance/register/:id', auth, validacionMantenimientos, registerMaintenance)
 router.get('/maintenances', auth, getMaintenances)
 router.get('/maintenance/vehicle/:placa',auth, getMaintenancesByVehicle)
 router.get('/maintenance/employee/:cedula',auth, getMaintenancesByEmployee)

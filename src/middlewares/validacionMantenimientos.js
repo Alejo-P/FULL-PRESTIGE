@@ -1,7 +1,7 @@
 import { check, validationResult } from 'express-validator';
 
 export const validacionMantenimientos = [
-    check(['placa', 'descripcion', 'costo', 'encargado', 'descripcion'])
+    check(['placa', 'descripcion', 'costo', 'cedula_encargado', 'descripcion', 'estado'])
         .exists()
             .withMessage('Todos los campos son requeridos')
         .notEmpty()
@@ -19,9 +19,9 @@ export const validacionMantenimientos = [
         .isNumeric()
             .withMessage('El campo "costo" debe ser un número'),
     
-    check("encargado")
+    check("cedula_encargado")
         .isString()
-            .withMessage("El campo 'encargado' debe ser una cadena de texto")
+            .withMessage("El campo 'cedula_encargado' debe ser una cadena de texto")
         .isLength({ min: 10, max: 10 })
             .withMessage("La cédula del encargado debe tener 10 caracteres")
         .matches(/^[0-9]+$/)
@@ -30,6 +30,12 @@ export const validacionMantenimientos = [
     check("descripcion")
         .isString()
             .withMessage("El campo 'detalles' debe ser una cadena de texto"),
+    
+    check("estado")
+        .isString()
+            .withMessage("El campo 'estado' debe ser una cadena de texto")
+        .isIn(['Pendiente', 'En Proceso', 'Finalizado'])
+            .withMessage("El campo 'estado' solo puede tener los valores 'Pendiente', 'En Proceso' o 'Finalizado'"),
 
     (req, res, next) => {
         const errors = validationResult(req);

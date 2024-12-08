@@ -6,23 +6,25 @@ import { sendMailToAdmin } from "../config/nodeMailer.js";
 
 // Metodo para registrar un mantenimiento
 export const registerMaintenance = async (req, res) => {
+    const { id } = req.params;
     try {
         const {
             placa,
             descripcion,
             costo,
-            encargado: cedula_encargado
+            cedula_encargado,
+            estado
         } = req.body;
 
-        if (req.empleado.cargo !== 'Técnico') {
-            return res.status(403).json({ message: "Solo los técnicos pueden registrar informacion sobre mantenimientos" });
+        if (req.empleado.cargo !== 'Técnico' && req.empleado.cargo !== 'Administrador') {
+            return res.status(403).json({ message: "Solo los técnicos y administradores pueden registrar mantenimientos" });
         }
 
         if (Object.values(req.body).includes("")) {
             return res.status(400).json({ message: "Todos los campos son necesarios" });
         }
 
-        const vehicle = await vehiculosModel.findOne({ placa });
+        const vehicle = await vehiculosModel.findOne({ placa }).populate('encargado', 'cedula nombre telefono correo');
         if (!vehicle) {
             return res.status(404).json({ message: "El vehículo no existe" });
         }
@@ -37,38 +39,36 @@ export const registerMaintenance = async (req, res) => {
             ],
             select: 'placa marca modelo propietario fecha_ingreso fecha_salida detalles'
         }]);
-        let maintenanceFound = false;
-        if (maintenance.length > 0) {
-            maintenance.forEach(maintenance => {
-                if (maintenance.descripcion === descripcion) {
-                    maintenanceFound = true;
-                }
-            });
+        let idMaintenance = "";
+        const mEncontrado = maintenance.find(m => m.descripcion === descripcion);
+
+        if (mEncontrado) {
+            idMaintenance = mEncontrado._id.toString();
         }
 
-        if (maintenanceFound) {
+        if (mEncontrado && idMaintenance !== id) {
             return res.status(400).json({ message: "El mantenimiento ya ha sido registrado" });
         }
 
         const encargado = await empleadosModel.findOne({ cedula: cedula_encargado });
-        if (!encargado) {
-            return res.status(404).json({ message: "El encargado no existe" });
+        if (!encargado || !encargado.estado) {
+            return res.status(404).json({ message: "El encargado no existe o esta inactivo" });
         }
 
         if (encargado.cargo !== 'Técnico') {
             return res.status(400).json({ message: "El encargado debe ser un técnico" });
         }
 
-        if (!encargado.estado) {
-            return res.status(400).json({ message: "El encargado seleccionado esta inactivo" });
-        }
-
-        if (vehicle.encargado !== encargado._id) {
+        if (vehicle.encargado._id.toString() !== encargado._id.toString()) {
             return res.status(400).json({ message: "EL vehiculo no esta asignado a este encargado" });
         }
 
-        const newMaintenance = new mantenimientoModel({ vehiculo: vehicle._id, descripcion, costo, encargado: encargado._id });
-        await newMaintenance.save();
+        await mantenimientoModel.findByIdAndUpdate(id, {
+            descripcion: descripcion,
+            costo: costo,
+            encargado: encargado._id,
+            estado: estado
+        });
 
         return res.status(201).json({ message: "Mantenimiento registrado correctamente" });
     } catch (error) {

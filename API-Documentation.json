@@ -2833,7 +2833,7 @@
         },
         "/vehicle/assign":{
             "post": {
-                "summary": "Asigna un vehículo a un técnico",
+                "summary": "Asigna un vehículo a un técnico y registra el mantenimiento",
                 "tags": [
                     "Control de vehículos"
                 ],
@@ -3554,15 +3554,26 @@
                 }
             }
         },
-        "/maintenance/register": {
+        "/maintenance/register/{id}": {
             "post": {
-                "summary": "Registra un nuevo mantenimiento",
+                "summary": "Registra un nuevo mantenimiento por parte del técnico",
                 "tags": [
                     "Control de mantenimientos"
                 ],
                 "security": [
                     {
                         "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "id del mantenimiento",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "requestBody": {
