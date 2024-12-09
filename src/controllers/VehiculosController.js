@@ -89,6 +89,17 @@ export const assignVehicle = async (req, res) => {
 
         await vehiculosModel.findByIdAndUpdate(vehicle._id, { encargado: tecnico._id });
 
+        const maintenanceFound = await mantenimientosModel.findOne({ vehiculo: vehicle._id });
+        if (maintenanceFound) {
+            // Entonces actualizar el tecnico
+            await mantenimientosModel.findByIdAndUpdate(maintenanceFound._id, { encargado: tecnico._id });
+            return res.status(200).json({ message: "Vehículo asignado correctamente" });
+        }else{
+            // Entonces crear un nuevo mantenimiento
+            const newMaintenance = new mantenimientosModel({ vehiculo: vehicle._id, encargado: tecnico._id });
+            await newMaintenance.save();
+        }
+
         const payload = {
             cliente: vehicle.propietario.nombre,
             fecha_ingreso: new Date(vehicle.fecha_ingreso).toLocaleDateString(),
@@ -97,9 +108,6 @@ export const assignVehicle = async (req, res) => {
             modelo: vehicle.modelo,
             tecnico: tecnico.nombre
         }
-
-        const newMaintenance = new mantenimientosModel({ vehiculo: vehicle._id, encargado: tecnico._id });
-        await newMaintenance.save();
 
         await sendMailToTechnician(tecnico.correo, payload);
         return res.status(200).json({ message: "Vehículo asignado correctamente" });
