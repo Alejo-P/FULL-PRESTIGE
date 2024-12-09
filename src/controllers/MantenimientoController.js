@@ -115,7 +115,7 @@ export const getMaintenances = async (req, res) => {
 export const getMaintenancesByVehicle = async (req, res) => {
     const { placa } = req.params;
     try {
-        const vehicle = await vehiculosModel.findOne({ placa });
+        const vehicle = await vehiculosModel.findOne({ placa }).populate('encargado', 'cedula nombre telefono correo');
         if (!vehicle) {
             return res.status(404).json({ message: "El vehículo no existe" });
         }

@@ -240,6 +240,8 @@ export const updateProfile = async (req, res) => {
             empleado.cargo = cargo;
         }
 
+        
+
         empleado.nombre = nombre;
         empleado.direccion = direccion;
         empleado.correo = correo;
