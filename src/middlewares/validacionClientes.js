@@ -12,7 +12,7 @@ export const validacionClientes = [
             .withMessage('El campo "nombre" debe ser una cadena de texto'),
 
     check('cedula')
-        .isLength({ min: 10, max: 10 })
+        .isLength({ min: 10, max: 13 })
             .withMessage('El campo "cedula" debe tener 10 caracteres')
         .isString()
             .withMessage('El campo "cedula" debe ser una cadena de texto')
