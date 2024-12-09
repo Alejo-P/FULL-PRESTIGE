@@ -14,9 +14,12 @@ export const registerVehicle = async (req, res) => {
             marca,
             modelo,
             fecha_ingreso,
-            fecha_salida,
             cedula_cliente
         } = req.body;
+
+        if (!req.body?.fecha_salida){
+            delete req.body.fecha_salida;
+        }
         
         if (Object.values(req.body).includes("")) {
             return res.status(400).json({ message: "Todos los campos son necesarios" });
@@ -42,9 +45,12 @@ export const registerVehicle = async (req, res) => {
             marca,
             modelo,
             fecha_ingreso,
-            fecha_salida,
             propietario: cliente._id
         };
+
+        if (req.body?.fecha_salida){
+            data.fecha_salida = req.body.fecha_salida;
+        }
 
         const newVehicle = new vehiculosModel(data);
         await newVehicle.save();
