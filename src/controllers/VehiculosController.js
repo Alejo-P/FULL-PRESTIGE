@@ -93,7 +93,6 @@ export const assignVehicle = async (req, res) => {
         if (maintenanceFound) {
             // Entonces actualizar el tecnico
             await mantenimientosModel.findByIdAndUpdate(maintenanceFound._id, { encargado: tecnico._id });
-            return res.status(200).json({ message: "Vehículo asignado correctamente" });
         }else{
             // Entonces crear un nuevo mantenimiento
             const newMaintenance = new mantenimientosModel({ vehiculo: vehicle._id, encargado: tecnico._id });
