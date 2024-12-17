@@ -6,8 +6,8 @@ import { sendMailToAdmin } from "../config/nodeMailer.js";
 
 // Metodo para registrar un mantenimiento
 export const registerMaintenance = async (req, res) => {
-    const { id } = req.params;
     try {
+        const { id } = req.params;
         const {
             placa,
             descripcion,
@@ -18,6 +18,10 @@ export const registerMaintenance = async (req, res) => {
 
         if (req.empleado.cargo !== 'Técnico' && req.empleado.cargo !== 'Administrador') {
             return res.status(403).json({ message: "Solo los técnicos y administradores pueden registrar mantenimientos" });
+        }
+
+        if (Object.values(req.params).includes("")) {
+            return res.status(400).json({ message: "El ID es necesario" });
         }
 
         if (Object.values(req.body).includes("")) {
@@ -278,9 +282,12 @@ export const requestUpdateMaintenance = async (req, res) => {
             }
         }
 
-        empleados.forEach(async (empleado) => {
-            await sendMailToAdmin(empleado.correo, info);
-        });
+        if (process.env.NODE_ENV !== 'test'){
+            empleados.forEach(async (empleado) => {
+                await sendMailToAdmin(empleado.correo, info);
+            });
+        }
+
         return res.status(200).json({ message: "Solicitud de actualización enviada correctamente" });
     }catch(error){
         return res.status(500).json({ message: "Error al solicitar actualización del mantenimiento", error: error.message });

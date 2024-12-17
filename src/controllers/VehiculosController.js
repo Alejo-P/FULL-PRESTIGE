@@ -108,8 +108,8 @@ export const assignVehicle = async (req, res) => {
             tecnico: tecnico.nombre
         }
 
-        await sendMailToTechnician(tecnico.correo, payload);
-        return res.status(200).json({ message: "Vehículo asignado correctamente" });
+        if (process.env.NODE_ENV !== 'test') await sendMailToTechnician(tecnico.correo, payload);
+        return res.status(201).json({ message: "Vehículo asignado correctamente" });
     } catch (error) {
         return res.status(500).json({ message: "Error al asignar el vehículo", error: error.message });
     }
@@ -216,7 +216,9 @@ export const updateVehicle = async (req, res) => {
         }
 
         req.body.propietario = cliente._id;
+        req.body.encargado = vehicle.encargado;
         delete req.body.cedula_cliente;
+        delete req.body.cedula_encargado;
 
         await vehiculosModel.findByIdAndUpdate(vehicle._id, req.body);
 

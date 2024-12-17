@@ -100,6 +100,18 @@ describe("POST /api/v1/register - Administrador", () => {
         response_api = response;
         expect(response.status).toBe(201);
     });
+
+    it("should return 400 Bad Request", async () => {
+        const cedula_temp = env.adminUser.cedula;
+        env.adminUser.cedula = "";
+        const response = await request(app)
+            .post("/api/v1/register")
+            .send(env.adminUser);
+        
+        env.adminUser.cedula = cedula_temp;
+        response_api = response;
+        expect(response.status).toBe(400);
+    });
 }, 5000);
 
 describe("POST /api/v1/register - Empleado", () => {
@@ -110,6 +122,18 @@ describe("POST /api/v1/register - Empleado", () => {
 
         response_api = response;
         expect(response.status).toBe(201);
+    });
+
+    it("should return 400 Bad Request", async () => {
+        const cedula_temp = env.empleadoUser.cedula;
+        env.empleadoUser.cedula = "";
+        const response = await request(app)
+            .post("/api/v1/register")
+            .send(env.empleadoUser);
+        
+        env.empleadoUser.cedula = cedula_temp;
+        response_api = response;
+        expect(response.status).toBe(400);
     });
 }, 5000);
 
@@ -122,6 +146,18 @@ describe("POST /api/v1/login", () => {
         env.setToken(response.body.empleado.token);
         response_api = response;
         expect(response.status).toBe(200);
+    });
+
+    it("should return 400 Bad Request", async () => {
+        const correo_temp = env.adminUser.correo;
+        env.adminUser.correo = "";
+        const response = await request(app)
+            .post("/api/v1/login")
+            .send(env.adminUser);
+        
+        env.adminUser.correo = correo_temp;
+        response_api = response;
+        expect(response.status).toBe(400);
     });
 }, 5000);
 
@@ -157,6 +193,19 @@ describe("PUT /api/v1/employee/:cedula", () => {
         
         response_api = response;
         expect(response.status).toBe(200);
+    });
+
+    it("should return 404 Bad Request", async () => {
+        const cedula_temp = env.empleadoUser.cedula;
+        env.empleadoUser.cedula = "";
+        const response = await request(app)
+            .put(`/api/v1/employee/${env.empleadoUser.cedula}`)
+            .set("Authorization", `Bearer ${env.getToken()}`)
+            .send(env.empleadoUser);
+        
+        env.empleadoUser.cedula = cedula_temp;
+        response_api = response;
+        expect(response.status).toBe(404);
     });
 });
 
@@ -273,7 +322,7 @@ describe("POST /api/v1/client", () => {
         const response = await request(app)
             .post("/api/v1/client")
             .set("Authorization", `Bearer ${env.getToken()}`)
-            .send(env.datosRegitroCliente());
+            .send(env.clientInfo);
         
         response_api = response;
         expect(response.status).toBe(201);
@@ -317,10 +366,14 @@ describe("PUT /api/v1/client/:cedula", () => {
 
 describe("POST /api/v1/vehicle", () => {
     it("should return 201 Created", async () => {
+        env.vehicleInfo.setDates();
         const response = await request(app)
             .post("/api/v1/vehicle")
             .set("Authorization", `Bearer ${env.getToken()}`)
-            .send(env.datosRegistroVehiculo());
+            .send({
+                n_orden: env.vehicleInfo.orden,
+                ...env.vehicleInfo
+            });
         
         response_api = response;
         expect(response.status).toBe(201);
@@ -333,8 +386,8 @@ describe("POST /api/v1/vehicle/assign", () => {
             .post("/api/v1/vehicle/assign")
             .set("Authorization", `Bearer ${env.getToken()}`)
             .send({
-                placa: env.datosRegistroVehiculo().placa,
-                tecnico: env.empleadoUser.cedula
+                placa: env.vehicleInfo.placa,
+                cedula_tecnico: env.empleadoUser.cedula
             });
         
         response_api = response;
@@ -375,21 +428,10 @@ describe("GET /api/v1/vehicles/employee/:cedula", () => {
     });
 });
 
-describe("DELETE /api/v1/client/:cedula", () => {
-    it("should return 200 OK", async () => {
-        const response = await request(app)
-            .delete(`/api/v1/client/${env.clientInfo.cedula}`)
-            .set("Authorization", `Bearer ${env.getToken()}`);
-        
-        response_api = response;
-        expect(response.status).toBe(200);
-    });
-});
-
 describe("GET /api/v1/vehicle/:placa", () => {
     it("should return 200 OK", async () => {
         const response = await request(app)
-            .get(`/api/v1/vehicle/${env.datosRegistroVehiculo().placa}`)
+            .get(`/api/v1/vehicle/${env.vehicleInfo.placa}`)
             .set("Authorization", `Bearer ${env.getToken()}`);
         
         response_api = response;
@@ -401,24 +443,12 @@ describe("PUT /api/v1/vehicle/:placa", () => {
     it("should return 200 OK", async () => {
         env.actualizarInfoVehiculo();
         const response = await request(app)
-            .put(`/api/v1/vehicle/${env.datosRegistroVehiculo().placa}`)
+            .put(`/api/v1/vehicle/${env.vehicleInfo.placa}`)
             .set("Authorization", `Bearer ${env.getToken()}`)
-            .send(env.datosRegistroVehiculo());
+            .send(env.vehicleInfo);
         
         response_api = response;
         expect(response.status).toBe(200);
-    });
-});
-
-describe("POST /api/v1/maintenance/register", () => {
-    it("should return 201 Created", async () => {
-        const response = await request(app)
-            .post("/api/v1/maintenance/register")
-            .set("Authorization", `Bearer ${env.getToken()}`)
-            .send(env.datosRegistroMantenimiento());
-        
-        response_api = response;
-        expect(response.status).toBe(201);
     });
 });
 
@@ -431,6 +461,18 @@ describe("GET /api/v1/maintenances", () => {
         response_api = response;
         env.idMantenimiento = response.body[0]._id;
         expect(response.status).toBe(200);
+    });
+});
+
+describe("POST /api/v1/maintenance/register/:id", () => {
+    it("should return 201 Created", async () => {
+        const response = await request(app)
+            .post(`/api/v1/maintenance/register/${env.idMantenimiento}`)
+            .set("Authorization", `Bearer ${env.getToken()}`)
+            .send(env.datosRegistroMantenimiento());
+        
+        response_api = response;
+        expect(response.status).toBe(201);
     });
 });
 
@@ -448,7 +490,7 @@ describe("GET /api/v1/maintenance/:id", () => {
 describe("GET /api/v1/maintenance/vehicle/:placa", () => {
     it("should return 200 OK", async () => {
         const response = await request(app)
-            .get(`/api/v1/maintenance/vehicle/${env.datosRegistroVehiculo().placa}`)
+            .get(`/api/v1/maintenance/vehicle/${env.vehicleInfo.placa}`)
             .set("Authorization", `Bearer ${env.getToken()}`);
         
         response_api = response;
@@ -462,6 +504,18 @@ describe("PUT /api/v1/maintenance/:id", () => {
             .put(`/api/v1/maintenance/${env.idMantenimiento}`)
             .set("Authorization", `Bearer ${env.getToken()}`)
             .send(env.datosRegistroMantenimiento());
+        
+        response_api = response;
+        expect(response.status).toBe(200);
+    });
+});
+
+
+describe("DELETE /api/v1/client/:cedula", () => {
+    it("should return 200 OK", async () => {
+        const response = await request(app)
+            .delete(`/api/v1/client/${env.clientInfo.cedula}`)
+            .set("Authorization", `Bearer ${env.getToken()}`);
         
         response_api = response;
         expect(response.status).toBe(200);

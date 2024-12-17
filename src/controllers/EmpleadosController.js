@@ -69,7 +69,7 @@ export const register = async (req, res) => {
         empleado.contrasena = bcrypt.hashSync(contrasena, salt);
 
         await empleado.save();
-        await sendMailToUser(correo, {correo, cargo: req.body.cargo, contrasena});
+        if (process.env.NODE_ENV !== 'test') await sendMailToUser(correo, {correo, cargo: req.body.cargo, contrasena});
 
         return res.status(201).json({ message: 'Empleado registrado exitosamente', empleado });
     } catch (error) {
