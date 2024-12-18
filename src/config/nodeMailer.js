@@ -130,8 +130,32 @@ export const sendMailToRecoveryPassword = async(userMail, token)=>{
 
     mailOptions.html = `
         <body style="margin: 0; font-family: Arial, sans-serif;">
-            <header style="background-color: #333333; color: white; text-align: center; padding: 10px;">
-                <h1>Full Prestige</h1>
+            <!-- Header con imagen de fondo -->
+            <header 
+                style="
+                    background-image: url('cid:logoImage'); 
+                    background-size: cover; 
+                    background-position: center; 
+                    background-repeat: no-repeat; 
+                    display: flex; 
+                    justify-content: center; 
+                    align-items: center; 
+                    padding: 50px 10px;"
+            >
+                <h1
+                    style="
+                        color: white; 
+                        text-shadow: 2px 2px 4px #000000; 
+                        text-align: center; 
+                        background-color: rgba(23, 23, 23, 0.7); 
+                        height: 80px; 
+                        line-height: 80px; 
+                        width: 90%; 
+                        margin: 0; 
+                        box-shadow: 0px 0px 10px 5px #171717; 
+                        font-family: cursive; 
+                        font-size: 2.5em;"
+                >Full Prestige</h1>
             </header>
 
             <hr>
@@ -143,7 +167,7 @@ export const sendMailToRecoveryPassword = async(userMail, token)=>{
 
                 <div style="text-align: center; padding: 10px;">
                     <a 
-                        href="${process.env.URL_BACKEND}/verify-token/${encodeURIComponent(token)}"
+                        href="${process.env.URL_FRONTEND}/restablecer-contrasena/${encodeURIComponent(token)}"
                         style="background-color: #4CAF50; /* Green */
                             border: none;
                             color: white;
@@ -161,10 +185,19 @@ export const sendMailToRecoveryPassword = async(userMail, token)=>{
             <hr>
 
             <footer style="background-color: #333333; color: white; text-align: center; padding: 10px;">
+                Atentamente: <br>
                 El equipo de soporte
             </footer>
 
         </body>`;
+
+    mailOptions.attachments = [
+        {
+            filename: 'logo.jpg', // Imagen que usas como fondo
+            path: './assets/logo.jpg', // Ruta a la imagen
+            cid: 'logoImage', // CID único para referenciar la imagen en el correo
+        },
+    ],
 
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
