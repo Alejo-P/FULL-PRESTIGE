@@ -258,14 +258,13 @@ describe("PUT /api/v1/profile/update-password", () => {
     });
 
     it("should return 400 Bad Request", async () => {
-        const contrasena_temp = env.cambiarContrasenaAdmin().contrasena;
-        env.cambiarContrasenaAdmin().contrasena = "";
+        const datos = env.cambiarContrasenaAdmin();
+        datos.contrasena = "";
         const response = await request(app)
             .put("/api/v1/profile/update-password")
             .set("Authorization", `Bearer ${env.getToken()}`)
-            .send(env.cambiarContrasenaAdmin());
+            .send(datos);
         
-        env.cambiarContrasenaAdmin().contrasena = contrasena_temp;
         response_api = response;
         expect(response.status).toBe(400);
     });
@@ -283,13 +282,12 @@ describe("POST /api/v1/employee/:cedula/assistance", () => {
     });
 
     it("should return 400 Bad Request", async () => {
+        const datos = env.datosAsistenciaEmpleado();
+        datos.fecha = "";
         const response = await request(app)
             .post(`/api/v1/employee/${env.empleadoUser.cedula}/assistance`)
             .set("Authorization", `Bearer ${env.getToken()}`)
-            .send({
-                ...env.datosAsistenciaEmpleado(),
-                [fecha]: ""
-            });
+            .send(datos);
         
         response_api = response;
         expect(response.status).toBe(400);
@@ -320,13 +318,12 @@ describe("PUT /api/v1/employee/assistance/:id", () => {
     });
 
     it("should return 400 Bad Request", async () => {
+        const datos = env.datosAsistenciaEmpleado();
+        datos.fecha = "";
         const response = await request(app)
             .put(`/api/v1/employee/assistance/${env.idAsistencia}`)
             .set("Authorization", `Bearer ${env.getToken()}`)
-            .send({
-                ...env.datosAsistenciaEmpleado(),
-                [fecha]: ""
-            });
+            .send(datos);
         
         response_api = response;
         expect(response.status).toBe(400);
@@ -345,13 +342,12 @@ describe("POST /api/v1/employee/:cedula/payments", () => {
     });
 
     it("should return 400 Bad Request", async () => {
+        const datos = env.datosPagoEmpleado();
+        datos.fecha = "";
         const response = await request(app)
             .post(`/api/v1/employee/${env.empleadoUser.cedula}/payments`)
             .set("Authorization", `Bearer ${env.getToken()}`)
-            .send({
-                ...env.datosPagoEmpleado(),
-                [fecha]: ""
-            });
+            .send(datos);
         
         response_api = response;
         expect(response.status).toBe(400);
@@ -382,13 +378,12 @@ describe("PUT /api/v1/employee/payment/:id", () => {
     });
 
     it("should return 400 Bad Request", async () => {
+        const datos = env.datosPagoEmpleado();
+        datos.fecha = "";
         const response = await request(app)
             .put(`/api/v1/employee/payment/${env.idPago}`)
             .set("Authorization", `Bearer ${env.getToken()}`)
-            .send({
-                ...env.datosPagoEmpleado(),
-                [fecha]: ""
-            });
+            .send(datos);
         
         response_api = response;
         expect(response.status).toBe(400);
@@ -623,13 +618,11 @@ describe("POST /api/v1/maintenance/register/:id", () => {
 
     it("should return 400 Bad Request", async () => {
         const datos = env.datosRegistroMantenimiento();
+        datos.placa = "";
         const response = await request(app)
             .post(`/api/v1/maintenance/register/${env.idMantenimiento}`)
             .set("Authorization", `Bearer ${env.getToken()}`)
-            .send({
-                ...datos,
-                [placa]: ""
-            });
+            .send(datos);
         
         response_api = response;
         expect(response.status).toBe(400);
@@ -671,13 +664,11 @@ describe("PUT /api/v1/maintenance/:id", () => {
 
     it("should return 400 Bad Request", async () => {
         const datos = env.datosRegistroMantenimiento();
+        datos.placa = "";
         const response = await request(app)
             .put(`/api/v1/maintenance/${env.idMantenimiento}`)
             .set("Authorization", `Bearer ${env.getToken()}`)
-            .send({
-                ...datos,
-                [placa]: ""
-            });
+            .send(datos);
         
         response_api = response;
         expect(response.status).toBe(400);
