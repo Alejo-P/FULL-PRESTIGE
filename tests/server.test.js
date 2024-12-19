@@ -449,14 +449,13 @@ describe("PUT /api/v1/client/:cedula", () => {
     });
 
     it("should return 400 Bad Request", async () => {
-        const nombre_temp = env.clientInfo.nombre;
-        env.clientInfo.nombre = "";
+        const datos = env.clientInfo;
+        datos.nombre = "";
         const response = await request(app)
             .put(`/api/v1/client/${env.clientInfo.cedula}`)
             .set("Authorization", `Bearer ${env.getToken()}`)
             .send(env.clientInfo);
         
-        env.clientInfo.cedula = nombre_temp;
         response_api = response;
         expect(response.status).toBe(400);
     });
