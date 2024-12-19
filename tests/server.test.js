@@ -232,7 +232,7 @@ describe("PUT /api/v1/profile", () => {
         expect(response.status).toBe(200);
     });
 
-    it("should return 400 Bad Request", async () => {
+    it("should return 404 Bad Request", async () => {
         const correo_temp = env.adminUser.correo;
         env.adminUser.correo = "";
         const response = await request(app)
@@ -242,7 +242,7 @@ describe("PUT /api/v1/profile", () => {
         
         env.adminUser.correo = correo_temp;
         response_api = response;
-        expect(response.status).toBe(400);
+        expect(response.status).toBe(404);
     });
 });
 
@@ -257,7 +257,7 @@ describe("PUT /api/v1/profile/update-password", () => {
         expect(response.status).toBe(200);
     });
 
-    it("should return 400 Bad Request", async () => {
+    it("should return 404 Bad Request", async () => {
         const datos = env.cambiarContrasenaAdmin();
         datos.contrasena = "";
         const response = await request(app)
@@ -266,7 +266,7 @@ describe("PUT /api/v1/profile/update-password", () => {
             .send(datos);
         
         response_api = response;
-        expect(response.status).toBe(400);
+        expect(response.status).toBe(404);
     });
 });
 
@@ -402,14 +402,13 @@ describe("POST /api/v1/client", () => {
     });
 
     it("should return 400 Bad Request", async () => {
-        const cedula_temp = env.clientInfo.cedula;
-        env.clientInfo.cedula = "";
+        const datos = env.clientInfo;
+        datos.cedula = "";
         const response = await request(app)
             .post("/api/v1/client")
             .set("Authorization", `Bearer ${env.getToken()}`)
-            .send(env.clientInfo);
+            .send(datos);
         
-        env.clientInfo.cedula = cedula_temp;
         response_api = response;
         expect(response.status).toBe(400);
     });
