@@ -622,12 +622,13 @@ describe("POST /api/v1/maintenance/register/:id", () => {
     });
 
     it("should return 400 Bad Request", async () => {
+        const datos = env.datosRegistroMantenimiento();
         const response = await request(app)
             .post(`/api/v1/maintenance/register/${env.idMantenimiento}`)
             .set("Authorization", `Bearer ${env.getToken()}`)
             .send({
-                ...env.datosRegistroMantenimiento(),
-                [fecha]: ""
+                ...datos,
+                [placa]: ""
             });
         
         response_api = response;
@@ -669,12 +670,13 @@ describe("PUT /api/v1/maintenance/:id", () => {
     });
 
     it("should return 400 Bad Request", async () => {
+        const datos = env.datosRegistroMantenimiento();
         const response = await request(app)
             .put(`/api/v1/maintenance/${env.idMantenimiento}`)
             .set("Authorization", `Bearer ${env.getToken()}`)
             .send({
-                ...env.datosRegistroMantenimiento(),
-                [fecha]: ""
+                ...datos,
+                [placa]: ""
             });
         
         response_api = response;
