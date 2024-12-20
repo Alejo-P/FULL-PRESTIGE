@@ -193,7 +193,7 @@ describe("PUT /api/v1/employee/:cedula", () => {
         expect(response.status).toBe(200);
     });
 
-    it("should return 404 Bad Request", async () => {
+    it("should return 400 Bad Request", async () => {
         const datos = {...env.empleadoUser};
         datos.cedula = "";
         const response = await request(app)
@@ -202,7 +202,7 @@ describe("PUT /api/v1/employee/:cedula", () => {
             .send(datos);
         
         response_api = response;
-        expect(response.status).toBe(404);
+        expect(response.status).toBe(400);
     });
 });
 
@@ -450,7 +450,7 @@ describe("PUT /api/v1/client/:cedula", () => {
         const response = await request(app)
             .put(`/api/v1/client/${env.clientInfo.cedula}`)
             .set("Authorization", `Bearer ${env.getToken()}`)
-            .send(env.clientInfo);
+            .send(datos);
         
         response_api = response;
         expect(response.status).toBe(400);
@@ -578,7 +578,7 @@ describe("PUT /api/v1/vehicle/:placa", () => {
         const response = await request(app)
             .put(`/api/v1/vehicle/${env.vehicleInfo.placa}`)
             .set("Authorization", `Bearer ${env.getToken()}`)
-            .send(env.vehicleInfo);
+            .send(datos);
         
         response_api = response;
         expect(response.status).toBe(400);
