@@ -36,7 +36,6 @@ afterEach(async () => {
         request_data: response_api.request?.method === "POST" || response_api.request?.method === "PUT" ? response_api.request._data : "N/A",
         resultado: response_api.body || "N/A"
     };
-    if (status !== "passed") console.log(response_api.text);
     logs.push(log);
 
     // Reiniciar la variable para la próxima prueba
