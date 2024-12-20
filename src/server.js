@@ -24,7 +24,7 @@ app.use(morgan('dev'));
 
 // Ruta principal
 app.get('/', (req, res) => {
-    res.status(200).send('Hello World');
+    res.status(200).json({ message: 'Bienvenido a la API de gestion automotriz' });
 });
 
 // Uso de rutas
@@ -44,6 +44,6 @@ const swaggerDocument = JSON.parse(
 app.use('/api/v1/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Manejo de una ruta que no sea encontrada
-app.use((req,res)=>res.status(404).send("Endpoint no encontrado - 404"))
+app.use((req,res)=>res.status(404).json({message: "Endpoint no encontrado - 404"}))
 
 export default app;

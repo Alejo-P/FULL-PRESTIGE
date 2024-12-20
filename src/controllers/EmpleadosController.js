@@ -243,8 +243,6 @@ export const updateProfile = async (req, res) => {
             return res.status(403).json({ message: 'No puedes cambiar tu cargo' });
         }
 
-        console.log(req.body?.estado, req.empleado.estado);
-
         // Verificar si se cambio el estado del empleado logueado
         if (req.body?.estado !== req.empleado.estado) {
             return res.status(403).json({ message: 'No puedes cambiar tu estado' });

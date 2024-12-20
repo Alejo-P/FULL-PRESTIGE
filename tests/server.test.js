@@ -33,8 +33,10 @@ afterEach(async () => {
         estado: status,
         endpoint: `${response_api.request?.method || "N/A"} ${response_api.request?.url || "N/A"}`,
         http_status: response_api.status || "N/A",
+        request_data: response_api.request?.method === "POST" || response_api.request?.method === "PUT" ? response_api.request._data : "N/A",
         resultado: response_api.body || "N/A"
     };
+    if (status !== "passed") console.log(response_api.text);
     logs.push(log);
 
     // Reiniciar la variable para la próxima prueba
@@ -232,7 +234,7 @@ describe("PUT /api/v1/profile", () => {
         expect(response.status).toBe(200);
     });
 
-    it("should return 404 Bad Request", async () => {
+    it("should return 400 Bad Request", async () => {
         const correo_temp = env.adminUser.correo;
         env.adminUser.correo = "";
         const response = await request(app)
@@ -242,7 +244,7 @@ describe("PUT /api/v1/profile", () => {
         
         env.adminUser.correo = correo_temp;
         response_api = response;
-        expect(response.status).toBe(404);
+        expect(response.status).toBe(400);
     });
 });
 
@@ -257,7 +259,7 @@ describe("PUT /api/v1/profile/update-password", () => {
         expect(response.status).toBe(200);
     });
 
-    it("should return 404 Bad Request", async () => {
+    it("should return 400 Bad Request", async () => {
         const datos = env.cambiarContrasenaAdmin();
         datos.contrasena = "";
         const response = await request(app)
@@ -266,7 +268,7 @@ describe("PUT /api/v1/profile/update-password", () => {
             .send(datos);
         
         response_api = response;
-        expect(response.status).toBe(404);
+        expect(response.status).toBe(400);
     });
 });
 
