@@ -237,10 +237,18 @@ export const updateProfile = async (req, res) => {
 
         if (req.body?.cargo && req.empleado.cargo !== 'Administrador') {
             return res.status(403).json({ message: 'No tiene permisos para realizar esta acción' });
-            empleado.cargo = cargo;
         }
 
-        
+        if (req.body?.cargo && (req.body?.cargo !== req.empleado.cargo)) {
+            return res.status(403).json({ message: 'No puedes cambiar tu cargo' });
+        }
+
+        console.log(req.body?.estado, req.empleado.estado);
+
+        // Verificar si se cambio el estado del empleado logueado
+        if (req.body?.estado !== req.empleado.estado) {
+            return res.status(403).json({ message: 'No puedes cambiar tu estado' });
+        }
 
         empleado.nombre = nombre;
         empleado.direccion = direccion;
