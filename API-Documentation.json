@@ -3705,6 +3705,10 @@
                                                         "type": "string",
                                                         "description": "Modelo del vehículo"
                                                     },
+                                                    "n_orden":{
+                                                        "type": "string",
+                                                        "description": "Número de orden"
+                                                    },
                                                     "fecha_ingreso": {
                                                         "type": "string",
                                                         "description": "Fecha de ingreso del vehículo"
@@ -3843,6 +3847,10 @@
                                                     "modelo": {
                                                         "type": "string",
                                                         "description": "Modelo del vehículo"
+                                                    },
+                                                    "n_orden":{
+                                                        "type": "string",
+                                                        "description": "Número de orden"
                                                     },
                                                     "fecha_ingreso": {
                                                         "type": "string",
@@ -4125,6 +4133,10 @@
                                                             "type": "string",
                                                             "description": "Modelo del vehículo"
                                                         },
+                                                        "n_orden":{
+                                                            "type": "string",
+                                                            "description": "Número de orden"
+                                                        },
                                                         "fecha_ingreso": {
                                                             "type": "string",
                                                             "description": "Fecha de ingreso del vehículo"
@@ -4282,6 +4294,10 @@
                                                     "modelo": {
                                                         "type": "string",
                                                         "description": "Modelo del vehículo"
+                                                    },
+                                                    "n_orden":{
+                                                        "type": "string",
+                                                        "description": "Número de orden"
                                                     },
                                                     "fecha_ingreso": {
                                                         "type": "string",
