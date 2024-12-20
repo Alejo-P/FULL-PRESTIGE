@@ -103,13 +103,12 @@ describe("POST /api/v1/register - Administrador", () => {
     });
 
     it("should return 400 Bad Request", async () => {
-        const cedula_temp = env.adminUser.cedula;
-        env.adminUser.cedula = "";
+        const datos = {...env.adminUser};
+        datos.cedula = "";
         const response = await request(app)
             .post("/api/v1/register")
-            .send(env.adminUser);
+            .send(datos);
         
-        env.adminUser.cedula = cedula_temp;
         response_api = response;
         expect(response.status).toBe(400);
     });
@@ -126,13 +125,12 @@ describe("POST /api/v1/register - Empleado", () => {
     });
 
     it("should return 400 Bad Request", async () => {
-        const cedula_temp = env.empleadoUser.cedula;
-        env.empleadoUser.cedula = "";
+        const datos = {...env.empleadoUser};
+        datos.cedula = "";
         const response = await request(app)
             .post("/api/v1/register")
-            .send(env.empleadoUser);
+            .send(datos);
         
-        env.empleadoUser.cedula = cedula_temp;
         response_api = response;
         expect(response.status).toBe(400);
     });
@@ -144,19 +142,18 @@ describe("POST /api/v1/login", () => {
             .post("/api/v1/login")
             .send(env.adminUser);
         
-        env.setToken(response.body.empleado.token);
         response_api = response;
+        env.setToken(response.body?.empleado?.token);
         expect(response.status).toBe(200);
     });
 
     it("should return 400 Bad Request", async () => {
-        const correo_temp = env.adminUser.correo;
-        env.adminUser.correo = "";
+        const datos = {...env.adminUser};
+        datos.correo = "";
         const response = await request(app)
             .post("/api/v1/login")
-            .send(env.adminUser);
+            .send(datos);
         
-        env.adminUser.correo = correo_temp;
         response_api = response;
         expect(response.status).toBe(400);
     });
@@ -197,14 +194,13 @@ describe("PUT /api/v1/employee/:cedula", () => {
     });
 
     it("should return 404 Bad Request", async () => {
-        const cedula_temp = env.empleadoUser.cedula;
-        env.empleadoUser.cedula = "";
+        const datos = {...env.empleadoUser};
+        datos.cedula = "";
         const response = await request(app)
             .put(`/api/v1/employee/${env.empleadoUser.cedula}`)
             .set("Authorization", `Bearer ${env.getToken()}`)
-            .send(env.empleadoUser);
+            .send(datos);
         
-        env.empleadoUser.cedula = cedula_temp;
         response_api = response;
         expect(response.status).toBe(404);
     });
@@ -234,14 +230,13 @@ describe("PUT /api/v1/profile", () => {
     });
 
     it("should return 400 Bad Request", async () => {
-        const correo_temp = env.adminUser.correo;
-        env.adminUser.correo = "";
+        const datos = {...env.adminUser};
+        datos.correo = "";
         const response = await request(app)
             .put("/api/v1/profile")
             .set("Authorization", `Bearer ${env.getToken()}`)
-            .send(env.adminUser);
+            .send(datos);
         
-        env.adminUser.correo = correo_temp;
         response_api = response;
         expect(response.status).toBe(400);
     });
@@ -403,7 +398,7 @@ describe("POST /api/v1/client", () => {
     });
 
     it("should return 400 Bad Request", async () => {
-        const datos = env.clientInfo;
+        const datos = {...env.clientInfo};
         datos.cedula = "";
         const response = await request(app)
             .post("/api/v1/client")
@@ -450,7 +445,7 @@ describe("PUT /api/v1/client/:cedula", () => {
     });
 
     it("should return 400 Bad Request", async () => {
-        const datos = env.clientInfo;
+        const datos = {...env.clientInfo};
         datos.nombre = "";
         const response = await request(app)
             .put(`/api/v1/client/${env.clientInfo.cedula}`)
@@ -478,17 +473,16 @@ describe("POST /api/v1/vehicle", () => {
     });
 
     it("should return 400 Bad Request", async () => {
-        const placa_temp = env.vehicleInfo.placa;
-        env.vehicleInfo.placa = "";
+        const datos = {...env.vehicleInfo};
+        datos.placa = "";
         const response = await request(app)
             .post("/api/v1/vehicle")
             .set("Authorization", `Bearer ${env.getToken()}`)
             .send({
                 n_orden: env.vehicleInfo.orden,
-                ...env.vehicleInfo
+                ...datos
             });
         
-        env.vehicleInfo.placa = placa_temp;
         response_api = response;
         expect(response.status).toBe(400);
     });
@@ -579,14 +573,13 @@ describe("PUT /api/v1/vehicle/:placa", () => {
     });
 
     it("should return 400 Bad Request", async () => {
-        const marca_temp = env.vehicleInfo.marca;
-        env.vehicleInfo.marca = "";
+        const datos = {...env.vehicleInfo};
+        datos.placa = "";
         const response = await request(app)
             .put(`/api/v1/vehicle/${env.vehicleInfo.placa}`)
             .set("Authorization", `Bearer ${env.getToken()}`)
             .send(env.vehicleInfo);
         
-        env.vehicleInfo.marca = marca_temp;
         response_api = response;
         expect(response.status).toBe(400);
     });
