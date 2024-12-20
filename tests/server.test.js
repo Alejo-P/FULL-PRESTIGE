@@ -29,7 +29,7 @@ afterEach(async () => {
 
     const log = {
         nombre: testInfo.currentTestName,
-        ruta: testInfo.testPath,
+        ruta: testInfo.testPath.replace(/\\/g, "/"),
         estado: status,
         endpoint: `${response_api.request?.method || "N/A"} ${response_api.request?.url || "N/A"}`,
         http_status: response_api.status || "N/A",
