@@ -89,7 +89,7 @@ export const getMaintenances = async (req, res) => {
                 populate: [
                     { path: 'propietario', select: 'cedula nombre telefono correo' }
                 ],
-                select: 'placa marca modelo propietario fecha_ingreso fecha_salida detalles'
+                select: 'placa marca modelo propietario fecha_ingreso fecha_salida detalles n_orden'
             }, {
                 path: 'encargado',
                 select: 'cedula nombre telefono correo'
@@ -103,7 +103,7 @@ export const getMaintenances = async (req, res) => {
                 populate: [
                     { path: 'propietario', select: 'cedula nombre telefono correo' },
                 ],
-                select: 'placa marca modelo propietario fecha_ingreso fecha_salida detalles'
+                select: 'placa marca modelo propietario fecha_ingreso fecha_salida detalles n_orden'
             },{
                 path: 'encargado',
                 select: 'cedula nombre telefono correo'
@@ -129,7 +129,7 @@ export const getMaintenancesByVehicle = async (req, res) => {
             populate: [
                 { path: 'propietario', select: 'cedula nombre telefono correo' }
             ],
-            select: 'placa marca modelo propietario fecha_ingreso fecha_salida detalles'
+            select: 'placa marca modelo propietario fecha_ingreso fecha_salida detalles n_orden'
         },{
             path: 'encargado',
             select: 'cedula nombre telefono correo'
@@ -154,7 +154,7 @@ export const getMaintenance = async (req, res) => {
             populate: [
                 { path: 'propietario', select: 'cedula nombre telefono correo' }
             ],
-            select: 'placa marca modelo propietario fecha_ingreso fecha_salida detalles'
+            select: 'placa marca modelo propietario fecha_ingreso fecha_salida detalles n_orden'
         }, {
             path: 'encargado',
             select: 'cedula nombre telefono correo'
@@ -190,7 +190,7 @@ export const getMaintenancesByEmployee = async (req, res) => {
             populate: [
                 { path: 'propietario', select: 'cedula nombre telefono correo' }
             ],
-            select: 'placa marca modelo propietario fecha_ingreso fecha_salida detalles'
+            select: 'placa marca modelo propietario fecha_ingreso fecha_salida detalles n_orden'
         }, {
             path: 'encargado',
             select: 'cedula nombre telefono correo'
