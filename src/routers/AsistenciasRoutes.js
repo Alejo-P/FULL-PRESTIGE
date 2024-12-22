@@ -2,7 +2,8 @@ import { Router } from "express";
 import {
     registerAssistance,
     getAssistance,
-    updateAssistance
+    updateAssistance,
+    getAllAssistance
 } from "../controllers/AsistenciasController.js";
 import auth from "../middlewares/auth.js";
 import { validacionAsistencia, validacionAsistenciaUpdate } from "../middlewares/validacionAsistencia.js";
@@ -14,5 +15,6 @@ router.route("/employee/:cedula/assistance")
     .post(auth, validacionAsistencia, registerAssistance)
 
 router.put("/employee/assistance/:id", auth, validacionAsistenciaUpdate, updateAssistance);
+router.get("/assistances", auth, getAllAssistance);
 
 export default router;

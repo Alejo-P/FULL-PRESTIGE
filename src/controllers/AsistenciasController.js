@@ -53,15 +53,81 @@ export const getAssistance = async (req, res) => {
             return res.status(400).json({ message: "La cedula es necesaria" });
         }
 
-        const empleado = await empleadosModel.findOne({ cedula });
+        const empleado = await empleadosModel.findOne({ cedula }).select('nombre correo cedula direccion cargo telefono');
         if (!empleado) {
             return res.status(404).json({ message: "Empleado no encontrado" });
         }
 
         const asistencias = await asistencasModel.find({ empleado: empleado._id }).populate('empleado', 'nombre correo cedula direccion cargo telefono');
-        return res.status(200).json(asistencias);
+
+        const asistencias_empleado = asistencias.map((asistencia) => {
+            const {
+                nombre,
+                correo,
+                cedula,
+                direccion,
+                cargo,
+                telefono
+            } = asistencia.empleado;
+
+            return {
+                nombre,
+                correo,
+                cedula,
+                direccion,
+                cargo,
+                telefono,
+                asistencias: [{
+                    fecha: asistencia.fecha,
+                    hora_ingreso: asistencia.hora_ingreso,
+                    hora_salida: asistencia.hora_salida,
+                    estado: asistencia.estado
+                }],
+                _id: asistencia._id,
+            };
+        });
+
+        return res.status(200).json(asistencias_empleado);
     } catch (error) {
         return res.status(500).json({  message: "Error al obtener las asistencias", error: error.message });
+    }
+};
+
+// Metodo para retornar todas las asistencia registradas
+export const getAllAssistance = async (req, res) => {
+    try {
+        const empleados = await empleadosModel.find().select('nombre correo cedula direccion cargo telefono');
+        const asistencias = await asistencasModel.find().populate('empleado', 'nombre correo cedula direccion cargo telefono');
+
+        const asistenciasTotales = [];
+        empleados.forEach((empleado) => {
+            const asistenciasEmpleado = asistencias.filter((asistencia) => asistencia.empleado.cedula === empleado.cedula);
+
+            const {
+                _id,
+                nombre,
+                correo,
+                cedula,
+                direccion,
+                cargo,
+                telefono
+            } = empleado;
+
+            asistenciasTotales.push({ 
+                _id,
+                nombre,
+                correo,
+                cedula,
+                direccion,
+                cargo,
+                telefono,
+                asistencias: asistenciasEmpleado
+            });
+        });
+
+        return res.status(200).json(asistenciasTotales);
+    } catch (error) {
+        return res.status(500).json({ message: "Error al obtener las asistencias", error: error.message });
     }
 };
 
