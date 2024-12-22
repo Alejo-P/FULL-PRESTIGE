@@ -1435,6 +1435,125 @@
                 }
             }
         },
+        "/assistances": {
+            "get": {
+                "summary": "Obtiene toda la lista de asistencias registradas",
+                "tags": [
+                    "Control de asistencia"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de asistencias obtenida correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "fecha": {
+                                                "type": "string",
+                                                "description": "Fecha de la asistencia"
+                                            },
+                                            "hora_ingreso": {
+                                                "type": "string",
+                                                "description": "Hora de la asistencia"
+                                            },
+                                            "hora_salida": {
+                                                "type": "string",
+                                                "description": "Hora de la salida"
+                                            },
+                                            "estado": {
+                                                "type": "string",
+                                                "description": "Estado de la asistencia",
+                                                "example": "Presente"
+                                            },
+                                            "empleado": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "cedula": {
+                                                        "type": "string",
+                                                        "description": "Cédula del empleado"
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "description": "Nombre del empleado"
+                                                    },
+                                                    "correo": {
+                                                        "type": "string",
+                                                        "description": "Correo del empleado"
+                                                    },
+                                                    "cargo": {
+                                                        "type": "string",
+                                                        "description": "Rol del empleado"
+                                                    },
+                                                    "telefono": {
+                                                        "type": "string",
+                                                        "description": "Teléfono del empleado"
+                                                    },
+                                                    "direccion": {
+                                                        "type": "string",
+                                                        "description": "Dirección del empleado"
+                                                    },
+                                                    "estado": {
+                                                        "type": "string",
+                                                        "description": "Estado del empleado"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Empleado no encontrado o sin asistencias registradas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Mensaje de error",
+                                            "example": "Empleado no encontrado o sin asistencias registradas"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error en el servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Mensaje de error",
+                                            "example": "Error al obtener las asistencias"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "description": "Detalle del error",
+                                            "example": "Error al obtener las asistencias del empleado"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/employee/{cedula}/assistance": {
             "post": {
                 "summary": "Registra la asistencia de un empleado",
@@ -1612,6 +1731,39 @@
                                                 "type": "string",
                                                 "description": "Estado de la asistencia",
                                                 "example": "Presente"
+                                            },
+                                            "empleado": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "cedula": {
+                                                        "type": "string",
+                                                        "description": "Cédula del empleado"
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "description": "Nombre del empleado"
+                                                    },
+                                                    "correo": {
+                                                        "type": "string",
+                                                        "description": "Correo del empleado"
+                                                    },
+                                                    "cargo": {
+                                                        "type": "string",
+                                                        "description": "Rol del empleado"
+                                                    },
+                                                    "telefono": {
+                                                        "type": "string",
+                                                        "description": "Teléfono del empleado"
+                                                    },
+                                                    "direccion": {
+                                                        "type": "string",
+                                                        "description": "Dirección del empleado"
+                                                    },
+                                                    "estado": {
+                                                        "type": "string",
+                                                        "description": "Estado del empleado"
+                                                    }
+                                                }
                                             }
                                         }
                                     }
