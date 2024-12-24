@@ -324,7 +324,7 @@
         },
         "/sessions":{ 
             "get": {
-                "summary": "Obtiene la lista de sesiones activas",
+                "summary": "Obtiene la lista de sesiones activas del empleado logueado",
                 "tags": ["Autenticación"],
                 "security": [
                     {
@@ -442,7 +442,7 @@
         },
         "/logout-session/{token}":{ 
             "post": {
-                "summary": "Cierra la sesión de un empleado específico",
+                "summary": "Cierra una sesión especifica del empleado logueado",
                 "tags": ["Autenticación"],
                 "security": [
                     {
