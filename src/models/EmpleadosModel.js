@@ -37,7 +37,22 @@ const EmpledosSchema = new Schema({
     telefono: {
         type: String,
         required: true
-    }
+    },
+    tokens: [
+        {
+            token: {
+                type: String,
+                required: true
+            },
+            dispositivo: {
+                type: String
+            },
+            createdAt: {
+                type: Date,
+                default: Date.now
+            }
+        }
+    ],
 }, {
     timestamps: true
 });

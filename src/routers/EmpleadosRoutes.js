@@ -2,9 +2,13 @@ import { Router } from 'express';
 import {
     login,
     register,
+    logout,
+    logoutSpecific,
+    logoutAll,
     recoverPassword,
     changePassword,
     verifyToken,
+    getSessions,
     getProfile,
     getEmployee,
     updateProfile,
@@ -21,6 +25,10 @@ const router = Router();
 
 router.post('/login', login)
 router.post('/register', validacionRegistro_empleado, register)
+router.get('/sessions', auth, getSessions)
+router.post('/logout', auth, logout)
+router.post('/logout-session/:token', auth, logoutSpecific)
+router.post('/logout-all', auth, logoutAll)
 router.post('/recover-password', recoverPassword)
 router.get('/verify-token/:token', verifyToken)
 router.put('/change-password/:token', changePassword)

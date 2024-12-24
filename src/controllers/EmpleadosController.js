@@ -38,10 +38,66 @@ export const login = async (req, res) => {
         } = empleado
 
         const token = generarJWT(_id, cargo);
+        const dispositivo = req.header('User-Agent') || 'N/A';
+        empleado.tokens.push({ token, dispositivo });
+        await empleado.save();
 
         return res.status(200).json({ message: 'Inicio de sesión exitoso', empleado: { _id, cedula, nombre, cargo, correo: email, direccion, telefono, token }});
     } catch (error) {
         return res.status(500).json({ message: 'Error al iniciar sesión', error: error.message });
+    }
+};
+
+// Controlador para cerrar la sesion de un empleado
+export const logout = async (req, res) => {
+    try {
+        req.empleado.tokens = req.empleado.tokens.filter(t => t.token !== req.token);
+        await req.empleado.save();
+        res.status(200).json({ message: 'Sesión cerrada correctamente' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error al cerrar sesión', error: error.message });
+    }
+};
+
+// Controlador para la vista de las sesiones activas de un empleado
+export const getSessions = async (req, res) => {
+    try {
+        const { tokens } = req.empleado;
+        const listaSesiones = tokens.map((sesion) => {
+            return {
+                token: sesion.token,
+                dispositivo: sesion.dispositivo,
+                fecha: sesion.createdAt
+            }
+        });
+
+        return res.status(200).json({ message: 'Sesiones activas', sesiones: listaSesiones });
+    } catch (error) {
+        return res.status(500).json({ message: 'Error al obtener sesiones', error: error.message });
+    }
+};
+
+// Controlador para el cierre de una sesion especifica de un empleado
+export const logoutSpecific = async (req, res) => {
+    const { token } = req.params;
+
+    try {
+        req.empleado.tokens = req.empleado.tokens.filter(t => t.token !== token);
+        await req.empleado.save();
+        res.status(200).json({ message: 'Sesión cerrada correctamente' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error al cerrar sesión', error: error.message });
+    }
+};
+
+// Controlador para el cierre de sesion de un empleado en todos los dispositivos
+export const logoutAll = async (req, res) => {
+    try {
+        req.empleado.tokens = [];
+        await req.empleado.save();
+        res.status(200).json({ message: 'Sesiones cerradas en todos los dispositivos' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error al cerrar todas las sesiones', error: error.message });
     }
 };
 
@@ -214,7 +270,6 @@ export const updateProfile = async (req, res) => {
         const {
             nombre,
             direccion,
-            cargo,
             correo,
             telefono
         } = req.body;
