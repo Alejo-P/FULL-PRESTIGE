@@ -82,6 +82,11 @@ export const logoutSpecific = async (req, res) => {
     const { token } = req.params;
 
     try {
+        const tokenFound = req.empleado.tokens.find(t => t.token === token);
+        if (!tokenFound) {
+            return res.status(404).json({ message: 'Sesión no encontrada' });
+        }
+
         req.empleado.tokens = req.empleado.tokens.filter(t => t.token !== token);
         await req.empleado.save();
         res.status(200).json({ message: 'Sesión cerrada correctamente' });

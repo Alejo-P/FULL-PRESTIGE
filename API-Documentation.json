@@ -477,6 +477,22 @@
                             }
                         }
                     },
+                    "404": {
+                        "description": "Token no encontrado o sesión ya cerrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Mensaje de error"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
                     "500": {
                         "description": "Error en el servidor",
                         "content": {
