@@ -1,6 +1,7 @@
 import empleadosModel from '../models/EmpleadosModel.js';
 import generarJWT from '../helpers/JWT.js';
 import bcrypt from 'bcrypt';
+import { UAParser } from 'ua-parser-js';
 
 import { sendMailToRecoveryPassword, sendMailToUser } from '../config/nodeMailer.js';
 
@@ -38,7 +39,8 @@ export const login = async (req, res) => {
         } = empleado
 
         const token = generarJWT(_id, cargo);
-        const dispositivo = req.header('User-Agent') || 'N/A';
+        const parser = new UAParser(req.header('User-Agent'));
+		const dispositivo = `${parser.getOS().name} ${parser.getOS().version} - ${parser.getBrowser().name} ${parser.getBrowser().version}`;
         empleado.tokens.push({ token, dispositivo });
         await empleado.save();
 
@@ -65,6 +67,7 @@ export const getSessions = async (req, res) => {
         const { tokens } = req.empleado;
         const listaSesiones = tokens.map((sesion) => {
             return {
+                _id: sesion._id,
                 token: sesion.token,
                 dispositivo: sesion.dispositivo,
                 fecha: sesion.createdAt
@@ -79,15 +82,15 @@ export const getSessions = async (req, res) => {
 
 // Controlador para el cierre de una sesion especifica de un empleado
 export const logoutSpecific = async (req, res) => {
-    const { token } = req.params;
+    const { id } = req.params;
 
     try {
-        const tokenFound = req.empleado.tokens.find(t => t.token === token);
+        const tokenFound = req.empleado.tokens.find(t => t._id.toString() === id);
         if (!tokenFound) {
             return res.status(404).json({ message: 'Sesión no encontrada' });
         }
 
-        req.empleado.tokens = req.empleado.tokens.filter(t => t.token !== token);
+        req.empleado.tokens = req.empleado.tokens.filter(t => t._id.toString() !== id);
         await req.empleado.save();
         res.status(200).json({ message: 'Sesión cerrada correctamente' });
     } catch (error) {

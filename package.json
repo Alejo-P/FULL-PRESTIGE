@@ -23,7 +23,8 @@
     "mongoose": "^8.8.0",
     "nodemailer": "^6.9.16",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1"
+    "swagger-ui-express": "^5.0.1",
+    "ua-parser-js": "^2.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",

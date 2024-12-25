@@ -11,7 +11,7 @@ const auth = async (req, res, next) => {
         const empleado = await EmpleadosModel.findOne({ _id: decoded.id, 'tokens.token': token });
 
         if (!empleado) {
-            throw new Error("Empleado no encontrado");
+            throw new Error("Usuario no autenticado, por favor inicie sesión");
         }
 
         req.token = token;

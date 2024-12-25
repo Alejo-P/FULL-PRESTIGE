@@ -431,6 +431,10 @@
                                         "message": {
                                             "type": "string",
                                             "description": "Mensaje de error"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "description": "Detalle del error"
                                         }
                                     }
                                 }
@@ -440,7 +444,7 @@
                 }
             }
         },
-        "/logout-session/{token}":{ 
+        "/logout-session/{id}":{ 
             "post": {
                 "summary": "Cierra una sesión especifica del empleado logueado",
                 "tags": ["Autenticación"],
@@ -451,10 +455,10 @@
                 ],
                 "parameters": [
                     {
-                        "name": "token",
+                        "name": "id",
                         "in": "path",
                         "required": true,
-                        "description": "Token de autenticación",
+                        "description": "Id de la sesión",
                         "schema": {
                             "type": "string"
                         }
@@ -503,6 +507,10 @@
                                         "message": {
                                             "type": "string",
                                             "description": "Mensaje de error"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "description": "Detalle del error"
                                         }
                                     }
                                 }
@@ -548,6 +556,10 @@
                                         "message": {
                                             "type": "string",
                                             "description": "Mensaje de error"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "description": "Detalle del error"
                                         }
                                     }
                                 }
