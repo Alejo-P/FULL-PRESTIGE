@@ -15,5 +15,4 @@ tests/results.html
 *.log
 *.py
 tests/Test-Plan-FullPrestige_API.jmx
-tests/data/actualizacion_perfil.csv
-tests/data/empleados.csv
+tests/data/*.csv
