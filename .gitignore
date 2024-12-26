@@ -14,5 +14,6 @@ tests/results.html
 *.DS_Store
 *.log
 *.py
-tests/Test-Plan-FullPrestige_API.jmx
 tests/data/*.csv
+tests/JMeter/
+tests/resultadosJMeter.jtl
