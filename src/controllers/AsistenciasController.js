@@ -101,7 +101,7 @@ export const getAllAssistance = async (req, res) => {
 
         const asistenciasTotales = [];
         empleados.forEach((empleado) => {
-            const asistenciasEmpleado = asistencias.filter((asistencia) => asistencia.empleado.cedula === empleado.cedula);
+            const asistenciasEmpleado = asistencias.filter((asistencia) => asistencia.empleado?.cedula === empleado.cedula);
 
             const {
                 _id,
