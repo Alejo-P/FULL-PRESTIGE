@@ -1,3 +1,7 @@
+import bcrypt from "bcrypt";
+import fs from "fs-extra";
+import path from "path";
+
 import {
     register,
     login,
@@ -11,8 +15,8 @@ import {
     logoutSpecific
 } from "../../src/controllers/EmpleadosController.js";
 import empleadosModel from "../../src/models/EmpleadosModel.js";
-import { sendMailToUser } from "../../src/config/nodeMailer";
-import bcrypt from "bcrypt";
+import { sendMailToUser } from "../../src/config/nodeMailer.js";
+import { initTests, UNIT_TESTS_PATH } from "../testsConfig.js";
 
 // Mocks de datos
 import { EmpleadosMock } from "../helpers/mock_unittest.js";
@@ -20,6 +24,12 @@ import { EmpleadosMock } from "../helpers/mock_unittest.js";
 jest.mock("../../src/models/EmpleadosModel.js"); // Mockear el modelo de empleados
 jest.mock("../../src/config/nodeMailer.js"); // Mockear el envio de correos
 jest.mock("bcrypt"); // Mockear la encriptación de contraseñas
+
+// Ruta a este archivo: BackEnd/tests/integration/server.test.js
+const LOGS_PATH = path.join(UNIT_TESTS_PATH, "EmpleadosController", "Test_results.log");
+const HTML_PATH = path.join(UNIT_TESTS_PATH, "EmpleadosController", "Test_results.html");
+const logs = [];
+let response_api = {};
 
 // Mock de la respuesta del controlador
 const getMockRes = () => {
@@ -33,6 +43,14 @@ const getMockRes = () => {
 
 // Pruebas a los controladores de empleados
 describe('(Controlador) Registrar un empleado', () => {
+    beforeAll(() => {
+        initTests();
+        fs.ensureDirSync(path.join(UNIT_TESTS_PATH, "EmpleadosController")); // Crear el directorio de las pruebas unitarias
+        fs.writeFileSync(LOGS_PATH, ""); // Limpiar el archivo de logs
+        
+    });
+
+
     beforeEach(() => {
         empleadosModel.mockClear();
         sendMailToUser.mockClear();
