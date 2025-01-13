@@ -2,9 +2,9 @@ import request from "supertest";
 import fs from "fs";
 import path from "path";
 
-import app from "../src/server.js";
-import { connect, disconnect } from "../src/database.js";
-import { env } from "./env.js";
+import app from "../../src/server.js";
+import { connect, disconnect } from "../../src/database.js";
+import { env } from "../helpers/mock_integrationtest.js";
 import { generateHTML } from "./createHTML.js";
 
 const LOGS_PATH = path.join(__dirname, "logs.txt");

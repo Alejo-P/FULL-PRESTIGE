@@ -1,19 +1,12 @@
 node_modules/
 .env
-tests/env.js
-tests/logs.txt
 mailview.html
 
-#Archivos adicionales de pruebas unitarias
-tests/createHTML.js
-tests/handler.js
-tests/results.html
+#Archivos adicionales de las pruebas
+tests/helpers/*.csv
 
 #Archivos adicionales
 *.pyc
 *.DS_Store
 *.log
 *.py
-tests/data/*.csv
-tests/JMeter/
-tests/resultadosJMeter.jtl
