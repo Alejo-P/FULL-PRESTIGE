@@ -16,6 +16,7 @@ import {
 } from "../../src/controllers/EmpleadosController.js";
 import empleadosModel from "../../src/models/EmpleadosModel.js";
 import { sendMailToUser } from "../../src/config/nodeMailer.js";
+import generarJWT from "../../src/helpers/JWT.js";
 import { initTests, UNIT_TESTS_PATH } from "../testsConfig.js";
 
 // Mocks de datos
@@ -23,13 +24,13 @@ import { EmpleadosMock } from "../helpers/mock_unittest.js";
 
 jest.mock("../../src/models/EmpleadosModel.js"); // Mockear el modelo de empleados
 jest.mock("../../src/config/nodeMailer.js"); // Mockear el envio de correos
+jest.mock("../../src/helpers/JWT.js"); // Mockear la generación de JWT
 jest.mock("bcrypt"); // Mockear la encriptación de contraseñas
 
 // Ruta a este archivo: BackEnd/tests/integration/server.test.js
 const LOGS_PATH = path.join(UNIT_TESTS_PATH, "EmpleadosController", "Test_results.log");
-const HTML_PATH = path.join(UNIT_TESTS_PATH, "EmpleadosController", "Test_results.html");
 const logs = [];
-let response_api = {};
+let response_ctrl = {};
 
 // Mock de la respuesta del controlador
 const getMockRes = () => {
@@ -41,27 +42,44 @@ const getMockRes = () => {
     return res;
 };
 
+beforeAll(() => {
+    initTests();
+    fs.ensureDirSync(path.join(UNIT_TESTS_PATH, "EmpleadosController")); // Crear el directorio de las pruebas unitarias
+    fs.writeFileSync(LOGS_PATH, "", "utf-8"); // Limpiar el archivo de logs
+});
+
+afterEach(() => {
+    try {
+        // Capturar detalles de la prueba actual
+        const testInfo = expect.getState();
+        const log = {
+            testName: testInfo.currentTestName,
+            status: response_ctrl.status?.mock?.calls?.[0]?.[0] || "N/A",
+            response: response_ctrl.json?.mock?.calls?.[0]?.[0] || "N/A"
+        };
+        logs.push(log);
+
+        // Registrar en el archivo de logs
+        fs.appendFileSync(LOGS_PATH, `${JSON.stringify(log, null, 4)}\n`, "utf-8");
+    } catch (error) {
+        // Si ocurre un error al capturar logs
+        fs.appendFileSync(LOGS_PATH, `Error al capturar log: ${error.message}\n`, "utf-8");
+    } finally {
+        // Restaurar el estado del mock
+        response_ctrl = {};
+    }
+});
+
+afterAll(() => {
+    fs.appendFileSync(LOGS_PATH, "#" + "-".repeat(50) + "#\n", "utf-8");
+});
+
 // Pruebas a los controladores de empleados
 describe('(Controlador) Registrar un empleado', () => {
-    beforeAll(() => {
-        initTests();
-        fs.ensureDirSync(path.join(UNIT_TESTS_PATH, "EmpleadosController")); // Crear el directorio de las pruebas unitarias
-        fs.writeFileSync(LOGS_PATH, ""); // Limpiar el archivo de logs
-        
-    });
-
-
     beforeEach(() => {
         empleadosModel.mockClear();
         sendMailToUser.mockClear();
         bcrypt.hash.mockClear();
-    });
-
-    afterEach(() => {
-        jest.clearAllMocks();
-
-        // Restaurar el mock del método save
-        empleadosModel.prototype.save = jest.fn();
     });
 
     it('Debería registrar un empleado', async () => {
@@ -76,6 +94,7 @@ describe('(Controlador) Registrar un empleado', () => {
         const mockRes = getMockRes(); // Mock de la respuesta
 
         await register(mockReq, mockRes);
+        response_ctrl = mockRes;
 
         // Verifica las expectativas
         expect(empleadosModel.findOne).toHaveBeenCalledTimes(2); // Se llama dos veces (cédula y correo)
@@ -96,36 +115,44 @@ describe('(Controlador) Registrar un empleado', () => {
         const mockRes = getMockRes();
 
         await register(mockReq, mockRes);
-
+        response_ctrl = mockRes;
+        
         expect(mockRes.status).toHaveBeenCalledWith(400);
         expect(mockRes.json).toHaveBeenCalledWith(
             expect.objectContaining({ message: "Todos los campos son requeridos" })
         );
     });
-
+    
     it("Debería devolver un error si la cédula ya está registrada", async () => {
-        empleadosModel.findOne.mockResolvedValue({ cedula: "1234567890" }); // Simula que existe un usuario con la misma cédula
+        empleadosModel.findOne
+            .mockResolvedValueOnce({ cedula: "1234567890" }) // Para cédula
+            .mockResolvedValueOnce(null); // Para correo
 
+        //empleadosModel.findOne.mockResolvedValue({ cedula: "1234567890" }); // Simula que existe un usuario con la misma cédula
+        
         const mockReq = {body: EmpleadosMock.validEmpleado};
         const mockRes = getMockRes();
-
+        
         await register(mockReq, mockRes);
-
-        expect(empleadosModel.findOne).toHaveBeenCalledTimes(1); // Solo busca por cédula
+        response_ctrl = mockRes;
+        
+        expect(empleadosModel.findOne).toHaveBeenCalledTimes(3); // Solo busca por cédula
+        expect(empleadosModel.findOne).toHaveBeenCalledWith({ cedula: "1234567890" });
         expect(mockRes.status).toHaveBeenCalledWith(404);
         expect(mockRes.json).toHaveBeenCalledWith(
             expect.objectContaining({ message: "La cédula ya se encuentra registrada" })
         );
     });
-
+    
     it("Debería devolver un error 500 si ocurre un error inesperado", async () => {
         empleadosModel.findOne.mockRejectedValue(new Error("Error inesperado"));
-    
+        
         const mockReq = { body: EmpleadosMock.validEmpleado };
         const mockRes = getMockRes();
-    
+        
         await register(mockReq, mockRes);
-    
+        response_ctrl = mockRes;
+        
         expect(mockRes.status).toHaveBeenCalledWith(500);
         expect(mockRes.json).toHaveBeenCalledWith(
             expect.objectContaining({
@@ -138,30 +165,115 @@ describe('(Controlador) Registrar un empleado', () => {
 
 describe('(Controlador) Iniciar sesión de un empleado', () => {
     beforeEach(() => {
-        empleadosModel.mockClear();
-        bcrypt.compare.mockClear();
-    });
-
-    afterEach(() => {
         jest.clearAllMocks();
     });
-
+    
     it("Debería iniciar sesión de un empleado", async () => {
         empleadosModel.findOne.mockResolvedValue(EmpleadosMock.validEmpleado); // Simula que el empleado existe
         bcrypt.compare.mockResolvedValue(true); // Simula que la contraseña es correcta
-
+        generarJWT.mockReturnValue("token"); // Simula la generación de un token
+        
         const mockReq = {
-            body: {correo: EmpleadosMock.validEmpleado.correo, contrasena: "Ju@n123p."}
+            body: {
+                correo: EmpleadosMock.validEmpleado.correo,
+                contrasena: EmpleadosMock.validEmpleado.contrasena
+            }
         };
         const mockRes = getMockRes();
-
+        
         await login(mockReq, mockRes);
+        response_ctrl = mockRes;
 
         expect(empleadosModel.findOne).toHaveBeenCalledTimes(1); // Busca al empleado
         expect(bcrypt.compare).toHaveBeenCalledWith("Ju@n123p.", "hashed_password"); // Compara las contraseñas
         expect(mockRes.status).toHaveBeenCalledWith(200); // Respuesta exitosa
         expect(mockRes.json).toHaveBeenCalledWith(
             expect.objectContaining({ message: "Inicio de sesión exitoso" })
+        );
+    });
+
+    it("Debería devolver un error si falta un campo", async () => {
+        const mockReq = {
+            body: {
+                correo: EmpleadosMock.validEmpleado.correo,
+                contrasena: ""
+            }
+        };
+        const mockRes = getMockRes();
+        
+        await login(mockReq, mockRes);
+        response_ctrl = mockRes;
+        
+        expect(mockRes.status).toHaveBeenCalledWith(400);
+        expect(mockRes.json).toHaveBeenCalledWith(
+            expect.objectContaining({ message: "Todos los campos son requeridos" })
+        );
+    });
+
+    it("Debería devolver un error si el correo no está registrado", async () => {
+        empleadosModel.findOne.mockResolvedValue(null); // Simula que el empleado no existe
+        
+        const mockReq = {
+            body: {
+                correo: EmpleadosMock.validEmpleado.correo,
+                contrasena: EmpleadosMock.validEmpleado.contrasena
+            }
+        };
+        const mockRes = getMockRes();
+        
+        await login(mockReq, mockRes);
+        response_ctrl = mockRes;
+        
+        expect(empleadosModel.findOne).toHaveBeenCalledTimes(1); // Busca al empleado
+        expect(mockRes.status).toHaveBeenCalledWith(404);
+        expect(mockRes.json).toHaveBeenCalledWith(
+            expect.objectContaining({ message: "Correo o contraseña incorrectos" })
+        );
+    });
+
+    it("Debería devolver un error si la contraseña es incorrecta", async () => {
+        empleadosModel.findOne.mockResolvedValue(EmpleadosMock.validEmpleado); // Simula que el empleado existe
+        bcrypt.compare.mockResolvedValue(false); // Simula que la contraseña es incorrecta
+        
+        const mockReq = {
+            body: {
+                correo: EmpleadosMock.validEmpleado.correo,
+                contrasena: EmpleadosMock.validEmpleado.contrasena
+            }
+        };
+        const mockRes = getMockRes();
+        
+        await login(mockReq, mockRes);
+        response_ctrl = mockRes;
+        
+        expect(empleadosModel.findOne).toHaveBeenCalledTimes(1); // Busca al empleado
+        expect(bcrypt.compare).toHaveBeenCalledWith("Ju@n123p.", "hashed_password"); // Compara las contraseñas
+        expect(mockRes.status).toHaveBeenCalledWith(404);
+        expect(mockRes.json).toHaveBeenCalledWith(
+            expect.objectContaining({ message: "Correo o contraseña incorrectos" })
+        );
+    });
+
+    it("Debería devolver un error 500 si ocurre un error inesperado", async () => {
+        empleadosModel.findOne.mockRejectedValue(new Error("Error inesperado"));
+        
+        const mockReq = {
+            body: {
+                correo: EmpleadosMock.validEmpleado.correo,
+                contrasena: EmpleadosMock.validEmpleado.contrasena
+            }
+        };
+        const mockRes = getMockRes();
+        
+        await login(mockReq, mockRes);
+        response_ctrl = mockRes;
+        
+        expect(mockRes.status).toHaveBeenCalledWith(500);
+        expect(mockRes.json).toHaveBeenCalledWith(
+            expect.objectContaining({
+                message: "Error al iniciar sesión",
+                error: "Error inesperado"
+            })
         );
     });
 });
