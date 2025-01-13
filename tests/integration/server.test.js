@@ -5,7 +5,7 @@ import path from "path";
 import app from "../../src/server.js";
 import { connect, disconnect } from "../../src/database.js";
 import { env } from "../helpers/mock_integrationtest.js";
-import { generateHTML } from "./createHTML.js";
+import { generateHTML } from "../helpers/createHTML.js";
 
 const LOGS_PATH = path.join(__dirname, "logs.txt");
 const HTML_PATH = path.join(__dirname, "results.html");
