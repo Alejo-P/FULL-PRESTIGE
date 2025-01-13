@@ -170,7 +170,7 @@ describe('(Controlador) Iniciar sesión de un empleado', () => {
     
     it("Debería iniciar sesión de un empleado", async () => {
         empleadosModel.findOne.mockResolvedValue(EmpleadosMock.validEmpleado); // Simula que el empleado existe
-        bcrypt.compare.mockResolvedValue(true); // Simula que la contraseña es correcta
+        bcrypt.compareSync.mockReturnValue(true); // Simula que la contraseña es correcta
         generarJWT.mockReturnValue("token"); // Simula la generación de un token
         
         const mockReq = {
@@ -185,7 +185,7 @@ describe('(Controlador) Iniciar sesión de un empleado', () => {
         response_ctrl = mockRes;
 
         expect(empleadosModel.findOne).toHaveBeenCalledTimes(1); // Busca al empleado
-        expect(bcrypt.compare).toHaveBeenCalledWith("Ju@n123p.", "hashed_password"); // Compara las contraseñas
+        expect(bcrypt.compareSync).toHaveBeenCalledWith("Ju@n123p.", "hashed_password"); // Compara las contraseñas
         expect(mockRes.status).toHaveBeenCalledWith(200); // Respuesta exitosa
         expect(mockRes.json).toHaveBeenCalledWith(
             expect.objectContaining({ message: "Inicio de sesión exitoso" })
