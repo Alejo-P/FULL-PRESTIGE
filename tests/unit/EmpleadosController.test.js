@@ -393,3 +393,59 @@ describe('(Controlador) Obtener todos los empleados', () => {
         );
     });
 });
+
+describe('(Controlador) Actualizar un empleado', () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
+    it("Debería actualizar un empleado", async () => {
+        empleadosModel.findByIdAndUpdate.mockResolvedValue(EmpleadosMock.validEmpleado); // Simula que el empleado existe
+        
+        const mockReq = { params: { id: "123" }, body: EmpleadosMock.validEmpleado };
+        const mockRes = getMockRes();
+        
+        await updateEmployee(mockReq, mockRes);
+        response_ctrl = mockRes;
+        
+        expect(empleadosModel.findByIdAndUpdate).toHaveBeenCalledTimes(1); // Actualiza al empleado
+        expect(mockRes.status).toHaveBeenCalledWith(200);
+        expect(mockRes.json).toHaveBeenCalledWith(
+            expect.objectContaining({ message: "Empleado actualizado exitosamente" })
+        );
+    });
+
+    it("Debería devolver un error si el empleado no existe", async () => {
+        empleadosModel.findByIdAndUpdate.mockResolvedValue(null); // Simula que el empleado no existe
+        
+        const mockReq = { params: { id: "123" }, body: EmpleadosMock.validEmpleado };
+        const mockRes = getMockRes();
+        
+        await updateEmployee(mockReq, mockRes);
+        response_ctrl = mockRes;
+        
+        expect(empleadosModel.findByIdAndUpdate).toHaveBeenCalledTimes(1); // Actualiza al empleado
+        expect(mockRes.status).toHaveBeenCalledWith(404);
+        expect(mockRes.json).toHaveBeenCalledWith(
+            expect.objectContaining({ message: "Empleado no encontrado" })
+        );
+    });
+
+    it("Debería devolver un error 500 si ocurre un error inesperado", async () => {
+        empleadosModel.findByIdAndUpdate.mockRejectedValue(new Error("Error inesperado"));
+        
+        const mockReq = { params: { id: "123" }, body: EmpleadosMock.validEmpleado };
+        const mockRes = getMockRes();
+        
+        await updateEmployee(mockReq, mockRes);
+        response_ctrl = mockRes;
+        
+        expect(mockRes.status).toHaveBeenCalledWith(500);
+        expect(mockRes.json).toHaveBeenCalledWith(
+            expect.objectContaining({
+                message: "Error al actualizar empleado",
+                error: "Error inesperado"
+            })
+        );
+    });
+});
