@@ -276,4 +276,120 @@ describe('(Controlador) Iniciar sesión de un empleado', () => {
             })
         );
     });
+
+    it("Debería devolver un error si el empleado está inactivo", async () => {
+        empleadosModel.findOne.mockResolvedValue({ ...EmpleadosMock.validEmpleado, estado: false });
+        
+        const mockReq = {
+            body: {
+                correo: EmpleadosMock.validEmpleado.correo,
+                contrasena: EmpleadosMock.validEmpleado.contrasena
+            }
+        };
+        const mockRes = getMockRes();
+        
+        await login(mockReq, mockRes);
+        response_ctrl = mockRes;
+        
+        expect(mockRes.status).toHaveBeenCalledWith(404);
+        expect(mockRes.json).toHaveBeenCalledWith(
+            expect.objectContaining({ message: "El empleado se encuentra inactivo" })
+        );
+    });
+});
+
+describe('(Controlador) Obtener un empleado', () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
+    it("Debería obtener un empleado", async () => {
+        empleadosModel.findById.mockResolvedValue(EmpleadosMock.validEmpleado); // Simula que el empleado existe
+        
+        const mockReq = { params: { id: "123" } };
+        const mockRes = getMockRes();
+        
+        await getEmployee(mockReq, mockRes);
+        response_ctrl = mockRes;
+        
+        expect(empleadosModel.findById).toHaveBeenCalledTimes(1); // Busca al empleado
+        expect(mockRes.status).toHaveBeenCalledWith(200);
+        expect(mockRes.json).toHaveBeenCalledWith(
+            expect.objectContaining({ empleado: EmpleadosMock.validEmpleado })
+        );
+    });
+
+    it("Debería devolver un error si el empleado no existe", async () => {
+        empleadosModel.findById.mockResolvedValue(null); // Simula que el empleado no existe
+        
+        const mockReq = { params: { id: "123" } };
+        const mockRes = getMockRes();
+        
+        await getEmployee(mockReq, mockRes);
+        response_ctrl = mockRes;
+        
+        expect(empleadosModel.findById).toHaveBeenCalledTimes(1); // Busca al empleado
+        expect(mockRes.status).toHaveBeenCalledWith(404);
+        expect(mockRes.json).toHaveBeenCalledWith(
+            expect.objectContaining({ message: "Empleado no encontrado" })
+        );
+    });
+
+    it("Debería devolver un error 500 si ocurre un error inesperado", async () => {
+        empleadosModel.findById.mockRejectedValue(new Error("Error inesperado"));
+        
+        const mockReq = { params: { id: "123" } };
+        const mockRes = getMockRes();
+        
+        await getEmployee(mockReq, mockRes);
+        response_ctrl = mockRes;
+        
+        expect(mockRes.status).toHaveBeenCalledWith(500);
+        expect(mockRes.json).toHaveBeenCalledWith(
+            expect.objectContaining({
+                message: "Error al obtener empleado",
+                error: "Error inesperado"
+            })
+        );
+    });
+});
+
+describe('(Controlador) Obtener todos los empleados', () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
+    it("Debería obtener todos los empleados", async () => {
+        empleadosModel.find.mockResolvedValue(EmpleadosMock.listEmpleados); // Simula que hay empleados
+        
+        const mockReq = {};
+        const mockRes = getMockRes();
+        
+        await getEmployees(mockReq, mockRes);
+        response_ctrl = mockRes;
+        
+        expect(empleadosModel.find).toHaveBeenCalledTimes(1); // Busca a los empleados
+        expect(mockRes.status).toHaveBeenCalledWith(200);
+        expect(mockRes.json).toHaveBeenCalledWith(
+            expect.objectContaining({ empleados: EmpleadosMock.listEmpleados })
+        );
+    });
+
+    it("Debería devolver un error 500 si ocurre un error inesperado", async () => {
+        empleadosModel.find.mockRejectedValue(new Error("Error inesperado"));
+        
+        const mockReq = {};
+        const mockRes = getMockRes();
+        
+        await getEmployees(mockReq, mockRes);
+        response_ctrl = mockRes;
+        
+        expect(mockRes.status).toHaveBeenCalledWith(500);
+        expect(mockRes.json).toHaveBeenCalledWith(
+            expect.objectContaining({
+                message: "Error al obtener empleados",
+                error: "Error inesperado"
+            })
+        );
+    });
 });
