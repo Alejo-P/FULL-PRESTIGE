@@ -120,12 +120,12 @@ export const register = async (req, res) => {
 
         const cedulaFound = await empleadosModel.findOne({ cedula });
         if (cedulaFound) {
-            return res.status(404).json({ message: 'La cédula ya se encuentra registrada' });
+            return res.status(404).json({ message: `La cédula ${cedula} ya se encuentra registrada` });
         }
 
         const emailFound = await empleadosModel.findOne({ correo });
         if (emailFound) {
-            return res.status(404).json({ message: 'El correo ya se encuentra registrado' });
+            return res.status(404).json({ message: `El correo ${correo} ya se encuentra registrado` });
         }
 
         const empleado = new empleadosModel(req.body);
@@ -307,7 +307,7 @@ export const updateProfile = async (req, res) => {
         }
 
         // Verificar si se cambio el estado del empleado logueado
-        if (req.body?.estado !== req.empleado.estado) {
+        if (req.body?.estado && (req.body?.estado !== req.empleado.estado)) {
             return res.status(403).json({ message: 'No puedes cambiar tu estado' });
         }
 
@@ -470,7 +470,8 @@ export const updatePassword = async (req, res) => {
 
         const validPassword = bcrypt.compareSync(contrasena, empleado.contrasena);
         if (!validPassword) {
-            return res.status(404).json({ message: 'Contraseña actual incorrecta' });
+            //return res.status(404).json({ message: 'Contraseña actual incorrecta' });
+            return res.status(404).json({ message: `Contraseña actual incorrecta ${contrasena}` });
         }
 
         if (nuevaContrasena !== confirmarContrasena) {

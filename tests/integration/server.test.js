@@ -2,13 +2,14 @@ import request from "supertest";
 import fs from "fs";
 import path from "path";
 
-import app from "../src/server.js";
-import { connect, disconnect } from "../src/database.js";
-import { env } from "./env.js";
-import { generateHTML } from "./createHTML.js";
+import app from "../../src/server.js";
+import { connect, disconnect } from "../../src/database.js";
+import { env } from "../helpers/mock_integrationtest.js";
+import { generateHTML } from "../helpers/createHTML.js";
 
-const LOGS_PATH = path.join(__dirname, "logs.txt");
-const HTML_PATH = path.join(__dirname, "results.html");
+// Ruta a este archivo: BackEnd/tests/integration/server.test.js
+const LOGS_PATH = path.join(__dirname, "..", "outputs", "integrationTests_logs.txt");
+const HTML_PATH = path.join(__dirname, "..", "outputs", "integrationTests_results.html");
 const logs = [];
 let response_api = {};
 
