@@ -23,7 +23,7 @@
         <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="Registro de empleados" enabled="true">
           <stringProp name="delimiter">;</stringProp>
           <stringProp name="fileEncoding">UTF-8</stringProp>
-          <stringProp name="filename">E:/Proyectos/Proyecto-FULL-PRESTIGE/BackEnd/tests/data/empleados.csv</stringProp>
+          <stringProp name="filename">D:\GitHub\Full-Prestige\Backend\tests\data\RegistroEmpleados.csv</stringProp>
           <boolProp name="ignoreFirstLine">true</boolProp>
           <boolProp name="quotedData">false</boolProp>
           <boolProp name="recycle">true</boolProp>
@@ -32,7 +32,7 @@
           <stringProp name="variableNames">cedula,nombre,correo,contrasena,cargo,telefono,direccion</stringProp>
         </CSVDataSet>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Registro" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Registro">
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
           <stringProp name="HTTPSampler.port">3000</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
@@ -60,7 +60,7 @@
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree>
-          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Aserción de Respuesta exitosa" enabled="true">
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Aserción de Respuesta exitosa">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="49587">201</stringProp>
               <stringProp name="0"></stringProp>
@@ -163,7 +163,7 @@
             <stringProp name="filename"></stringProp>
           </ResultCollector>
           <hashTree/>
-          <ResultCollector guiclass="GraphVisualizer" testclass="ResultCollector" testname="Gráfico de Resultados" enabled="true">
+          <ResultCollector guiclass="GraphVisualizer" testclass="ResultCollector" testname="Gráfico de Resultados">
             <boolProp name="ResultCollector.error_logging">false</boolProp>
             <objProp>
               <name>saveConfig</name>
@@ -200,8 +200,26 @@
             <stringProp name="filename"></stringProp>
           </ResultCollector>
           <hashTree/>
+          <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Custom Failure Message">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">// Obtén el código de respuesta del servidor
+def responseCode = prev.getResponseCode()
+
+// Obtén la respuesta completa del servidor
+def responseBody = prev.getResponseDataAsString()
+
+// Asigna la respuesta como mensaje de fallo
+if (!prev.isSuccessful()) {
+    prev.setResponseMessage(&quot;Custom Failure: Response Code: ${responseCode}, Response: ${responseBody}&quot;)
+}
+</stringProp>
+          </JSR223PostProcessor>
+          <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Login" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Login">
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
           <stringProp name="HTTPSampler.port">3000</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
@@ -364,7 +382,7 @@
             <stringProp name="filename"></stringProp>
           </ResultCollector>
           <hashTree/>
-          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor (Token)">
+          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor (Token)" enabled="true">
             <stringProp name="JSONPostProcessor.referenceNames">authToken</stringProp>
             <stringProp name="JSONPostProcessor.jsonPathExprs">$.empleado.token</stringProp>
             <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
@@ -378,7 +396,7 @@
             <stringProp name="JSONPostProcessor.defaultValues">NOT_FOUND</stringProp>
           </JSONPostProcessor>
           <hashTree/>
-          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor (Cargo empleado)">
+          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor (Cargo empleado)" enabled="true">
             <stringProp name="JSONPostProcessor.referenceNames">cargoEmpleado</stringProp>
             <stringProp name="JSONPostProcessor.jsonPathExprs">$.empleado.cargo</stringProp>
             <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
@@ -409,6 +427,24 @@ if (vars.get(&quot;cargoEmpleado&quot;) != null) {
             <stringProp name="scriptLanguage">groovy</stringProp>
           </JSR223PostProcessor>
           <hashTree/>
+          <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Custom Failure Message">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">// Obtén el código de respuesta del servidor
+def responseCode = prev.getResponseCode()
+
+// Obtén la respuesta completa del servidor
+def responseBody = prev.getResponseDataAsString()
+
+// Asigna la respuesta como mensaje de fallo
+if (!prev.isSuccessful()) {
+    prev.setResponseMessage(&quot;Custom Failure: Response Code: ${responseCode}, Response: ${responseBody}&quot;)
+}
+</stringProp>
+          </JSR223PostProcessor>
+          <hashTree/>
         </hashTree>
         <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler" enabled="true">
           <boolProp name="displayJMeterProperties">true</boolProp>
@@ -434,7 +470,7 @@ if (vars.get(&quot;cargoEmpleado&quot;) != null) {
         <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="Registro de perfiles" enabled="true">
           <stringProp name="delimiter">;</stringProp>
           <stringProp name="fileEncoding">UTF-8</stringProp>
-          <stringProp name="filename">E:/Proyectos/Proyecto-FULL-PRESTIGE/BackEnd/tests/data/actualizacion_perfil.csv</stringProp>
+          <stringProp name="filename">D:\GitHub\Full-Prestige\Backend\tests\data\ActualizacionPerfil.csv</stringProp>
           <boolProp name="ignoreFirstLine">true</boolProp>
           <boolProp name="quotedData">false</boolProp>
           <boolProp name="recycle">true</boolProp>
@@ -457,7 +493,7 @@ if (vars.get(&quot;cargoEmpleado&quot;) != null) {
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree>
-          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager">
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
             <collectionProp name="HeaderManager.headers">
               <elementProp name="" elementType="Header">
                 <stringProp name="Header.name">Authorization</stringProp>
@@ -578,8 +614,26 @@ if (vars.get(&quot;cargoEmpleado&quot;) != null) {
             <stringProp name="filename"></stringProp>
           </ResultCollector>
           <hashTree/>
+          <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Custom Failure Message" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">// Obtén el código de respuesta del servidor
+def responseCode = prev.getResponseCode()
+
+// Obtén la respuesta completa del servidor
+def responseBody = prev.getResponseDataAsString()
+
+// Asigna la respuesta como mensaje de fallo
+if (!prev.isSuccessful()) {
+    prev.setResponseMessage(&quot;Custom Failure: Response Code: ${responseCode}, Response: ${responseBody}&quot;)
+}
+</stringProp>
+          </JSR223PostProcessor>
+          <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Ver perfil" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Ver perfil">
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
           <stringProp name="HTTPSampler.port">3000</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
@@ -714,8 +768,26 @@ if (vars.get(&quot;cargoEmpleado&quot;) != null) {
             <stringProp name="filename"></stringProp>
           </ResultCollector>
           <hashTree/>
+          <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Custom Failure Message" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">// Obtén el código de respuesta del servidor
+def responseCode = prev.getResponseCode()
+
+// Obtén la respuesta completa del servidor
+def responseBody = prev.getResponseDataAsString()
+
+// Asigna la respuesta como mensaje de fallo
+if (!prev.isSuccessful()) {
+    prev.setResponseMessage(&quot;Custom Failure: Response Code: ${responseCode}, Response: ${responseBody}&quot;)
+}
+</stringProp>
+          </JSR223PostProcessor>
+          <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Actualizar perfil" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Actualizar perfil">
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
           <stringProp name="HTTPSampler.port">3000</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
@@ -874,8 +946,26 @@ if (vars.get(&quot;cargoEmpleado&quot;) != null) {
             <stringProp name="filename"></stringProp>
           </ResultCollector>
           <hashTree/>
+          <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Custom Failure Message" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">// Obtén el código de respuesta del servidor
+def responseCode = prev.getResponseCode()
+
+// Obtén la respuesta completa del servidor
+def responseBody = prev.getResponseDataAsString()
+
+// Asigna la respuesta como mensaje de fallo
+if (!prev.isSuccessful()) {
+    prev.setResponseMessage(&quot;Custom Failure: Response Code: ${responseCode}, Response: ${responseBody}&quot;)
+}
+</stringProp>
+          </JSR223PostProcessor>
+          <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Actualizar contraseña" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Actualizar contraseña">
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
           <stringProp name="HTTPSampler.port">3000</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
@@ -1032,9 +1122,27 @@ if (vars.get(&quot;cargoEmpleado&quot;) != null) {
             <stringProp name="filename"></stringProp>
           </ResultCollector>
           <hashTree/>
+          <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Custom Failure Message" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">// Obtén el código de respuesta del servidor
+def responseCode = prev.getResponseCode()
+
+// Obtén la respuesta completa del servidor
+def responseBody = prev.getResponseDataAsString()
+
+// Asigna la respuesta como mensaje de fallo
+if (!prev.isSuccessful()) {
+    prev.setResponseMessage(&quot;Custom Failure: Response Code: ${responseCode}, Response: ${responseBody}&quot;)
+}
+</stringProp>
+          </JSR223PostProcessor>
+          <hashTree/>
         </hashTree>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Modulo para gestion de empleados" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Modulo para gestion de empleados">
         <intProp name="ThreadGroup.num_threads">25</intProp>
         <intProp name="ThreadGroup.ramp_time">12</intProp>
         <longProp name="ThreadGroup.duration">20</longProp>
@@ -1051,7 +1159,7 @@ if (vars.get(&quot;cargoEmpleado&quot;) != null) {
         <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="Registro de empleados" enabled="true">
           <stringProp name="delimiter">;</stringProp>
           <stringProp name="fileEncoding">UTF-8</stringProp>
-          <stringProp name="filename">E:/Proyectos/Proyecto-FULL-PRESTIGE/BackEnd/tests/data/empleados.csv</stringProp>
+          <stringProp name="filename">D:\GitHub\Full-Prestige\Backend\tests\data\RegistroEmpleados.csv</stringProp>
           <boolProp name="ignoreFirstLine">true</boolProp>
           <boolProp name="quotedData">false</boolProp>
           <boolProp name="recycle">true</boolProp>
@@ -1063,7 +1171,7 @@ if (vars.get(&quot;cargoEmpleado&quot;) != null) {
         <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="Registros de actualizacion de empleados" enabled="true">
           <stringProp name="delimiter">;</stringProp>
           <stringProp name="fileEncoding">UTF-8</stringProp>
-          <stringProp name="filename">E:/Proyectos/Proyecto-FULL-PRESTIGE/BackEnd/tests/data/actualizacion_empleado.csv</stringProp>
+          <stringProp name="filename">D:\GitHub\Full-Prestige\Backend\tests\data\ActualizacionPerfilEmpleados.csv</stringProp>
           <boolProp name="ignoreFirstLine">true</boolProp>
           <boolProp name="quotedData">false</boolProp>
           <boolProp name="recycle">true</boolProp>
@@ -1072,7 +1180,7 @@ if (vars.get(&quot;cargoEmpleado&quot;) != null) {
           <stringProp name="variableNames">nombre,cargo,correo,direccion,telefono,estado</stringProp>
         </CSVDataSet>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Listar empleados" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Listar empleados">
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
           <stringProp name="HTTPSampler.port">3000</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
@@ -1207,8 +1315,26 @@ if (vars.get(&quot;cargoEmpleado&quot;) != null) {
             <stringProp name="filename"></stringProp>
           </ResultCollector>
           <hashTree/>
+          <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Custom Failure Message" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">// Obtén el código de respuesta del servidor
+def responseCode = prev.getResponseCode()
+
+// Obtén la respuesta completa del servidor
+def responseBody = prev.getResponseDataAsString()
+
+// Asigna la respuesta como mensaje de fallo
+if (!prev.isSuccessful()) {
+    prev.setResponseMessage(&quot;Custom Failure: Response Code: ${responseCode}, Response: ${responseBody}&quot;)
+}
+</stringProp>
+          </JSR223PostProcessor>
+          <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Listar empleados por cedula" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Listar empleados por cedula">
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
           <stringProp name="HTTPSampler.port">3000</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
@@ -1352,8 +1478,26 @@ if (vars.get(&quot;cargoEmpleado&quot;) != null) {
             <stringProp name="filename"></stringProp>
           </ResultCollector>
           <hashTree/>
+          <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Custom Failure Message" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">// Obtén el código de respuesta del servidor
+def responseCode = prev.getResponseCode()
+
+// Obtén la respuesta completa del servidor
+def responseBody = prev.getResponseDataAsString()
+
+// Asigna la respuesta como mensaje de fallo
+if (!prev.isSuccessful()) {
+    prev.setResponseMessage(&quot;Custom Failure: Response Code: ${responseCode}, Response: ${responseBody}&quot;)
+}
+</stringProp>
+          </JSR223PostProcessor>
+          <hashTree/>
         </hashTree>
-        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="Verificar usuario administrador" enabled="true">
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="Verificar usuario administrador">
           <stringProp name="IfController.condition">&quot;${__P(CARGO_GLOBAL)}&quot;.equals(&quot;Administrador&quot;)</stringProp>
           <boolProp name="IfController.evaluateAll">false</boolProp>
           <boolProp name="IfController.useExpression">true</boolProp>
@@ -1366,7 +1510,7 @@ if (vars.get(&quot;cargoEmpleado&quot;) != null) {
             <boolProp name="displaySystemProperties">false</boolProp>
           </DebugSampler>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Actualizar empleado" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Actualizar empleado">
             <stringProp name="HTTPSampler.domain">localhost</stringProp>
             <stringProp name="HTTPSampler.port">3000</stringProp>
             <stringProp name="HTTPSampler.protocol">http</stringProp>
@@ -1527,10 +1671,28 @@ if (vars.get(&quot;cargoEmpleado&quot;) != null) {
               <stringProp name="filename"></stringProp>
             </ResultCollector>
             <hashTree/>
+            <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Custom Failure Message" enabled="true">
+              <stringProp name="scriptLanguage">groovy</stringProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="cacheKey">true</stringProp>
+              <stringProp name="script">// Obtén el código de respuesta del servidor
+def responseCode = prev.getResponseCode()
+
+// Obtén la respuesta completa del servidor
+def responseBody = prev.getResponseDataAsString()
+
+// Asigna la respuesta como mensaje de fallo
+if (!prev.isSuccessful()) {
+    prev.setResponseMessage(&quot;Custom Failure: Response Code: ${responseCode}, Response: ${responseBody}&quot;)
+}
+</stringProp>
+            </JSR223PostProcessor>
+            <hashTree/>
           </hashTree>
         </hashTree>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Modulo para control de asistencias" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Modulo para control de asistencias">
         <intProp name="ThreadGroup.num_threads">1</intProp>
         <intProp name="ThreadGroup.ramp_time">25</intProp>
         <longProp name="ThreadGroup.duration">20</longProp>
@@ -1547,7 +1709,7 @@ if (vars.get(&quot;cargoEmpleado&quot;) != null) {
         <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="Registro de empleados" enabled="true">
           <stringProp name="delimiter">;</stringProp>
           <stringProp name="fileEncoding">UTF-8</stringProp>
-          <stringProp name="filename">E:/Proyectos/Proyecto-FULL-PRESTIGE/BackEnd/tests/data/empleados.csv</stringProp>
+          <stringProp name="filename">D:\GitHub\Full-Prestige\Backend\tests\data\RegistroEmpleados.csv</stringProp>
           <boolProp name="ignoreFirstLine">true</boolProp>
           <boolProp name="quotedData">false</boolProp>
           <boolProp name="recycle">true</boolProp>
@@ -1556,7 +1718,7 @@ if (vars.get(&quot;cargoEmpleado&quot;) != null) {
           <stringProp name="variableNames">cedula,nombre,correo,contrasena,cargo,telefono,direccion</stringProp>
         </CSVDataSet>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Listar asistencias" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Listar asistencias">
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
           <stringProp name="HTTPSampler.port">3000</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
@@ -1711,8 +1873,26 @@ if (vars.get(&quot;cargoEmpleado&quot;) != null) {
             <stringProp name="scriptLanguage">groovy</stringProp>
           </JSR223PostProcessor>
           <hashTree/>
+          <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Custom Failure Message" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">// Obtén el código de respuesta del servidor
+def responseCode = prev.getResponseCode()
+
+// Obtén la respuesta completa del servidor
+def responseBody = prev.getResponseDataAsString()
+
+// Asigna la respuesta como mensaje de fallo
+if (!prev.isSuccessful()) {
+    prev.setResponseMessage(&quot;Custom Failure: Response Code: ${responseCode}, Response: ${responseBody}&quot;)
+}
+</stringProp>
+          </JSR223PostProcessor>
+          <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Listar asistencias de un empleado" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Listar asistencias de un empleado">
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
           <stringProp name="HTTPSampler.port">3000</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
@@ -1847,8 +2027,26 @@ if (vars.get(&quot;cargoEmpleado&quot;) != null) {
             <stringProp name="filename"></stringProp>
           </ResultCollector>
           <hashTree/>
+          <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Custom Failure Message" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">// Obtén el código de respuesta del servidor
+def responseCode = prev.getResponseCode()
+
+// Obtén la respuesta completa del servidor
+def responseBody = prev.getResponseDataAsString()
+
+// Asigna la respuesta como mensaje de fallo
+if (!prev.isSuccessful()) {
+    prev.setResponseMessage(&quot;Custom Failure: Response Code: ${responseCode}, Response: ${responseBody}&quot;)
+}
+</stringProp>
+          </JSR223PostProcessor>
+          <hashTree/>
         </hashTree>
-        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="Verificar usuario administrador" enabled="true">
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="Verificar usuario administrador">
           <stringProp name="IfController.condition">&quot;${__P(CARGO_GLOBAL)}&quot;.equals(&quot;Administrador&quot;)</stringProp>
           <boolProp name="IfController.evaluateAll">false</boolProp>
           <boolProp name="IfController.useExpression">true</boolProp>
@@ -1861,7 +2059,7 @@ if (vars.get(&quot;cargoEmpleado&quot;) != null) {
             <boolProp name="displaySystemProperties">false</boolProp>
           </DebugSampler>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Registrar asistencia" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Registrar asistencia">
             <stringProp name="HTTPSampler.domain">localhost</stringProp>
             <stringProp name="HTTPSampler.port">3000</stringProp>
             <stringProp name="HTTPSampler.protocol">http</stringProp>
@@ -2008,8 +2206,26 @@ if (vars.get(&quot;cargoEmpleado&quot;) != null) {
               <stringProp name="filename"></stringProp>
             </ResultCollector>
             <hashTree/>
+            <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Custom Failure Message" enabled="true">
+              <stringProp name="scriptLanguage">groovy</stringProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="cacheKey">true</stringProp>
+              <stringProp name="script">// Obtén el código de respuesta del servidor
+def responseCode = prev.getResponseCode()
+
+// Obtén la respuesta completa del servidor
+def responseBody = prev.getResponseDataAsString()
+
+// Asigna la respuesta como mensaje de fallo
+if (!prev.isSuccessful()) {
+    prev.setResponseMessage(&quot;Custom Failure: Response Code: ${responseCode}, Response: ${responseBody}&quot;)
+}
+</stringProp>
+            </JSR223PostProcessor>
+            <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Actualizar asistencia" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Actualizar asistencia">
             <stringProp name="HTTPSampler.domain">localhost</stringProp>
             <stringProp name="HTTPSampler.port">3000</stringProp>
             <stringProp name="HTTPSampler.protocol">http</stringProp>
@@ -2170,10 +2386,28 @@ if (vars.get(&quot;cargoEmpleado&quot;) != null) {
               <stringProp name="filename"></stringProp>
             </ResultCollector>
             <hashTree/>
+            <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Custom Failure Message" enabled="true">
+              <stringProp name="scriptLanguage">groovy</stringProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="cacheKey">true</stringProp>
+              <stringProp name="script">// Obtén el código de respuesta del servidor
+def responseCode = prev.getResponseCode()
+
+// Obtén la respuesta completa del servidor
+def responseBody = prev.getResponseDataAsString()
+
+// Asigna la respuesta como mensaje de fallo
+if (!prev.isSuccessful()) {
+    prev.setResponseMessage(&quot;Custom Failure: Response Code: ${responseCode}, Response: ${responseBody}&quot;)
+}
+</stringProp>
+            </JSR223PostProcessor>
+            <hashTree/>
           </hashTree>
         </hashTree>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Modulo para control de pagos" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Modulo para control de pagos">
         <intProp name="ThreadGroup.num_threads">1</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
@@ -2187,7 +2421,7 @@ if (vars.get(&quot;cargoEmpleado&quot;) != null) {
         <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="Registro de empleados" enabled="true">
           <stringProp name="delimiter">;</stringProp>
           <stringProp name="fileEncoding">UTF-8</stringProp>
-          <stringProp name="filename">E:/Proyectos/Proyecto-FULL-PRESTIGE/BackEnd/tests/data/empleados.csv</stringProp>
+          <stringProp name="filename">D:\GitHub\Full-Prestige\Backend\tests\data\RegistroEmpleados.csv</stringProp>
           <boolProp name="ignoreFirstLine">true</boolProp>
           <boolProp name="quotedData">false</boolProp>
           <boolProp name="recycle">true</boolProp>
@@ -2199,7 +2433,7 @@ if (vars.get(&quot;cargoEmpleado&quot;) != null) {
         <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="Registro de pagos" enabled="true">
           <stringProp name="delimiter">;</stringProp>
           <stringProp name="fileEncoding">UTF-8</stringProp>
-          <stringProp name="filename">E:\Proyectos\Proyecto-FULL-PRESTIGE\BackEnd\tests\data\registro_pago.csv</stringProp>
+          <stringProp name="filename">D:\GitHub\Full-Prestige\Backend\tests\data\RegistroPagos.csv</stringProp>
           <boolProp name="ignoreFirstLine">true</boolProp>
           <boolProp name="quotedData">false</boolProp>
           <boolProp name="recycle">true</boolProp>
@@ -2221,7 +2455,7 @@ if (vars.get(&quot;cargoEmpleado&quot;) != null) {
             <boolProp name="displaySystemProperties">false</boolProp>
           </DebugSampler>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Registrar un pago" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Registrar un pago">
             <stringProp name="HTTPSampler.domain">localhost</stringProp>
             <stringProp name="HTTPSampler.port">3000</stringProp>
             <stringProp name="HTTPSampler.protocol">http</stringProp>
@@ -2369,9 +2603,27 @@ if (vars.get(&quot;cargoEmpleado&quot;) != null) {
               <stringProp name="filename"></stringProp>
             </ResultCollector>
             <hashTree/>
+            <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Custom Failure Message" enabled="true">
+              <stringProp name="scriptLanguage">groovy</stringProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="cacheKey">true</stringProp>
+              <stringProp name="script">// Obtén el código de respuesta del servidor
+def responseCode = prev.getResponseCode()
+
+// Obtén la respuesta completa del servidor
+def responseBody = prev.getResponseDataAsString()
+
+// Asigna la respuesta como mensaje de fallo
+if (!prev.isSuccessful()) {
+    prev.setResponseMessage(&quot;Custom Failure: Response Code: ${responseCode}, Response: ${responseBody}&quot;)
+}
+</stringProp>
+            </JSR223PostProcessor>
+            <hashTree/>
           </hashTree>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Listar pagos" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Listar pagos">
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
           <stringProp name="HTTPSampler.port">3000</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
@@ -2505,6 +2757,24 @@ if (vars.get(&quot;cargoEmpleado&quot;) != null) {
             </objProp>
             <stringProp name="filename"></stringProp>
           </ResultCollector>
+          <hashTree/>
+          <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Custom Failure Message" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">// Obtén el código de respuesta del servidor
+def responseCode = prev.getResponseCode()
+
+// Obtén la respuesta completa del servidor
+def responseBody = prev.getResponseDataAsString()
+
+// Asigna la respuesta como mensaje de fallo
+if (!prev.isSuccessful()) {
+    prev.setResponseMessage(&quot;Custom Failure: Response Code: ${responseCode}, Response: ${responseBody}&quot;)
+}
+</stringProp>
+          </JSR223PostProcessor>
           <hashTree/>
         </hashTree>
       </hashTree>

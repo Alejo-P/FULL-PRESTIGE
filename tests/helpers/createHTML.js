@@ -32,7 +32,7 @@ export const generateHTML = (logs, file) => {
     // Iterar sobre los logs y agregarlos a una tabla HTML
     html += `
     <header>
-        <h1>Resultados de las pruebas unitarias</h1>
+        <h1>Resultados de las pruebas de integracion</h1>
     </header>
     <div class="filters">
         <div class="filter">

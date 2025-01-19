@@ -3,7 +3,9 @@ node_modules/
 mailview.html
 
 #Archivos adicionales de las pruebas
-tests/helpers/*.csv
+tests/data/
+tests/JMeter/results/
+tests/JMeter/*.jtl
 
 #Archivos adicionales
 *.pyc
