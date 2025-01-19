@@ -307,7 +307,7 @@ export const updateProfile = async (req, res) => {
         }
 
         // Verificar si se cambio el estado del empleado logueado
-        if (req.body?.estado !== req.empleado.estado) {
+        if (req.body?.estado && (req.body?.estado !== req.empleado.estado)) {
             return res.status(403).json({ message: 'No puedes cambiar tu estado' });
         }
 

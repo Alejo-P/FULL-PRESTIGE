@@ -43,8 +43,8 @@ export const validacionRegistro_empleado = [
     
     check("contrasena")
         .customSanitizer(value => typeof value === 'string' ? value.trim() : value)
-        .isLength({ min: 5 })
-            .withMessage('El campo "contraseña" debe tener al menos 5 caracteres')
+        .isLength({ min: 8 })
+            .withMessage('El campo "contraseña" debe tener al menos 8 caracteres')
         .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*).*$/)
             .withMessage('El campo "contraseña" debe contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial'),
     
@@ -58,7 +58,7 @@ export const validacionRegistro_empleado = [
 ];
 
 export const validacionActualizacion_empleado = [
-    check(['nombre', 'correo', 'direccion', 'telefono', 'estado'])
+    check(['nombre', 'correo', 'direccion', 'telefono'])
         .exists()
             .withMessage('Todos los campos son requeridos')
         .notEmpty()
@@ -93,6 +93,7 @@ export const validacionActualizacion_empleado = [
             .withMessage('El campo "telefono" debe tener 10 caracteres'),
     
     check("estado")
+        .optional({ nullable: true, checkFalsy: true })
         .isBoolean()
         .withMessage('El campo "estado" debe ser un valor booleano'),
     
