@@ -18,9 +18,9 @@ export const registerPayments = async (req, res) => {
             return res.status(401).json({ message: "No tiene permisos para realizar esta acción" });
         }
 
-        if (Object.values(req.body).includes("")) {
-            return res.status(400).json({ message: "Faltan campos por completar" });
-        }
+        // if (Object.values(req.body).includes("")) {
+        //     return res.status(400).json({ message: "Faltan campos por completar" });
+        // }
 
         const empleado = await empleadosModel.findOne({ cedula });
         if (!empleado) {

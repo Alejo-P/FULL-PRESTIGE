@@ -3,19 +3,23 @@ import { Schema, model } from "mongoose";
 const PagosSchema = new Schema({
     adelanto: {
         type: Number,
-        required: true,
+        //required: true,
+        default: null,
     },
     permisos: {
         type: Number,
-        required: true,
+        //required: true,
+        default: null,
     },
     multas: {
         type: Number,
-        required: true,
+        //required: true,
+        default: null,
     },
     atrasos: {
         type: Number,
-        required: true,
+        //required: true,
+        default: null,
     },
     justificacion: {
         type: String,
