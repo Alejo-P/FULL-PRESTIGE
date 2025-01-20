@@ -28,6 +28,7 @@ const PagosSchema = new Schema({
     fecha: {
         type: Date,
         required: true,
+        default: Date.now,
     },
     subtotal: {
         type: Number,
