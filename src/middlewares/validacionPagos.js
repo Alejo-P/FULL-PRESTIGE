@@ -1,23 +1,27 @@
 import { check, validationResult } from "express-validator";
 
 export const validacionPagos = [
-    check(['adelanto', 'permisos', 'multas', 'atrasos', 'subtotal'])
-        .exists()
-            .withMessage('Todos los campos son requeridos'),
+    // check(['adelanto', 'permisos', 'multas', 'atrasos', 'subtotal'])
+    //     .exists()
+    //         .withMessage('Todos los campos son requeridos'),
     
     check('adelanto')
+        .optional({ nullable: true, checkFalsy: true })
         .isNumeric()
             .withMessage('El adelanto debe ser un número'),
     
     check('permisos')
+        .optional({ nullable: true, checkFalsy: true })
         .isNumeric()
             .withMessage('Los permisos deben ser un número'),
     
     check('multas')
+        .optional({ nullable: true, checkFalsy: true })
         .isNumeric()
             .withMessage('Las multas deben ser un número'),
     
     check('atrasos')
+        .optional({ nullable: true, checkFalsy: true })
         .isNumeric()
             .withMessage('Los atrasos deben ser un número'),
     
