@@ -24,7 +24,7 @@ import { validacionActualizacion_empleado, validacionRegistro_empleado } from '.
 const router = Router();
 
 router.post('/login', login)
-router.post('/register', validacionRegistro_empleado, register)
+router.post('/register', auth, validacionRegistro_empleado, register)
 router.get('/sessions', auth, getSessions)
 router.post('/logout', auth, logout)
 router.post('/logout-session/:id', auth, logoutSpecific)
