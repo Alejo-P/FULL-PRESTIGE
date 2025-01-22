@@ -114,6 +114,11 @@ export const register = async (req, res) => {
     const { cedula, contrasena, correo } = req.body;
 
     try {
+
+        if (req.empleado.cargo !== 'Administrador') {
+            return res.status(403).json({ message: 'No tiene permisos para realizar esta acción' });
+        }
+
         if(Object.values(req.body).includes('')) {
             return res.status(400).json({ message: 'Todos los campos son requeridos' });
         }
