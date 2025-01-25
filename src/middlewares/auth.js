@@ -6,7 +6,7 @@ dotenv.config();
 
 const auth = async (req, res, next) => {
     try {
-        const token = req.header('Authorization').replace('Bearer ', '');
+        const token = req.header('Authorization')?.replace('Bearer ', '');
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const empleado = await EmpleadosModel.findOne({ _id: decoded.id, 'tokens.token': token });
 

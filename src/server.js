@@ -22,6 +22,11 @@ app.use(bodyParser.json());
 
 app.use(morgan('dev'));
 
+app.use((req, res, next) => {
+    console.log("Headers recibidos:", req.headers);
+    next();
+});
+
 // Ruta principal
 app.get('/', (req, res) => {
     res.status(200).json({ message: 'Bienvenido a la API de gestion automotriz' });
