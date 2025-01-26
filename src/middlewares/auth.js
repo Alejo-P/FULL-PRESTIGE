@@ -14,11 +14,15 @@ const auth = async (req, res, next) => {
             throw new Error("Usuario no autenticado, por favor inicie sesión");
         }
 
+        if (!empleado.estado) {
+            throw new Error("Usuario inactivo, por favor contacte a un administrador para más información");
+        }
+
         req.token = token;
         req.empleado = empleado;
         next();
     } catch (error) {
-        res.status(401).json({ message: 'Por favor autentíquese', error: error.message });
+        res.status(401).json({ message: 'Error en la autenticacion', error: error.message });
     }
 };
 
