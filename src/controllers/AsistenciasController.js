@@ -26,6 +26,10 @@ export const registerAssistance = async (req, res) => {
             return res.status(404).json({ message: "Empleado no encontrado" });
         }
 
+        if (!empleado.estado) {
+            return res.status(400).json({ message: "Empleado inactivo, por favor contacte a un administrador para más información" });
+        }
+
         const date = await asistencasModel.findOne({ fecha, empleado: empleado._id });
         if (date) {
             return res.status(400).json({ message: "Ya existe una asistencia registrada para esta fecha" });

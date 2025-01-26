@@ -27,6 +27,10 @@ export const registerPayments = async (req, res) => {
             return res.status(404).json({ message: "No se encontró al empleado" });
         }
 
+        if (!empleado.estado) {
+            return res.status(400).json({ message: "El empleado se encuentra inactivo" });
+        }
+
         const pagoFound = await pagosModel.findOne({ empleado: empleado._id, fecha });
         if (pagoFound) {
             return res.status(400).json({ message: "Ya existe un pago registrado para esta fecha" });

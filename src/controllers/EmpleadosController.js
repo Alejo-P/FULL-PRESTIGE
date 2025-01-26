@@ -25,7 +25,7 @@ export const login = async (req, res) => {
         }
 
         if (!empleado.estado) {
-            return res.status(404).json({ message: 'El empleado se encuentra inactivo' });
+            return res.status(401).json({ message: 'El empleado se encuentra inactivo' });
         }
 
         const {

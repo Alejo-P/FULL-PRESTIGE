@@ -246,6 +246,10 @@ export const requestUpdateMaintenance = async (req, res) => {
             nuevo_estado
         } = req.body;
 
+        if (req.empleado.cargo !== 'Técnico') {
+            return res.status(403).json({ message: "Solo los técnicos pueden solicitar actualizaciones" });
+        }
+
         if (Object.values(req.body).includes("")) {
             return res.status(400).json({ message: "Todos los campos son necesarios" });
         }
