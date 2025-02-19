@@ -58,7 +58,7 @@ export const sendMailToUser = async (userMail, userInfo) => {
                     <ul style="list-style-type: none; padding: 0;">
                         <li><strong>Correo registrado:</strong> ${userInfo.correo}</li>
                         <li><strong>Tipo de cuenta:</strong> Perfil de ${userInfo.cargo}</li>
-                        <li><strong>Contraseña temporal:</strong> ${userInfo.contrasena}</li>
+                        <li><strong>Contraseña de acceso:</strong> ${userInfo.contrasena}</li>
                     </ul>
 
                     <div style="text-align: center; padding: 10px;">
